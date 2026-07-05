@@ -15,8 +15,8 @@ export default function Hero() {
           <p className="subtitle">
             Las aplicaciones genéricas de 5 dólares no te van a dar el cuerpo ni la mentalidad que buscas. Necesitas a alguien que te mire de frente, te quite las dudas de la cabeza y te diga qué estás haciendo mal. Para eso nació Zenkai Academy.
           </p>
-          <Link href="#planes" className="btn btn-primary" suppressHydrationWarning>
-            Ver cómo trabajamos
+          <Link href="/register" className="btn btn-primary btn-large">
+            Únete a la Academia
           </Link>
         </div>
       </section>

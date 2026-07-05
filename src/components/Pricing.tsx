@@ -18,7 +18,7 @@ export default function Pricing() {
               <li className="disabled"><span className="cross">✕</span> Seguimiento Personalizado</li>
               <li className="disabled"><span className="cross">✕</span> Evaluación y Nutrición</li>
             </ul>
-            <Link href="#" className="btn btn-outline" suppressHydrationWarning>Quiero recuperar mi tiempo</Link>
+            <Link href="/checkout" className="btn btn-outline" suppressHydrationWarning>Quiero recuperar mi tiempo</Link>
           </div>
 
           {/* Plan Avanzado (Premium) */}
@@ -34,7 +34,7 @@ export default function Pricing() {
               <li><span className="check">✓</span> Seguimiento: <strong>1 a 1 altamente personalizado</strong></li>
               <li><span className="check">✓</span> Nutrición: <strong>Evaluación exhaustiva</strong></li>
             </ul>
-            <Link href="#" className="btn btn-primary" suppressHydrationWarning>Quiero resultados reales ya</Link>
+            <Link href="/checkout" className="btn btn-primary" suppressHydrationWarning>Quiero resultados reales ya</Link>
           </div>
         </div>
       </div>
