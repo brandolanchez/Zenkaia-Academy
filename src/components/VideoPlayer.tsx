@@ -40,18 +40,11 @@ export default function VideoPlayer({ url, isFree, hasPaid }: VideoPlayerProps) 
   return (
     <div style={{ width: '100%', height: '100%' }}>
       <ReactPlayer
-        url={url}
+        src={url}
         width="100%"
         height="100%"
         controls={true}
         playing={false}
-        config={{
-          file: {
-            attributes: {
-              controlsList: 'nodownload'
-            }
-          }
-        }}
       />
     </div>
   );

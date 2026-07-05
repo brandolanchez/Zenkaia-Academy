@@ -3,7 +3,7 @@
 import { createClient } from '@/lib/supabase/server';
 import { revalidatePath } from 'next/cache';
 
-export async function approvePayment(paymentId: string, userId: string) {
+export async function approvePayment(paymentId: string, userId: string): Promise<void> {
   const supabase = await createClient();
 
   // 1. Update payment status
@@ -12,7 +12,7 @@ export async function approvePayment(paymentId: string, userId: string) {
     .update({ status: 'approved' })
     .eq('id', paymentId);
 
-  if (paymentError) return { error: paymentError.message };
+  if (paymentError) throw new Error(paymentError.message);
 
   // We should also grant access to the course the user paid for.
   // First, get the payment details
@@ -34,13 +34,12 @@ export async function approvePayment(paymentId: string, userId: string) {
     .update({ has_paid: true })
     .eq('id', userId);
 
-  if (profileError) return { error: profileError.message };
+  if (profileError) throw new Error(profileError.message);
 
   revalidatePath('/admin');
-  return { success: true };
 }
 
-export async function rejectPayment(paymentId: string) {
+export async function rejectPayment(paymentId: string): Promise<void> {
   const supabase = await createClient();
 
   const { error } = await supabase
@@ -48,8 +47,8 @@ export async function rejectPayment(paymentId: string) {
     .update({ status: 'rejected' })
     .eq('id', paymentId);
 
-  if (error) return { error: error.message };
+  if (error) throw new Error(error.message);
 
   revalidatePath('/admin');
-  return { success: true };
 }
+

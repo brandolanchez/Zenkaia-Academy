@@ -1,26 +1,14 @@
 'use client';
 
-import { useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { useState, Suspense } from 'react';
 import Link from 'next/link';
 import { login } from '@/app/auth/actions';
 
-export default function LoginPage() {
-  const [error, setError] = useState<string | null>(null);
+function LoginForm() {
+  const searchParams = useSearchParams();
+  const errorMessage = searchParams.get('error');
   const [loading, setLoading] = useState(false);
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
-    
-    const formData = new FormData(e.currentTarget);
-    const result = await login(formData);
-    
-    if (result?.error) {
-      setError(result.error);
-      setLoading(false);
-    }
-  };
 
   return (
     <div className="auth-container">
@@ -28,9 +16,9 @@ export default function LoginPage() {
         <h1 className="auth-title">Bienvenido</h1>
         <p className="auth-subtitle">Ingresa a tu cuenta de Zenkai Academy</p>
 
-        {error && <div className="error-message">{error}</div>}
+        {errorMessage && <div className="error-message">{errorMessage}</div>}
 
-        <form onSubmit={handleSubmit}>
+        <form action={login} onSubmit={() => setLoading(true)}>
           <div className="form-group">
             <label className="form-label" htmlFor="email">Correo Electrónico</label>
             <input className="form-input" id="email" name="email" type="email" required placeholder="tu@email.com" />
@@ -51,5 +39,13 @@ export default function LoginPage() {
         </p>
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense>
+      <LoginForm />
+    </Suspense>
   );
 }

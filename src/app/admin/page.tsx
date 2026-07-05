@@ -76,10 +76,13 @@ export default async function AdminDashboard() {
                         </span>
                       </td>
                       <td style={{ padding: '1rem' }}>
-                        {/* We assume the bucket is public, or we need signed urls. We link to the path. */}
-                        <a href={`#`} style={{ color: 'var(--accent-color)' }} onClick={() => alert(`En producción, esto abriría: ${payment.proof_url}`)}>
-                          Ver Imagen
-                        </a>
+                        {payment.proof_url ? (
+                          <a href={payment.proof_url} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent-color)' }}>
+                            Ver Imagen
+                          </a>
+                        ) : (
+                          <span style={{ color: 'var(--text-secondary)' }}>Sin comprobante</span>
+                        )}
                       </td>
                       <td style={{ padding: '1rem' }}>
                         {payment.status === 'pending' && (

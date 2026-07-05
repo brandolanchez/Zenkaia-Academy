@@ -2,14 +2,15 @@
 
 import { createClient } from '@/lib/supabase/server';
 import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
 
-export async function createCourse(formData: FormData) {
+export async function createCourse(formData: FormData): Promise<void> {
   const supabase = await createClient();
   const title = formData.get('title') as string;
   const description = formData.get('description') as string;
   const thumbnailFile = formData.get('thumbnail') as File;
 
-  if (!title) return { error: 'El título es obligatorio.' };
+  if (!title) throw new Error('El título es obligatorio.');
 
   let thumbnail_url = null;
 
@@ -25,7 +26,7 @@ export async function createCourse(formData: FormData) {
         upsert: false
       });
 
-    if (uploadError) return { error: `Error subiendo imagen: ${uploadError.message}` };
+    if (uploadError) throw new Error(`Error subiendo imagen: ${uploadError.message}`);
 
     const { data: { publicUrl } } = supabase.storage
       .from('thumbnails')
@@ -40,31 +41,30 @@ export async function createCourse(formData: FormData) {
     thumbnail_url
   });
 
-  if (error) return { error: error.message };
+  if (error) throw new Error(error.message);
 
   revalidatePath('/admin/courses');
-  return { success: true };
+  redirect('/admin/courses');
 }
 
-export async function deleteCourse(id: string) {
+export async function deleteCourse(id: string): Promise<void> {
   const supabase = await createClient();
   
   const { error } = await supabase.from('courses').delete().eq('id', id);
   
-  if (error) return { error: error.message };
+  if (error) throw new Error(error.message);
   
   revalidatePath('/admin/courses');
-  return { success: true };
 }
 
-export async function updateCourse(formData: FormData) {
+export async function updateCourse(formData: FormData): Promise<void> {
   const supabase = await createClient();
   const id = formData.get('id') as string;
   const title = formData.get('title') as string;
   const description = formData.get('description') as string;
   const thumbnailFile = formData.get('thumbnail') as File;
 
-  if (!id || !title) return { error: 'El título es obligatorio.' };
+  if (!id || !title) throw new Error('El título es obligatorio.');
 
   let thumbnail_url = null;
 
@@ -80,7 +80,7 @@ export async function updateCourse(formData: FormData) {
         upsert: false
       });
 
-    if (uploadError) return { error: `Error subiendo imagen: ${uploadError.message}` };
+    if (uploadError) throw new Error(`Error subiendo imagen: ${uploadError.message}`);
 
     const { data: { publicUrl } } = supabase.storage
       .from('thumbnails')
@@ -96,9 +96,8 @@ export async function updateCourse(formData: FormData) {
 
   const { error } = await supabase.from('courses').update(updateData).eq('id', id);
 
-  if (error) return { error: error.message };
+  if (error) throw new Error(error.message);
 
   revalidatePath(`/admin/courses/${id}`);
   revalidatePath('/admin/courses');
-  return { success: true };
 }

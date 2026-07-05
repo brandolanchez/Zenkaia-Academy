@@ -4,7 +4,7 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 
-export async function login(formData: FormData) {
+export async function login(formData: FormData): Promise<void> {
   const supabase = await createClient()
 
   const data = {
@@ -15,14 +15,14 @@ export async function login(formData: FormData) {
   const { error } = await supabase.auth.signInWithPassword(data)
 
   if (error) {
-    return { error: error.message }
+    redirect(`/login?error=${encodeURIComponent(error.message)}`)
   }
 
   revalidatePath('/', 'layout')
   redirect('/dashboard/profile')
 }
 
-export async function signup(formData: FormData) {
+export async function signup(formData: FormData): Promise<void> {
   const supabase = await createClient()
 
   const data = {
@@ -39,7 +39,7 @@ export async function signup(formData: FormData) {
   })
 
   if (error) {
-    return { error: error.message }
+    redirect(`/register?error=${encodeURIComponent(error.message)}`)
   }
 
   if (authData.user) {
@@ -56,10 +56,11 @@ export async function signup(formData: FormData) {
       
     if (profileError) {
       console.error("Error creating profile:", profileError)
-      return { error: "Usuario creado pero hubo un error al crear el perfil." }
+      redirect(`/register?error=${encodeURIComponent("Usuario creado pero hubo un error al crear el perfil.")}`)
     }
   }
 
   revalidatePath('/', 'layout')
   redirect('/dashboard/profile')
 }
+

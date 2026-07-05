@@ -3,7 +3,7 @@
 import { createClient } from '@/lib/supabase/server';
 import { revalidatePath } from 'next/cache';
 
-export async function addVideo(formData: FormData) {
+export async function addVideo(formData: FormData): Promise<void> {
   const supabase = await createClient();
   const course_id = formData.get('course_id') as string;
   const title = formData.get('title') as string;
@@ -13,7 +13,7 @@ export async function addVideo(formData: FormData) {
   const order = parseInt(formData.get('order') as string || '1');
 
   if (!title || !video_url || !course_id) {
-    return { error: 'Faltan campos obligatorios.' };
+    throw new Error('Faltan campos obligatorios.');
   }
 
   const { error } = await supabase.from('videos').insert({
@@ -25,24 +25,22 @@ export async function addVideo(formData: FormData) {
     order
   });
 
-  if (error) return { error: error.message };
+  if (error) throw new Error(error.message);
 
   revalidatePath(`/admin/courses/${course_id}`);
-  return { success: true };
 }
 
-export async function deleteVideo(id: string, course_id: string) {
+export async function deleteVideo(id: string, course_id: string): Promise<void> {
   const supabase = await createClient();
   
   const { error } = await supabase.from('videos').delete().eq('id', id);
   
-  if (error) return { error: error.message };
+  if (error) throw new Error(error.message);
   
   revalidatePath(`/admin/courses/${course_id}`);
-  return { success: true };
 }
 
-export async function updateVideo(formData: FormData) {
+export async function updateVideo(formData: FormData): Promise<void> {
   const supabase = await createClient();
   const id = formData.get('id') as string;
   const course_id = formData.get('course_id') as string;
@@ -53,7 +51,7 @@ export async function updateVideo(formData: FormData) {
   const order = parseInt(formData.get('order') as string || '1');
 
   if (!id || !title || !video_url || !course_id) {
-    return { error: 'Faltan campos obligatorios.' };
+    throw new Error('Faltan campos obligatorios.');
   }
 
   const { error } = await supabase.from('videos').update({
@@ -64,8 +62,8 @@ export async function updateVideo(formData: FormData) {
     order
   }).eq('id', id);
 
-  if (error) return { error: error.message };
+  if (error) throw new Error(error.message);
 
   revalidatePath(`/admin/courses/${course_id}`);
-  return { success: true };
 }
+

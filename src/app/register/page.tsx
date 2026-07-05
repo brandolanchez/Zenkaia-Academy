@@ -1,26 +1,14 @@
 'use client';
 
-import { useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { useState, Suspense } from 'react';
 import Link from 'next/link';
 import { signup } from '@/app/auth/actions';
 
-export default function RegisterPage() {
-  const [error, setError] = useState<string | null>(null);
+function RegisterForm() {
+  const searchParams = useSearchParams();
+  const errorMessage = searchParams.get('error');
   const [loading, setLoading] = useState(false);
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
-    
-    const formData = new FormData(e.currentTarget);
-    const result = await signup(formData);
-    
-    if (result?.error) {
-      setError(result.error);
-      setLoading(false);
-    }
-  };
 
   return (
     <div className="auth-container">
@@ -28,9 +16,9 @@ export default function RegisterPage() {
         <h1 className="auth-title">Únete a Zenkai</h1>
         <p className="auth-subtitle">Crea tu cuenta para empezar tu transformación</p>
 
-        {error && <div className="error-message">{error}</div>}
+        {errorMessage && <div className="error-message">{errorMessage}</div>}
 
-        <form onSubmit={handleSubmit}>
+        <form action={signup} onSubmit={() => setLoading(true)}>
           <div className="form-group">
             <label className="form-label" htmlFor="full_name">Nombre Completo</label>
             <input className="form-input" id="full_name" name="full_name" type="text" required placeholder="Ej: Brando Lanchez" />
@@ -44,7 +32,7 @@ export default function RegisterPage() {
           <div className="form-group" style={{ display: 'flex', gap: '1rem' }}>
             <div style={{ flex: 1 }}>
               <label className="form-label" htmlFor="age">Edad</label>
-              <input className="form-input" id="age" name="age" type="number" min="12" max="100" required placeholder="25" />
+              <input className="form-input" id="age" name="age" type="number" min={12} max={100} required placeholder="25" />
             </div>
             <div style={{ flex: 1 }}>
               <label className="form-label" htmlFor="gender">Género</label>
@@ -72,5 +60,13 @@ export default function RegisterPage() {
         </p>
       </div>
     </div>
+  );
+}
+
+export default function RegisterPage() {
+  return (
+    <Suspense>
+      <RegisterForm />
+    </Suspense>
   );
 }
