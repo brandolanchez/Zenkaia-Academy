@@ -3,6 +3,7 @@
 import { useSearchParams } from 'next/navigation';
 import { useState, Suspense } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { login } from '@/app/auth/actions';
 
 function LoginForm() {
@@ -13,7 +14,19 @@ function LoginForm() {
   return (
     <div className="auth-container">
       <div className="auth-card">
-        <h1 className="auth-title">Bienvenido</h1>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '2rem' }}>
+          <Image 
+            src="/images/images/logo 2.svg" 
+            alt="Zenkai Academy" 
+            width={180} 
+            height={50} 
+            priority
+          />
+          <span style={{ fontSize: '0.75rem', fontWeight: 400, letterSpacing: '14px', color: 'var(--text-secondary)', marginTop: '0.2rem', marginRight: '-14px' }}>
+            ACADEMY
+          </span>
+        </div>
+        <h1 className="auth-title" style={{ marginTop: 0 }}>Bienvenido</h1>
         <p className="auth-subtitle">Ingresa a tu cuenta de Zenkai Academy</p>
 
         {errorMessage && <div className="error-message">{errorMessage}</div>}

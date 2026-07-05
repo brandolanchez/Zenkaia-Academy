@@ -42,14 +42,26 @@ export default function Navbar() {
   return (
     <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
       <Link href="/" style={{ textDecoration: 'none', color: 'inherit' }}>
-        <div className="logo" style={{ display: 'flex', alignItems: 'center' }}>
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <span style={{ lineHeight: 1, marginRight: '-4px' }}>ZENKAI</span>
-            <span style={{ fontSize: '0.75rem', fontWeight: 300, letterSpacing: '14px', color: 'var(--text-secondary)', marginTop: '0.2rem', marginRight: '-14px' }}>
-              ACADEMY
-            </span>
-          </div>
-          <span style={{ color: 'var(--accent-color)', marginLeft: '0.8rem', letterSpacing: 'normal' }}>全開</span>
+        <div className="logo-container" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <Image 
+            src="/images/images/logo 2.svg" 
+            alt="Zenkai Academy" 
+            width={160} 
+            height={45} 
+            priority
+            className="logo-desktop"
+          />
+          <Image 
+            src="/images/images/Logo 1.svg" 
+            alt="Zenkai Academy" 
+            width={120} 
+            height={35} 
+            priority
+            className="logo-mobile"
+          />
+          <span style={{ fontSize: '0.65rem', fontWeight: 400, letterSpacing: '12px', color: 'var(--text-secondary)', marginTop: '0.1rem', marginRight: '-12px' }}>
+            ACADEMY
+          </span>
         </div>
       </Link>
       

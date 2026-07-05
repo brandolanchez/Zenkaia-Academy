@@ -3,6 +3,7 @@
 import { useSearchParams } from 'next/navigation';
 import { useState, Suspense } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { signup } from '@/app/auth/actions';
 
 function RegisterForm() {
@@ -13,7 +14,19 @@ function RegisterForm() {
   return (
     <div className="auth-container">
       <div className="auth-card">
-        <h1 className="auth-title">Únete a Zenkai</h1>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '2rem' }}>
+          <Image 
+            src="/images/images/logo 2.svg" 
+            alt="Zenkai Academy" 
+            width={180} 
+            height={50} 
+            priority
+          />
+          <span style={{ fontSize: '0.75rem', fontWeight: 400, letterSpacing: '14px', color: 'var(--text-secondary)', marginTop: '0.2rem', marginRight: '-14px' }}>
+            ACADEMY
+          </span>
+        </div>
+        <h1 className="auth-title" style={{ marginTop: 0 }}>Únete a Zenkai</h1>
         <p className="auth-subtitle">Crea tu cuenta para empezar tu transformación</p>
 
         {errorMessage && <div className="error-message">{errorMessage}</div>}
@@ -21,7 +34,7 @@ function RegisterForm() {
         <form action={signup} onSubmit={() => setLoading(true)}>
           <div className="form-group">
             <label className="form-label" htmlFor="full_name">Nombre Completo</label>
-            <input className="form-input" id="full_name" name="full_name" type="text" required placeholder="Ej: Brando Lanchez" />
+            <input className="form-input" id="full_name" name="full_name" type="text" required placeholder="Ej: Juan Pérez" />
           </div>
 
           <div className="form-group">
