@@ -17,7 +17,7 @@ export default async function AdminDashboard() {
       status,
       created_at,
       user_id,
-      profiles!payments_user_id_fkey(full_name, email)
+      profiles!payments_user_id_fkey(full_name)
     `)
     .order('created_at', { ascending: false });
 
