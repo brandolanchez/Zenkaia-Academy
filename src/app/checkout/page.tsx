@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Navbar from '@/components/Navbar';
 import { createClient } from '@/lib/supabase/client';
 import { useRouter } from 'next/navigation';
+import QRCode from 'react-qr-code';
 
 export default function CheckoutPage() {
   const [paymentMethod, setPaymentMethod] = useState<'crypto' | 'zinli'>('crypto');
@@ -136,8 +137,7 @@ export default function CheckoutPage() {
             <strong style={{ fontSize: '1.2rem', color: 'var(--accent-color)' }}>$97 USD</strong>
           </button>
         </div>
-
-        <div className="bento-grid" style={{ gridTemplateColumns: '1fr 1fr' }}>
+        <div className="bento-grid">
           
           <div className="card">
             <h2 className="card-title" style={{ fontSize: '1.2rem', marginBottom: '2rem' }}>Selecciona tu método de pago</h2>
@@ -179,8 +179,11 @@ export default function CheckoutPage() {
                     <p style={{ marginBottom: '0.5rem', fontSize: '0.9rem' }}>
                       <strong>Red TRC20 (Tron)</strong> <span style={{ background: 'rgba(0, 255, 60, 0.1)', color: '#00ff3c', padding: '0.2rem 0.5rem', borderRadius: '4px', fontSize: '0.75rem', marginLeft: '0.5rem' }}>Recomendado: Comisiones casi nulas</span>
                     </p>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: '#000', padding: '1rem', borderRadius: '4px' }}>
-                      <p style={{ fontFamily: 'monospace', margin: 0, wordBreak: 'break-all', flex: 1 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', background: '#000', padding: '1rem', borderRadius: '4px', flexWrap: 'wrap' }}>
+                      <div style={{ background: '#fff', padding: '4px', borderRadius: '4px', flexShrink: 0 }}>
+                        <QRCode value="TDZozqLwArk7LYMtTDZi5gGpZBUEeNVDTT" size={70} />
+                      </div>
+                      <p style={{ fontFamily: 'monospace', margin: 0, wordBreak: 'break-all', flex: 1, minWidth: '150px' }}>
                         TDZozqLwArk7LYMtTDZi5gGpZBUEeNVDTT
                       </p>
                       <button 
@@ -196,8 +199,11 @@ export default function CheckoutPage() {
                   {/* ERC20 */}
                   <div>
                     <p style={{ color: 'var(--text-secondary)', marginBottom: '0.5rem', fontSize: '0.85rem' }}>Red ERC20 (Ethereum)</p>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: '#000', padding: '1rem', borderRadius: '4px', opacity: 0.8 }}>
-                      <p style={{ fontFamily: 'monospace', margin: 0, wordBreak: 'break-all', flex: 1 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', background: '#000', padding: '1rem', borderRadius: '4px', opacity: 0.8, flexWrap: 'wrap' }}>
+                      <div style={{ background: '#fff', padding: '4px', borderRadius: '4px', flexShrink: 0 }}>
+                        <QRCode value="0x50981102210ee0d3bc449Bef0B5234B528D50C21" size={70} />
+                      </div>
+                      <p style={{ fontFamily: 'monospace', margin: 0, wordBreak: 'break-all', flex: 1, minWidth: '150px' }}>
                         0x50981102210ee0d3bc449Bef0B5234B528D50C21
                       </p>
                       <button 

@@ -23,9 +23,9 @@ export default function Solution() {
             </li>
           </ul>
           <div style={{ marginTop: '2rem' }}>
-            <Link href="#planes" className="btn btn-primary">
+            <a href="#planes" className="btn btn-primary">
               Ver los planes de entrenamiento
-            </Link>
+            </a>
           </div>
         </div>
         <div className="solution-image-wrapper fade-in-right">
