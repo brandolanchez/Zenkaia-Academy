@@ -42,6 +42,14 @@ function RegisterForm() {
             <input className="form-input" id="email" name="email" type="email" required placeholder="tu@email.com" />
           </div>
 
+          <div className="form-group">
+            <label className="form-label" htmlFor="phone">Número de WhatsApp</label>
+            <input className="form-input" id="phone" name="phone" type="tel" required placeholder="+58 412 1234567" />
+            <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginTop: '0.5rem' }}>
+              Para contactarte directamente por WhatsApp y enviarte tu plan.
+            </p>
+          </div>
+
           <div className="form-group" style={{ display: 'flex', gap: '1rem' }}>
             <div style={{ flex: 1 }}>
               <label className="form-label" htmlFor="age">Edad</label>

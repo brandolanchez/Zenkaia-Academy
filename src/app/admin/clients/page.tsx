@@ -71,7 +71,10 @@ export default async function AdminClientsPage() {
                       </div>
                     </td>
                     <td style={{ padding: '1rem', color: 'var(--text-secondary)' }}>
-                      ID: {client.id.split('-')[0]}...
+                      <div>{client.email || 'Sin correo'}</div>
+                      <div style={{ fontSize: '0.85rem', marginTop: '0.2rem' }}>
+                        {client.phone ? `WhatsApp: ${client.phone}` : 'Sin teléfono'}
+                      </div>
                     </td>
                     <td style={{ padding: '1rem' }}>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>

@@ -31,6 +31,7 @@ export async function signup(formData: FormData): Promise<void> {
     full_name: formData.get('full_name') as string,
     age: parseInt(formData.get('age') as string, 10),
     gender: formData.get('gender') as string,
+    phone: formData.get('phone') as string,
   }
 
   const { data: authData, error } = await supabase.auth.signUp({
@@ -48,6 +49,8 @@ export async function signup(formData: FormData): Promise<void> {
       .insert({
         id: authData.user.id,
         full_name: data.full_name,
+        email: data.email,
+        phone: data.phone,
         age: data.age,
         gender: data.gender,
         role: 'student',
