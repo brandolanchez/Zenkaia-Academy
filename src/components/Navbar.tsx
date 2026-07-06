@@ -67,7 +67,7 @@ export default function Navbar() {
       
       {profile ? (
         <Link href="/dashboard/profile" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none', color: 'var(--text-primary)' }}>
-          <span style={{ fontSize: '0.9rem', display: 'none' }} className="nav-username">{profile.full_name?.split(' ')[0]}</span>
+          <span style={{ fontSize: '0.95rem', display: 'none', textTransform: 'capitalize', fontWeight: 600, letterSpacing: '0.5px' }} className="nav-username">{profile.full_name?.split(' ')[0]}</span>
           {profile.avatar_url ? (
             <Image 
               src={profile.avatar_url} 

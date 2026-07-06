@@ -31,11 +31,12 @@ export default function Solution() {
         <div className="solution-image-wrapper fade-in-right">
           <div className="glass-accent"></div>
           <Image 
-            src="/images/images/photo_20_2026-07-06_10-49-54.jpg" 
+            src="/images/images/solution.webp" 
             alt="Atleta entrenando intensamente en la comunidad Zenkai" 
             className="solution-img"
             width={600}
             height={400}
+            loading="lazy"
             style={{ width: '100%', height: 'auto', display: 'block' }}
           />
         </div>

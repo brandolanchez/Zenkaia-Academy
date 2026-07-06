@@ -7,10 +7,12 @@ import { useRouter } from 'next/navigation';
 
 export default function CheckoutPage() {
   const [paymentMethod, setPaymentMethod] = useState<'crypto' | 'zinli'>('crypto');
+  const [plan, setPlan] = useState<'standard' | 'elite'>('standard');
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [copiedField, setCopiedField] = useState<string | null>(null);
   const router = useRouter();
   const supabase = createClient();
 
@@ -18,6 +20,12 @@ export default function CheckoutPage() {
     if (e.target.files && e.target.files[0]) {
       setFile(e.target.files[0]);
     }
+  };
+
+  const handleCopy = (text: string, field: string) => {
+    navigator.clipboard.writeText(text);
+    setCopiedField(field);
+    setTimeout(() => setCopiedField(null), 2000);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -56,7 +64,7 @@ export default function CheckoutPage() {
         .from('payments')
         .insert({
           user_id: user.id,
-          method: paymentMethod,
+          method: `${paymentMethod}-${plan}`,
           proof_url: proofUrl,
           status: 'pending'
         });
@@ -95,7 +103,39 @@ export default function CheckoutPage() {
       <Navbar />
       <div className="container" style={{ paddingTop: '150px', paddingBottom: '5rem', minHeight: '100vh' }}>
         <h1 className="section-title text-left" style={{ marginBottom: '1rem' }}>Finaliza tu compra</h1>
-        <p style={{ color: 'var(--text-secondary)', marginBottom: '3rem' }}>Zenkai Mentorship Program - $47 USD</p>
+        <p style={{ color: 'var(--text-secondary)', marginBottom: '3rem' }}>Zenkai Mentorship Program - {plan === 'standard' ? '$47' : '$97'} USD</p>
+
+        <div style={{ display: 'flex', gap: '1rem', marginBottom: '3rem', flexWrap: 'wrap' }}>
+          <button 
+            type="button"
+            onClick={() => setPlan('standard')}
+            style={{ 
+              flex: '1 1 300px', padding: '1.5rem', textAlign: 'left',
+              background: plan === 'standard' ? 'rgba(255,0,60,0.1)' : 'rgba(255,255,255,0.02)',
+              border: plan === 'standard' ? '2px solid var(--accent-color)' : '1px solid var(--border-color)',
+              color: '#fff', cursor: 'pointer', borderRadius: '8px', transition: 'all 0.2s'
+            }}
+          >
+            <h3 style={{ marginBottom: '0.5rem' }}>Mentoría Standard</h3>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '1rem' }}>Rutinas, seguimiento grupal y comunidad.</p>
+            <strong style={{ fontSize: '1.2rem', color: 'var(--accent-color)' }}>$47 USD</strong>
+          </button>
+          
+          <button 
+            type="button"
+            onClick={() => setPlan('elite')}
+            style={{ 
+              flex: '1 1 300px', padding: '1.5rem', textAlign: 'left',
+              background: plan === 'elite' ? 'rgba(255,0,60,0.1)' : 'rgba(255,255,255,0.02)',
+              border: plan === 'elite' ? '2px solid var(--accent-color)' : '1px solid var(--border-color)',
+              color: '#fff', cursor: 'pointer', borderRadius: '8px', transition: 'all 0.2s'
+            }}
+          >
+            <h3 style={{ marginBottom: '0.5rem' }}>Mentoría Elite</h3>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '1rem' }}>Todo lo del Standard + mentoría 1 a 1 y nutrición.</p>
+            <strong style={{ fontSize: '1.2rem', color: 'var(--accent-color)' }}>$97 USD</strong>
+          </button>
+        </div>
 
         <div className="bento-grid" style={{ gridTemplateColumns: '1fr 1fr' }}>
           
@@ -130,17 +170,61 @@ export default function CheckoutPage() {
             <div style={{ background: 'rgba(255,255,255,0.02)', padding: '1.5rem', border: '1px dashed var(--border-color)', marginBottom: '2rem' }}>
               {paymentMethod === 'crypto' ? (
                 <>
-                  <p style={{ color: 'var(--text-secondary)', marginBottom: '0.5rem', fontSize: '0.9rem' }}>Envía exactamente <strong>47 USDT</strong> a la siguiente dirección ERC20:</p>
-                  <p style={{ fontFamily: 'monospace', background: '#000', padding: '1rem', wordBreak: 'break-all' }}>
-                    0x71C7656EC7ab88b098defB751B7401B5f6d8976F
+                  <p style={{ color: 'var(--text-secondary)', marginBottom: '1rem', fontSize: '0.95rem' }}>
+                    Envía exactamente <strong style={{ color: 'var(--accent-color)', fontSize: '1.1rem' }}>{plan === 'standard' ? '47' : '97'} USDT</strong> a cualquiera de estas direcciones:
                   </p>
+                  
+                  {/* TRC20 - Recomendado */}
+                  <div style={{ marginBottom: '1.5rem' }}>
+                    <p style={{ marginBottom: '0.5rem', fontSize: '0.9rem' }}>
+                      <strong>Red TRC20 (Tron)</strong> <span style={{ background: 'rgba(0, 255, 60, 0.1)', color: '#00ff3c', padding: '0.2rem 0.5rem', borderRadius: '4px', fontSize: '0.75rem', marginLeft: '0.5rem' }}>Recomendado: Comisiones casi nulas</span>
+                    </p>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: '#000', padding: '1rem', borderRadius: '4px' }}>
+                      <p style={{ fontFamily: 'monospace', margin: 0, wordBreak: 'break-all', flex: 1 }}>
+                        TDZozqLwArk7LYMtTDZi5gGpZBUEeNVDTT
+                      </p>
+                      <button 
+                        type="button" 
+                        onClick={() => handleCopy('TDZozqLwArk7LYMtTDZi5gGpZBUEeNVDTT', 'crypto-trc20')}
+                        style={{ background: 'var(--accent-color)', color: '#fff', border: 'none', padding: '0.5rem 1rem', borderRadius: '4px', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 'bold' }}
+                      >
+                        {copiedField === 'crypto-trc20' ? 'Copiado!' : 'Copiar'}
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* ERC20 */}
+                  <div>
+                    <p style={{ color: 'var(--text-secondary)', marginBottom: '0.5rem', fontSize: '0.85rem' }}>Red ERC20 (Ethereum)</p>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: '#000', padding: '1rem', borderRadius: '4px', opacity: 0.8 }}>
+                      <p style={{ fontFamily: 'monospace', margin: 0, wordBreak: 'break-all', flex: 1 }}>
+                        0x50981102210ee0d3bc449Bef0B5234B528D50C21
+                      </p>
+                      <button 
+                        type="button" 
+                        onClick={() => handleCopy('0x50981102210ee0d3bc449Bef0B5234B528D50C21', 'crypto-erc20')}
+                        style={{ background: 'var(--accent-color)', color: '#fff', border: 'none', padding: '0.5rem 1rem', borderRadius: '4px', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 'bold' }}
+                      >
+                        {copiedField === 'crypto-erc20' ? 'Copiado!' : 'Copiar'}
+                      </button>
+                    </div>
+                  </div>
                 </>
               ) : (
                 <>
-                  <p style={{ color: 'var(--text-secondary)', marginBottom: '0.5rem', fontSize: '0.9rem' }}>Envía exactamente <strong>$47</strong> a la siguiente cuenta Zinli:</p>
-                  <p style={{ fontFamily: 'monospace', background: '#000', padding: '1rem' }}>
-                    pagos_prueba@zinli.com
-                  </p>
+                  <p style={{ color: 'var(--text-secondary)', marginBottom: '0.5rem', fontSize: '0.9rem' }}>Envía exactamente <strong style={{ color: 'var(--accent-color)', fontSize: '1.1rem' }}>${plan === 'standard' ? '47' : '97'}</strong> a la siguiente cuenta Zinli:</p>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: '#000', padding: '1rem', borderRadius: '4px' }}>
+                    <p style={{ fontFamily: 'monospace', margin: 0, flex: 1 }}>
+                      lanchez456@gmail.com
+                    </p>
+                    <button 
+                      type="button" 
+                      onClick={() => handleCopy('lanchez456@gmail.com', 'zinli')}
+                      style={{ background: 'var(--accent-color)', color: '#fff', border: 'none', padding: '0.5rem 1rem', borderRadius: '4px', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 'bold' }}
+                    >
+                      {copiedField === 'zinli' ? 'Copiado!' : 'Copiar'}
+                    </button>
+                  </div>
                 </>
               )}
             </div>
@@ -170,11 +254,11 @@ export default function CheckoutPage() {
               <div style={{ marginTop: '2rem', paddingTop: '2rem', borderTop: '1px solid var(--border-color)' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
                   <span>Subtotal</span>
-                  <span>$47.00</span>
+                  <span>${plan === 'standard' ? '47.00' : '97.00'}</span>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2rem', fontWeight: 'bold', fontSize: '1.2rem' }}>
                   <span>Total a Pagar</span>
-                  <span style={{ color: 'var(--accent-color)' }}>$47.00</span>
+                  <span style={{ color: 'var(--accent-color)' }}>${plan === 'standard' ? '47.00' : '97.00'}</span>
                 </div>
 
                 <button type="submit" className="btn btn-primary" style={{ width: '100%' }} disabled={loading}>
