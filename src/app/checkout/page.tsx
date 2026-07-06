@@ -16,6 +16,7 @@ export default function CheckoutPage() {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [copiedField, setCopiedField] = useState<string | null>(null);
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [checkingAuth, setCheckingAuth] = useState(true);
   const [userName, setUserName] = useState('');
   const router = useRouter();
@@ -315,12 +316,25 @@ export default function CheckoutPage() {
                   <span style={{ color: 'var(--text-secondary)' }}>Subtotal</span>
                   <span>${price}.00</span>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2rem', fontWeight: 'bold', fontSize: '1.2rem', paddingTop: '1rem', borderTop: '1px solid var(--border-color)' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem', fontWeight: 'bold', fontSize: '1.2rem', paddingTop: '1rem', borderTop: '1px solid var(--border-color)' }}>
                   <span>Total a Pagar</span>
                   <span style={{ color: 'var(--accent-color)' }}>${price}.00</span>
                 </div>
 
-                <button type="submit" className="btn btn-primary" style={{ width: '100%' }} disabled={loading}>
+                <div style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'flex-start', gap: '0.8rem', background: 'rgba(255,255,255,0.02)', padding: '1rem', borderRadius: '4px', border: '1px solid var(--border-color)' }}>
+                  <input 
+                    type="checkbox" 
+                    id="terms" 
+                    checked={acceptedTerms}
+                    onChange={(e) => setAcceptedTerms(e.target.checked)}
+                    style={{ marginTop: '0.3rem', width: '18px', height: '18px', cursor: 'pointer', accentColor: 'var(--accent-color)' }}
+                  />
+                  <label htmlFor="terms" style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', lineHeight: '1.4', cursor: 'pointer' }}>
+                    <strong>Términos y Condiciones de Mentoría:</strong> Entiendo y acepto que Zenkai Academy mantiene una estricta política de 2 strikes de conducta. Queda terminantemente prohibido el envío de material explícito (desnudos) o el uso de tono vulgar u ofensivo. Nos reservamos el derecho de admisión. El incumplimiento de estas normas resultará en la cancelación inmediata y permanente de la membresía <strong style={{ color: '#ff3366' }}>sin derecho a reembolso ni retorno del dinero</strong>.
+                  </label>
+                </div>
+
+                <button type="submit" className="btn btn-primary" style={{ width: '100%', opacity: (!acceptedTerms || loading) ? 0.5 : 1, cursor: (!acceptedTerms || loading) ? 'not-allowed' : 'pointer' }} disabled={loading || !acceptedTerms}>
                   {loading ? 'Procesando...' : 'Confirmar Pago y Enviar'}
                 </button>
               </div>
