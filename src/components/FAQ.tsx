@@ -19,10 +19,7 @@ const faqs = [
     question: '¿Qué diferencia hay entre el plan Standard y el Avanzado?',
     answer: 'En Standard tienes acceso a todos los videos, guías y mentorías grupales 3 veces por semana. Es perfecto para empezar. En Avanzado tienes todo eso más seguimiento 1 a 1 con nuestros coaches: revisan tus videos, corrigen tu técnica personalmente, te hacen una evaluación física y arman un plan de nutrición a tu medida. Es la diferencia entre entrenar solo y tener entrenadores de élite en tu bolsillo.',
   },
-  {
-    question: '¿Puedo cancelar cuando quiera?',
-    answer: 'Sí. No hay contratos ni permanencias. Puedes cancelar tu suscripción en cualquier momento desde tu perfil. Sin preguntas, sin letras pequeñas. Pero te vamos a ser honestos: los que se quedan más de 3 meses nunca se van.',
-  },
+
   {
     question: '¿En qué se diferencia Zenkai de una app de ejercicios?',
     answer: 'Una app te da un video genérico y te deja solo. Zenkai te da un sistema con un coach real que te mira, te corrige y te empuja. Las apps no saben si estás haciendo mal un movimiento. Las apps no te preguntan cómo te sientes hoy. Las apps no te adaptan la rutina cuando te duele el hombro. Nosotros sí.',
@@ -47,9 +44,12 @@ export default function FAQ() {
         <h2 className="section-title fade-in" style={{ marginBottom: '1rem' }}>
           Preguntas <span className="highlight" style={{ fontSize: 'inherit' }}>Frecuentes</span>
         </h2>
-        <p className="faq-subtitle fade-in">
-          Si tu respuesta no está aquí, escríbenos directo por Instagram.
-        </p>
+        <div className="faq-subtitle fade-in" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem' }}>
+          <p>Si tu respuesta no está aquí, habla directamente con nuestro equipo.</p>
+          <a href="https://wa.me/584127862283" target="_blank" rel="noopener noreferrer" className="btn btn-outline" style={{ borderColor: '#25D366', color: '#25D366' }}>
+            Tengo una duda muy específica (Hablar con un coach)
+          </a>
+        </div>
 
         <div className="faq-list">
           {faqs.map((faq, index) => (

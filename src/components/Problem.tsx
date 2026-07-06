@@ -48,6 +48,10 @@ export default function Problem() {
             <p>Entrenas en piloto automático. Sudas para cansarte, pero los meses pasan y te sigues viendo exactamente igual en el espejo.</p>
           </div>
         </div>
+
+        <div className="fade-in" style={{ textAlign: 'center', marginTop: '4rem', fontSize: '1.2rem', fontWeight: 600 }}>
+          <p>¿Te suena familiar? Respira, no es que te falte genética, es que te falta un sistema.</p>
+        </div>
       </div>
     </section>
   );

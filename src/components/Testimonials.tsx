@@ -6,31 +6,28 @@ const testimonials = [
   {
     name: 'Andrés M.',
     age: 28,
-    location: 'Caracas, Venezuela',
-    duration: '4 meses en Zenkai',
-    quote: 'Llegué sin poder hacer una sola dominada. Mi entrenador anterior me decía que la calistenia "no era para mi cuerpo". En 4 meses con el equipo Zenkai hice mi primera muscle up. No fue magia, fue que por primera vez alguien me corrigió en tiempo real y me dijo exactamente qué me faltaba. Si estás dudando, deja de perder tiempo como yo lo hice durante 2 años.',
-    metric: 'De 0 dominadas → Muscle Up en 4 meses',
-    highlight: 'Muscle Up',
+    duration: '10 meses en Zenkai',
+    quote: 'Entrenaba en piloto automático y mi cuerpo no cambiaba. En Zenkai ajustaron mi entrenamiento y por primera vez en mi vida me veo al espejo y noto los resultados reales. Dejé de perder el tiempo.',
+    metric: 'De estancado a ganar músculo magro',
+    highlight: '+ MÚSCULO',
     initials: 'AM',
   },
   {
-    name: 'Isabella R.',
-    age: 24,
-    location: 'Medellín, Colombia',
-    duration: '6 meses en Zenkai',
-    quote: 'Siempre pensé que la calistenia era solo para hombres. Entré con miedo y con cero fuerza en los brazos. Lo que me enganchó fue la comunidad: no te juzga nadie, y los coaches adaptan todo al nivel en el que estés. Hoy hago handstands contra la pared y me siento más fuerte que nunca. Mis amigas del gimnasio no lo pueden creer.',
-    metric: 'De no poder sostenerse → Handstand en 6 meses',
-    highlight: 'Handstand',
-    initials: 'IR',
+    name: 'Dixamary',
+    age: 28,
+    duration: '1 año y 3 meses en Zenkai',
+    quote: 'Tenía cero fuerza y me sentía estancada. En 6 meses logré definir mi cuerpo, perder grasa y ganar una resistencia increíble. La diferencia fue tener un plan adaptado a mí y alguien corrigiéndome paso a paso.',
+    metric: 'De 0 fuerza a dominar su propio peso',
+    highlight: 'FUERZA REAL',
+    initials: 'D',
   },
   {
     name: 'Carlos D.',
-    age: 35,
-    location: 'Ciudad de México',
-    duration: '3 meses en Zenkai',
-    quote: 'Tengo 35 años, trabajo 10 horas al día y mi espalda era un desastre. Probé 4 apps, 2 entrenadores locales, nada funcionaba porque nadie me ajustaba el programa a MIS problemas. Con Zenkai, el equipo me evaluó, ajustó mi rutina de movilidad y en 3 meses mi dolor de espalda desapareció. La mentoría 1 a 1 vale cada centavo.',
-    metric: 'Dolor crónico de espalda → 0 dolor en 3 meses',
-    highlight: '0 dolor',
+    age: 59,
+    duration: '7 meses en Zenkai',
+    quote: 'A mi edad pensaba que ya no podía recuperar mi agilidad. Tenía dolores articulares constantes. El equipo adaptó todo a mi nivel y hoy me muevo con la energía de hace 20 años sin riesgo de lesionarme. Nunca es tarde.',
+    metric: 'Recuperó movilidad y energía sin lesiones',
+    highlight: 'VITALIDAD',
     initials: 'CD',
   },
 ];
@@ -66,12 +63,9 @@ export default function Testimonials() {
 
               {/* Author */}
               <div className="testimonial-author">
-                <div className="testimonial-avatar">
-                  {t.initials}
-                </div>
                 <div className="testimonial-info">
                   <strong className="testimonial-name">{t.name}</strong>
-                  <span className="testimonial-meta">{t.age} años · {t.location}</span>
+                  <span className="testimonial-meta">{t.age} años</span>
                   <span className="testimonial-duration">{t.duration}</span>
                 </div>
               </div>
@@ -90,12 +84,9 @@ export default function Testimonials() {
               &ldquo;{testimonials[activeIndex].quote}&rdquo;
             </blockquote>
             <div className="testimonial-author">
-              <div className="testimonial-avatar">
-                {testimonials[activeIndex].initials}
-              </div>
               <div className="testimonial-info">
                 <strong className="testimonial-name">{testimonials[activeIndex].name}</strong>
-                <span className="testimonial-meta">{testimonials[activeIndex].age} años · {testimonials[activeIndex].location}</span>
+                <span className="testimonial-meta">{testimonials[activeIndex].age} años</span>
                 <span className="testimonial-duration">{testimonials[activeIndex].duration}</span>
               </div>
             </div>

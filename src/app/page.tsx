@@ -54,7 +54,7 @@ export default function Home() {
               Cierras esta página y mañana vuelves a entrenar con dudas, o entras a Zenkai Academy, te rodeas de gente que te impulsa a mejorar y empiezas a construir un físico y una mentalidad reales. Tú decides.
             </p>
             <Link href="/register" className="btn btn-primary btn-large" suppressHydrationWarning>
-              Entrar a Zenkai Academy hoy
+              Tomo el control hoy
             </Link>
           </div>
         </section>

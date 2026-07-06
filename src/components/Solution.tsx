@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function Solution() {
   return (
@@ -18,15 +19,20 @@ export default function Solution() {
               <strong>Cero excusas geográficas:</strong> Entrena en tu casa, en un parque o en tu gimnasio de toda la vida.
             </li>
             <li>
-              <strong>La manada:</strong> Una comunidad donde el que se rinde destaca (y no dejamos que eso pase).
+              <strong>Resultados probados:</strong> Únete a más de 45 personas que ya están transformando su físico y mentalidad con el método Zenkai.
             </li>
           </ul>
+          <div style={{ marginTop: '2rem' }}>
+            <Link href="#planes" className="btn btn-primary">
+              Ver los planes de entrenamiento
+            </Link>
+          </div>
         </div>
         <div className="solution-image-wrapper fade-in-right">
           <div className="glass-accent"></div>
           <Image 
-            src="/images/solution.png" 
-            alt="Atleta entrenando intensamente" 
+            src="/images/images/photo_20_2026-07-06_10-49-54.jpg" 
+            alt="Atleta entrenando intensamente en la comunidad Zenkai" 
             className="solution-img"
             width={600}
             height={400}

@@ -41,6 +41,15 @@ export default function Pricing() {
             <Link href="/checkout" className="btn btn-primary" suppressHydrationWarning>Quiero resultados reales ya</Link>
           </div>
         </div>
+
+        <div className="fade-in" style={{ textAlign: 'center', marginTop: '3rem' }}>
+          <p style={{ fontSize: '1.2rem', marginBottom: '1rem', color: 'var(--text-secondary)' }}>
+            ¿No sabes qué plan elegir o si esto se adapta a ti?
+          </p>
+          <a href="https://calendly.com/edixovillalobos1" target="_blank" rel="noopener noreferrer" className="btn btn-outline" style={{ display: 'inline-block' }}>
+            Agenda una cita por videollamada
+          </a>
+        </div>
       </div>
     </section>
   );
