@@ -81,9 +81,9 @@ export default async function ProfilePage() {
             {!profile?.has_paid && (
               <div style={{ marginTop: '2rem', padding: '1.5rem', background: 'rgba(255, 0, 60, 0.1)', borderLeft: '4px solid var(--accent-color)' }}>
                 <h3 style={{ color: 'var(--accent-color)', marginBottom: '0.5rem' }}>¡Desbloquea tu Ruta completa!</h3>
-                <p style={{ marginBottom: '1rem' }}>Solo tienes acceso a los videos introductorios. Adquiere el programa completo por $47.</p>
-                <Link href="/checkout" className="btn btn-primary" style={{ padding: '0.8rem 1.5rem', fontSize: '0.9rem' }}>
-                  Completar Pago
+                <p style={{ marginBottom: '1rem' }}>Solo tienes acceso a los videos introductorios. Sube de nivel y desbloquea el programa completo eligiendo tu plan de mentoría.</p>
+                <Link href="/#planes" className="btn btn-primary" style={{ padding: '0.8rem 1.5rem', fontSize: '0.9rem' }}>
+                  Ver planes disponibles
                 </Link>
               </div>
             )}
