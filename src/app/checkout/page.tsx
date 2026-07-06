@@ -219,8 +219,8 @@ export default function CheckoutPage() {
               ) : (
                 <>
                   <p style={{ color: 'var(--text-secondary)', marginBottom: '0.5rem', fontSize: '0.9rem' }}>Envía exactamente <strong style={{ color: 'var(--accent-color)', fontSize: '1.1rem' }}>${plan === 'standard' ? '47' : '97'}</strong> a la siguiente cuenta Zinli:</p>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: '#000', padding: '1rem', borderRadius: '4px' }}>
-                    <p style={{ fontFamily: 'monospace', margin: 0, flex: 1 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', background: '#000', padding: '1rem', borderRadius: '4px', flexWrap: 'wrap' }}>
+                    <p style={{ fontFamily: 'monospace', margin: 0, wordBreak: 'break-all', flex: 1, minWidth: '150px' }}>
                       lanchez456@gmail.com
                     </p>
                     <button 
