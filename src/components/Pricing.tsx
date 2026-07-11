@@ -13,12 +13,12 @@ export default function Pricing() {
             <div className="plan-price"><span>$</span>47<span className="period">/mes</span></div>
             
             <ul className="plan-features">
-              <li><span className="check">✓</span> Entrenamiento por objetivos: <strong>Sí</strong></li>
+              <li><span className="check">✓</span> App de rutinas en video: <strong>Incluida</strong></li>
+              <li><span className="check">✓</span> Corrección de técnica grupal: <strong>Google Meets (3x semana)</strong></li>
               <li><span className="check">✓</span> Plan Nutricional: <strong>Incluido</strong></li>
-              <li><span className="check">✓</span> Meets de apoyo: <strong>3x por semana</strong></li>
               <li><span className="check">✓</span> Evaluación física: <strong>Trimestral</strong></li>
-              <li className="disabled"><span className="cross">✕</span> Tips de Mentalidad (Mindset)</li>
-              <li className="disabled"><span className="cross">✕</span> Retos de Entrenamiento</li>
+              <li className="disabled"><span className="cross">✕</span> Revisión de técnica 1 a 1 en video</li>
+              <li className="disabled"><span className="cross">✕</span> Protocolos de Mentalidad Inquebrantable</li>
             </ul>
             <Link href="/checkout" className="btn btn-outline" suppressHydrationWarning>Empezar ahora</Link>
           </div>
@@ -31,12 +31,12 @@ export default function Pricing() {
             <div className="plan-price"><span>$</span>97<span className="period">/mes</span></div>
             
             <ul className="plan-features">
-              <li><span className="check">✓</span> Entrenamiento por objetivos: <strong>Sí</strong></li>
+              <li><span className="check">✓</span> <strong>Revisión de técnica 1 a 1 en video (Nos envías tus videos)</strong></li>
+              <li><span className="check">✓</span> Corrección de técnica grupal: <strong>Google Meets (Libre acceso)</strong></li>
+              <li><span className="check">✓</span> App de rutinas en video: <strong>Incluida</strong></li>
               <li><span className="check">✓</span> Plan Nutricional: <strong>Avanzado</strong></li>
-              <li><span className="check">✓</span> Meets de apoyo: <strong>Toda la semana</strong></li>
-              <li><span className="check">✓</span> Evaluación física: <strong>Mensual (Sugerido)</strong></li>
-              <li><span className="check">✓</span> <strong>Tips de Mentalidad Inquebrantable</strong></li>
-              <li><span className="check">✓</span> <strong>Acceso a Retos Exclusivos</strong></li>
+              <li><span className="check">✓</span> <strong>Protocolos de Mentalidad Inquebrantable</strong></li>
+              <li><span className="check">✓</span> <strong>Evaluación física mensual personalizada</strong></li>
             </ul>
             <Link href="/checkout" className="btn btn-primary" suppressHydrationWarning>Quiero resultados reales ya</Link>
           </div>

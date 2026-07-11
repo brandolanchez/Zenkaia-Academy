@@ -84,16 +84,16 @@ export default function Navbar() {
           )}
         </Link>
       ) : (
-        <Link href="/register" className="nav-cta">
-          Únete Ahora
-        </Link>
+        <div className="nav-auth-links">
+          <Link href="/login" className="nav-login-link">
+            Iniciar sesión
+          </Link>
+          <Link href="/register" className="nav-cta">
+            Únete Ahora
+          </Link>
+        </div>
       )}
       
-      <style jsx>{`
-        @media (min-width: 768px) {
-          .nav-username { display: inline !important; }
-        }
-      `}</style>
     </nav>
   );
 }

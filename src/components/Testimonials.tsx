@@ -13,10 +13,10 @@ const testimonials = [
     initials: 'AM',
   },
   {
-    name: 'Dixamary',
+    name: 'Dixamary (@dixa_fit)',
     age: 28,
-    duration: '1 año y 3 meses en Zenkai',
-    quote: 'Tenía cero fuerza y me sentía estancada. En 6 meses logré definir mi cuerpo, perder grasa y ganar una resistencia increíble. La diferencia fue tener un plan adaptado a mí y alguien corrigiéndome paso a paso.',
+    duration: '1 año y medio en Zenkai',
+    quote: 'En este año y medio entrenando, he notado muchísimo la diferencia en la fuerza que he ganado gracias a las rutinas. Más allá del excelente nivel profesional, quiero destacar la gran calidad humana y el apoyo constante. De verdad ha sido una excelente experiencia; espero seguir aprendiendo para llegar más lejos.',
     metric: 'De 0 fuerza a dominar su propio peso',
     highlight: 'FUERZA REAL',
     initials: 'D',

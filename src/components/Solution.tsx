@@ -19,7 +19,7 @@ export default function Solution() {
               <strong>Cero excusas geográficas:</strong> Entrena en tu casa, en un parque o en tu gimnasio de toda la vida.
             </li>
             <li>
-              <strong>Resultados probados:</strong> Únete a más de 45 personas que ya están transformando su físico y mentalidad con el método Zenkai.
+              <strong>Resultados probados:</strong> Únete a nuestra tribu de atletas que ya están transformando su físico, rompiendo estancamientos y forjando una mentalidad inquebrantable con el método Zenkai.
             </li>
           </ul>
           <div style={{ marginTop: '2rem' }}>

@@ -17,7 +17,7 @@ const faqs = [
   },
   {
     question: '¿Qué diferencia hay entre el plan Standard y el Avanzado?',
-    answer: 'En Standard tienes acceso a todos los videos, guías y mentorías grupales 3 veces por semana. Es perfecto para empezar. En Avanzado tienes todo eso más seguimiento 1 a 1 con nuestros coaches: revisan tus videos, corrigen tu técnica personalmente, te hacen una evaluación física y arman un plan de nutrición a tu medida. Es la diferencia entre entrenar solo y tener entrenadores de élite en tu bolsillo.',
+    answer: 'Ambos planes incluyen nuestra app con las rutinas en video y tu plan nutricional. La gran diferencia está en el nivel de seguimiento. En el plan Standard te unes a nuestros Google Meets grupales (3 veces por semana) para resolver dudas y revisar técnica en grupo. En el plan Avanzado (Élite), la atención es 1 a 1: tú nos envías videos de tus entrenamientos y nosotros te corregimos la técnica personalmente para asegurar que avances sin lesionarte. Además, el plan Avanzado incluye protocolos de mentalidad inquebrantable y una evaluación física mensual.',
   },
 
   {
