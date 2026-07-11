@@ -2,6 +2,7 @@ import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import Problem from '@/components/Problem';
 import Solution from '@/components/Solution';
+import HowItWorks from '@/components/HowItWorks';
 import Pricing from '@/components/Pricing';
 import Testimonials from '@/components/Testimonials';
 import FAQ from '@/components/FAQ';
@@ -19,8 +20,28 @@ export default function Home() {
         <Hero />
         <Problem />
         <Solution />
-        <Pricing />
+        <HowItWorks />
         <Testimonials />
+        <Pricing />
+
+        {/* Guarantee Section */}
+        <section className="guarantee-section">
+          <div className="container">
+            <div className="guarantee-card fade-in">
+              <div className="guarantee-icon">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--accent-color)" strokeWidth="2" strokeLinecap="square" strokeLinejoin="miter">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                  <polyline points="9 12 11 14 15 10"></polyline>
+                </svg>
+              </div>
+              <h3 className="guarantee-title">Sin contratos. Sin permanencia. Sin trampa.</h3>
+              <p className="guarantee-desc">
+                Cancela en cualquier momento con un solo mensaje. Pero eso no es todo: si en algún momento sientes que tu plan no está funcionando, nuestro equipo se sienta contigo, ajusta tu rutina y tu nutrición hasta que veas los resultados. No te dejamos solo.
+              </p>
+            </div>
+          </div>
+        </section>
+
         <FAQ />
         
         {/* CTA Section */}
