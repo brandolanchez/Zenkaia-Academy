@@ -31,3 +31,17 @@ export async function removeCourse(user_id: string, course_id: string) {
   revalidatePath('/admin/clients');
   return { success: true };
 }
+
+export async function deleteProfile(user_id: string) {
+  const supabase = await createClient();
+  
+  // Eliminar asignaciones de cursos primero por si no hay borrado en cascada
+  await supabase.from('user_courses').delete().eq('user_id', user_id);
+  
+  const { error } = await supabase.from('profiles').delete().eq('id', user_id);
+
+  if (error) return { error: error.message };
+
+  revalidatePath('/admin/clients');
+  return { success: true };
+}

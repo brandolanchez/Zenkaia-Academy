@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/server';
-import { assignCourse, removeCourse } from './actions';
+import { assignCourse, removeCourse, deleteProfile } from './actions';
 import Image from 'next/image';
 
 export default async function AdminClientsPage() {
@@ -47,7 +47,9 @@ export default async function AdminClientsPage() {
                 <tr style={{ borderBottom: '1px solid var(--border-color)', color: 'var(--text-secondary)' }}>
                   <th style={{ padding: '1rem' }}>Usuario</th>
                   <th style={{ padding: '1rem' }}>Email / Contacto</th>
+                  <th style={{ padding: '1rem' }}>Registro</th>
                   <th style={{ padding: '1rem' }}>Asignar Rutas</th>
+                  <th style={{ padding: '1rem' }}>Acciones</th>
                 </tr>
               </thead>
               <tbody>
@@ -74,6 +76,13 @@ export default async function AdminClientsPage() {
                       <div>{client.email || 'Sin correo'}</div>
                       <div style={{ fontSize: '0.85rem', marginTop: '0.2rem' }}>
                         {client.phone ? `WhatsApp: ${client.phone}` : 'Sin teléfono'}
+                      </div>
+                    </td>
+                    <td style={{ padding: '1rem', color: 'var(--text-secondary)' }}>
+                      <div>
+                        {new Intl.DateTimeFormat('es-ES', { 
+                          year: 'numeric', month: 'short', day: 'numeric' 
+                        }).format(new Date(client.created_at))}
                       </div>
                     </td>
                     <td style={{ padding: '1rem' }}>
@@ -106,6 +115,16 @@ export default async function AdminClientsPage() {
                           );
                         })}
                       </div>
+                    </td>
+                    <td style={{ padding: '1rem' }}>
+                      <form action={async () => {
+                        'use server';
+                        await deleteProfile(client.id);
+                      }}>
+                        <button type="submit" className="btn btn-outline" style={{ padding: '0.4rem 0.8rem', fontSize: '0.8rem', borderColor: '#ff3366', color: '#ff3366' }}>
+                          Eliminar
+                        </button>
+                      </form>
                     </td>
                   </tr>
                 ))}
