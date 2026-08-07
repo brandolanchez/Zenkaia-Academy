@@ -1,6 +1,8 @@
 import { createClient } from '@/lib/supabase/server';
 import { assignCourse, removeCourse, deleteProfile } from './actions';
 import Image from 'next/image';
+import Link from 'next/link';
+import { ChevronRight } from 'lucide-react';
 
 export default async function AdminClientsPage() {
   const supabase = await createClient();
@@ -65,7 +67,10 @@ export default async function AdminClientsPage() {
                           </div>
                         )}
                         <div>
-                          <strong>{client.full_name}</strong>
+                          <Link href={`/admin/clients/${client.id}`} className="clickable-user-name">
+                            <strong>{client.full_name}</strong>
+                            <ChevronRight size={14} className="clickable-user-arrow" />
+                          </Link>
                           <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginTop: '0.2rem' }}>
                             {client.role === 'admin' && <span style={{ background: 'var(--accent-color)', color: '#fff', padding: '0.1rem 0.4rem', borderRadius: '4px', fontSize: '0.7rem' }}>ADMIN</span>}
                           </div>
