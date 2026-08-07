@@ -1,6 +1,7 @@
 'use server';
 
 import { createClient } from '@/lib/supabase/server';
+import { createClient as createSupabaseAdminClient } from '@supabase/supabase-js';
 import { revalidatePath } from 'next/cache';
 
 export async function assignCourse(user_id: string, course_id: string) {
@@ -33,12 +34,20 @@ export async function removeCourse(user_id: string, course_id: string) {
 }
 
 export async function deleteProfile(user_id: string) {
-  const supabase = await createClient();
+  // Para eliminar al usuario completamente (incluyendo credenciales de login)
+  // necesitamos usar el Service Role Key que salta el RLS.
+  if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
+    return { error: 'Falta configurar SUPABASE_SERVICE_ROLE_KEY en las variables de entorno' };
+  }
+
+  const supabaseAdmin = createSupabaseAdminClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
   
-  // Eliminar asignaciones de cursos primero por si no hay borrado en cascada
-  await supabase.from('user_courses').delete().eq('user_id', user_id);
-  
-  const { error } = await supabase.from('profiles').delete().eq('id', user_id);
+  // Eliminar el usuario de auth.users. Esto dispara el ON DELETE CASCADE
+  // que eliminará automáticamente su registro en public.profiles, user_courses, etc.
+  const { error } = await supabaseAdmin.auth.admin.deleteUser(user_id);
 
   if (error) return { error: error.message };
 
