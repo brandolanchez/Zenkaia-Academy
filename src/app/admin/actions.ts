@@ -1,10 +1,11 @@
 'use server';
 
-import { createClient } from '@/lib/supabase/server';
+import { requireAdmin } from '@/lib/auth/requireAdmin';
 import { revalidatePath } from 'next/cache';
+import { grantCourseAccess } from '@/lib/payments/grantCourseAccess';
 
 export async function approvePayment(paymentId: string, userId: string): Promise<void> {
-  const supabase = await createClient();
+  const { supabase } = await requireAdmin();
 
   // 1. Update payment status
   const { error: paymentError } = await supabase
@@ -14,19 +15,7 @@ export async function approvePayment(paymentId: string, userId: string): Promise
 
   if (paymentError) throw new Error(paymentError.message);
 
-  // We should also grant access to the course the user paid for.
-  // First, get the payment details
-  const { data: payment } = await supabase.from('payments').select('course_id').eq('id', paymentId).single();
-  
-  if (payment?.course_id) {
-    await supabase.from('user_courses').insert({
-      user_id: userId,
-      course_id: payment.course_id
-    });
-  }
-
-  // Also update global has_paid for legacy compatibility just in case
-  await supabase.from('profiles').update({ has_paid: true }).eq('id', userId);
+  await grantCourseAccess(supabase, paymentId, userId);
 
   // 2. Update user profile to has_paid = true
   const { error: profileError } = await supabase
@@ -40,7 +29,7 @@ export async function approvePayment(paymentId: string, userId: string): Promise
 }
 
 export async function rejectPayment(paymentId: string): Promise<void> {
-  const supabase = await createClient();
+  const { supabase } = await requireAdmin();
 
   const { error } = await supabase
     .from('payments')

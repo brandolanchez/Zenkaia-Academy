@@ -1,10 +1,11 @@
 'use server';
 
-import { createClient } from '@/lib/supabase/server';
+import { requireAdmin } from '@/lib/auth/requireAdmin';
+import { grantCourseAccess } from '@/lib/payments/grantCourseAccess';
 import { revalidatePath } from 'next/cache';
 
 export async function approveUserPayment(paymentId: string, userId: string): Promise<void> {
-  const supabase = await createClient();
+  const { supabase } = await requireAdmin();
 
   // 1. Update payment status
   const { error: paymentError } = await supabase
@@ -14,19 +15,8 @@ export async function approveUserPayment(paymentId: string, userId: string): Pro
 
   if (paymentError) throw new Error(paymentError.message);
 
-  // 2. Get the course_id to grant access
-  const { data: payment } = await supabase
-    .from('payments')
-    .select('course_id')
-    .eq('id', paymentId)
-    .single();
-
-  if (payment?.course_id) {
-    await supabase.from('user_courses').insert({
-      user_id: userId,
-      course_id: payment.course_id,
-    });
-  }
+  // 2. Grant access (course of the payment, or every course if the payment has none)
+  await grantCourseAccess(supabase, paymentId, userId);
 
   // 3. Update global has_paid flag
   await supabase.from('profiles').update({ has_paid: true }).eq('id', userId);
@@ -37,7 +27,7 @@ export async function approveUserPayment(paymentId: string, userId: string): Pro
 }
 
 export async function rejectUserPayment(paymentId: string, userId: string): Promise<void> {
-  const supabase = await createClient();
+  const { supabase } = await requireAdmin();
 
   const { error } = await supabase
     .from('payments')
@@ -52,7 +42,7 @@ export async function rejectUserPayment(paymentId: string, userId: string): Prom
 }
 
 export async function assignUserCourse(userId: string, courseId: string) {
-  const supabase = await createClient();
+  const { supabase } = await requireAdmin();
 
   const { error } = await supabase.from('user_courses').insert({
     user_id: userId,
@@ -69,7 +59,7 @@ export async function assignUserCourse(userId: string, courseId: string) {
 }
 
 export async function removeUserCourse(userId: string, courseId: string) {
-  const supabase = await createClient();
+  const { supabase } = await requireAdmin();
 
   const { error } = await supabase
     .from('user_courses')

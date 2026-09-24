@@ -1,11 +1,11 @@
 'use server';
 
-import { createClient } from '@/lib/supabase/server';
+import { requireAdmin } from '@/lib/auth/requireAdmin';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
 export async function createCourse(formData: FormData): Promise<void> {
-  const supabase = await createClient();
+  const { supabase } = await requireAdmin();
   const title = formData.get('title') as string;
   const description = formData.get('description') as string;
   const thumbnailFile = formData.get('thumbnail') as File;
@@ -48,7 +48,7 @@ export async function createCourse(formData: FormData): Promise<void> {
 }
 
 export async function deleteCourse(id: string): Promise<void> {
-  const supabase = await createClient();
+  const { supabase } = await requireAdmin();
   
   const { error } = await supabase.from('courses').delete().eq('id', id);
   
@@ -58,7 +58,7 @@ export async function deleteCourse(id: string): Promise<void> {
 }
 
 export async function updateCourse(formData: FormData): Promise<void> {
-  const supabase = await createClient();
+  const { supabase } = await requireAdmin();
   const id = formData.get('id') as string;
   const title = formData.get('title') as string;
   const description = formData.get('description') as string;

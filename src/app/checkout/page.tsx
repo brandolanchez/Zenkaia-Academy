@@ -17,6 +17,7 @@ export default function CheckoutPage() {
   const [error, setError] = useState<string | null>(null);
   const [copiedField, setCopiedField] = useState<string | null>(null);
   const [acceptedTerms, setAcceptedTerms] = useState(false);
+  const [courseId, setCourseId] = useState<string | null>(null);
   const [checkingAuth, setCheckingAuth] = useState(true);
   const [userName, setUserName] = useState('');
   const router = useRouter();
@@ -24,6 +25,12 @@ export default function CheckoutPage() {
 
   // Auth guard: redirect to login if not authenticated
   useEffect(() => {
+    // Plan y ruta vienen en la URL: /checkout?plan=elite o /checkout?course=<id>
+    const query = new URLSearchParams(window.location.search);
+    if (query.get('plan') === 'elite') setPlan('elite');
+    const courseParam = query.get('course');
+    if (courseParam) setCourseId(courseParam);
+
     const checkAuth = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
@@ -91,6 +98,7 @@ export default function CheckoutPage() {
         .from('payments')
         .insert({
           user_id: user.id,
+          course_id: courseId,
           method: `${paymentMethod}-${plan}`,
           proof_url: proofUrl,
           status: 'pending'

@@ -20,7 +20,7 @@ export default function Pricing() {
               <li className="disabled"><span className="cross">✕</span> Revisión de técnica 1 a 1 en video</li>
               <li className="disabled"><span className="cross">✕</span> Protocolos de Mentalidad Inquebrantable</li>
             </ul>
-            <Link href="/checkout" className="btn btn-outline" suppressHydrationWarning>Empezar ahora</Link>
+            <Link href="/checkout?plan=standard" className="btn btn-outline" suppressHydrationWarning>Empezar ahora</Link>
           </div>
 
           {/* Plan Avanzado (Premium) */}
@@ -38,7 +38,7 @@ export default function Pricing() {
               <li><span className="check">✓</span> <strong>Protocolos de Mentalidad Inquebrantable</strong></li>
               <li><span className="check">✓</span> <strong>Evaluación física mensual personalizada</strong></li>
             </ul>
-            <Link href="/checkout" className="btn btn-primary" suppressHydrationWarning>Quiero resultados reales ya</Link>
+            <Link href="/checkout?plan=elite" className="btn btn-primary" suppressHydrationWarning>Quiero resultados reales ya</Link>
           </div>
         </div>
 

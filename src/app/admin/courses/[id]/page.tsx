@@ -9,22 +9,24 @@ export default async function AdminCourseDetailsPage({
   params,
   searchParams
 }: { 
-  params: { id: string },
-  searchParams: { editVideoId?: string }
+  params: Promise<{ id: string }>,
+  searchParams: Promise<{ editVideoId?: string }>
 }) {
+  const { id } = await params;
+  const { editVideoId } = await searchParams;
   const supabase = await createClient();
 
   // Obtener detalles del curso y sus videos
   const { data: course, error: courseError } = await supabase
     .from('courses')
     .select('*')
-    .eq('id', params.id)
+    .eq('id', id)
     .single();
 
   const { data: videos, error: videosError } = await supabase
     .from('videos')
     .select('*')
-    .eq('course_id', params.id)
+    .eq('course_id', id)
     .order('order', { ascending: true });
 
   if (courseError || !course) {
@@ -32,8 +34,8 @@ export default async function AdminCourseDetailsPage({
   }
 
   // Si estamos editando un video en particular
-  const videoToEdit = searchParams.editVideoId 
-    ? videos?.find(v => v.id === searchParams.editVideoId) 
+  const videoToEdit = editVideoId 
+    ? videos?.find(v => v.id === editVideoId) 
     : null;
 
   return (

@@ -8,37 +8,61 @@ export default async function CursoPage({
   params,
   searchParams,
 }: {
-  params: { id: string }
-  searchParams: { videoId?: string; tab?: string }
+  params: Promise<{ id: string }>
+  searchParams: Promise<{ videoId?: string; tab?: string }>
 }) {
+  const { id: courseId } = await params
+  const query = await searchParams
   const supabase = await createClient()
 
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
-  const { data: course } = await supabase.from('courses').select('*').eq('id', params.id).single()
+  const { data: course } = await supabase.from('courses').select('*').eq('id', courseId).single()
   if (!course) return <div style={{ color: 'white', padding: '2rem' }}>Ruta no encontrada</div>
 
   const { data: userCourse } = await supabase.from('user_courses')
     .select('*')
     .eq('user_id', user.id)
-    .eq('course_id', params.id)
+    .eq('course_id', courseId)
     .single()
     
   const hasPaid = !!userCourse
 
-  const { data: videos } = await supabase.from('videos')
-    .select('*')
-    .eq('course_id', params.id)
+  // Lista de clases SIN video_url (vista pública). Si la vista aún no existe
+  // en Supabase, se usa la tabla directamente.
+  const videoColumns = 'id, course_id, title, description, is_free, order'
+  let { data: videos, error: videosError } = await supabase.from('videos_public')
+    .select(videoColumns)
+    .eq('course_id', courseId)
     .order('order', { ascending: true })
 
+  if (videosError) {
+    const fallback = await supabase.from('videos')
+      .select(videoColumns)
+      .eq('course_id', courseId)
+      .order('order', { ascending: true })
+    videos = fallback.data
+  }
+
   const courseVideos = videos && videos.length > 0 ? videos : [
-    { id: '1', title: 'Ruta sin videos', is_free: true, video_url: '', description: 'Esta ruta aún no tiene videos asignados.' }
+    { id: '1', title: 'Ruta sin videos', is_free: true, description: 'Esta ruta aún no tiene videos asignados.' }
   ]
 
-  const currentVideoId = searchParams?.videoId || courseVideos[0].id
-  const currentTab = searchParams?.tab || 'resumen'
+  const currentVideoId = query?.videoId || courseVideos[0].id
+  const currentTab = query?.tab || 'resumen'
   const currentVideo = courseVideos.find(v => v.id === currentVideoId) || courseVideos[0]
+
+  // La URL del video solo se pide (y se envía al navegador) si el alumno puede verlo.
+  const canWatch = currentVideo.is_free || hasPaid
+  let currentVideoUrl = ''
+  if (canWatch && currentVideo.id !== '1') {
+    const { data: videoWithUrl } = await supabase.from('videos')
+      .select('video_url')
+      .eq('id', currentVideo.id)
+      .single()
+    currentVideoUrl = videoWithUrl?.video_url || ''
+  }
 
   return (
     <div className="course-player-container">
@@ -70,7 +94,7 @@ export default async function CursoPage({
               return (
                 <li key={video.id}>
                   <Link 
-                    href={`/curso/${params.id}?videoId=${video.id}&tab=${currentTab}`}
+                    href={`/curso/${courseId}?videoId=${video.id}&tab=${currentTab}`}
                     style={{
                       display: 'flex',
                       alignItems: 'flex-start',
@@ -107,9 +131,10 @@ export default async function CursoPage({
         <div style={{ background: '#000', width: '100%', position: 'relative', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
           <div style={{ maxWidth: '1200px', margin: '0 auto', width: '100%', aspectRatio: '16/9' }}>
             <VideoPlayer 
-              url={currentVideo.video_url} 
+              url={currentVideoUrl} 
               isFree={currentVideo.is_free} 
               hasPaid={hasPaid} 
+              courseId={courseId}
             />
           </div>
         </div>
@@ -122,7 +147,7 @@ export default async function CursoPage({
           {/* Tabs Navigation */}
           <div style={{ display: 'flex', gap: '2rem', borderBottom: '1px solid rgba(255,255,255,0.1)', marginBottom: '2rem' }}>
             <Link 
-              href={`/curso/${params.id}?videoId=${currentVideo.id}&tab=resumen`}
+              href={`/curso/${courseId}?videoId=${currentVideo.id}&tab=resumen`}
               style={{ 
                 paddingBottom: '1rem', 
                 color: currentTab === 'resumen' ? '#fff' : 'var(--text-secondary)',
@@ -135,7 +160,7 @@ export default async function CursoPage({
               <FileText size={16} /> Resumen
             </Link>
             <Link 
-              href={`/curso/${params.id}?videoId=${currentVideo.id}&tab=comentarios`}
+              href={`/curso/${courseId}?videoId=${currentVideo.id}&tab=comentarios`}
               style={{ 
                 paddingBottom: '1rem', 
                 color: currentTab === 'comentarios' ? '#fff' : 'var(--text-secondary)',
@@ -191,7 +216,7 @@ export default async function CursoPage({
                   <Lock size={32} style={{ color: 'var(--accent-color)', margin: '0 auto 1rem' }} />
                   <h3 style={{ color: '#fff', marginBottom: '0.5rem', fontSize: '1.2rem' }}>Desbloquea tu potencial</h3>
                   <p style={{ color: 'var(--text-secondary)', marginBottom: '2rem', fontSize: '0.9rem', lineHeight: 1.6 }}>Obtén acceso inmediato a todos los módulos, rutinas descargables y mentoría 1 a 1 por un único pago de ${course.price}.</p>
-                  <Link href="/checkout" className="btn btn-primary" style={{ width: '100%', display: 'block', padding: '1rem' }}>Adquirir Programa Completo</Link>
+                  <Link href={`/checkout?course=${courseId}`} className="btn btn-primary" style={{ width: '100%', display: 'block', padding: '1rem' }}>Adquirir Programa Completo</Link>
                 </div>
               ) : (
                 <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', padding: '2rem', borderRadius: '12px', position: 'sticky', top: '2rem' }}>

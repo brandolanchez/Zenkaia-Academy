@@ -1,11 +1,11 @@
 'use server';
 
-import { createClient } from '@/lib/supabase/server';
+import { requireAdmin } from '@/lib/auth/requireAdmin';
 import { createClient as createSupabaseAdminClient } from '@supabase/supabase-js';
 import { revalidatePath } from 'next/cache';
 
 export async function assignCourse(user_id: string, course_id: string) {
-  const supabase = await createClient();
+  const { supabase } = await requireAdmin();
   
   const { error } = await supabase.from('user_courses').insert({
     user_id,
@@ -21,7 +21,7 @@ export async function assignCourse(user_id: string, course_id: string) {
 }
 
 export async function removeCourse(user_id: string, course_id: string) {
-  const supabase = await createClient();
+  const { supabase } = await requireAdmin();
   
   const { error } = await supabase.from('user_courses').delete()
     .eq('user_id', user_id)
@@ -34,6 +34,8 @@ export async function removeCourse(user_id: string, course_id: string) {
 }
 
 export async function deleteProfile(user_id: string) {
+  await requireAdmin();
+
   // Para eliminar al usuario completamente (incluyendo credenciales de login)
   // necesitamos usar el Service Role Key que salta el RLS.
   if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {

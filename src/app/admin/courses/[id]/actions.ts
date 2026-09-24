@@ -1,10 +1,10 @@
 'use server';
 
-import { createClient } from '@/lib/supabase/server';
+import { requireAdmin } from '@/lib/auth/requireAdmin';
 import { revalidatePath } from 'next/cache';
 
 export async function addVideo(formData: FormData): Promise<void> {
-  const supabase = await createClient();
+  const { supabase } = await requireAdmin();
   const course_id = formData.get('course_id') as string;
   const title = formData.get('title') as string;
   const description = formData.get('description') as string;
@@ -31,7 +31,7 @@ export async function addVideo(formData: FormData): Promise<void> {
 }
 
 export async function deleteVideo(id: string, course_id: string): Promise<void> {
-  const supabase = await createClient();
+  const { supabase } = await requireAdmin();
   
   const { error } = await supabase.from('videos').delete().eq('id', id);
   
@@ -41,7 +41,7 @@ export async function deleteVideo(id: string, course_id: string): Promise<void> 
 }
 
 export async function updateVideo(formData: FormData): Promise<void> {
-  const supabase = await createClient();
+  const { supabase } = await requireAdmin();
   const id = formData.get('id') as string;
   const course_id = formData.get('course_id') as string;
   const title = formData.get('title') as string;

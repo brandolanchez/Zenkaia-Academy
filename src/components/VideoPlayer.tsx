@@ -7,9 +7,10 @@ interface VideoPlayerProps {
   url: string;
   isFree: boolean;
   hasPaid: boolean;
+  courseId?: string;
 }
 
-export default function VideoPlayer({ url, isFree, hasPaid }: VideoPlayerProps) {
+export default function VideoPlayer({ url, isFree, hasPaid, courseId }: VideoPlayerProps) {
   const canWatch = isFree || hasPaid;
 
   if (!canWatch) {
@@ -29,7 +30,7 @@ export default function VideoPlayer({ url, isFree, hasPaid }: VideoPlayerProps) 
           <p style={{ color: 'var(--text-secondary)', marginBottom: '2rem' }}>
             Este contenido es exclusivo para miembros del programa. Completa tu Ruta Zenkai adquiriendo el acceso completo.
           </p>
-          <Link href="/checkout" className="btn btn-primary" style={{ padding: '1rem 3rem' }}>
+          <Link href={courseId ? `/checkout?course=${courseId}` : '/checkout'} className="btn btn-primary" style={{ padding: '1rem 3rem' }}>
             Ver planes de pago
           </Link>
         </div>
