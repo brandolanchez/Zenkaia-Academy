@@ -44,12 +44,7 @@ export default function FAQ() {
         <h2 className="section-title fade-in" style={{ marginBottom: '1rem' }}>
           Preguntas <span className="highlight" style={{ fontSize: 'inherit' }}>Frecuentes</span>
         </h2>
-        <div className="faq-subtitle fade-in" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem' }}>
-          <p>Si tu respuesta no está aquí, habla directamente con nuestro equipo.</p>
-          <a href="https://wa.me/584127862283" target="_blank" rel="noopener noreferrer" className="btn btn-outline" style={{ borderColor: '#25D366', color: '#25D366' }}>
-            Tengo una duda muy específica (Hablar con un coach)
-          </a>
-        </div>
+        <p className="faq-subtitle fade-in">Lo que más nos preguntan antes de empezar.</p>
 
         <div className="faq-list">
           {faqs.map((faq, index) => (
@@ -75,6 +70,13 @@ export default function FAQ() {
               </div>
             </div>
           ))}
+        </div>
+
+        <div className="faq-contact fade-in">
+          <p>¿Tu duda no está aquí?</p>
+          <a href="https://wa.me/584127862283" target="_blank" rel="noopener noreferrer" className="btn btn-outline faq-whatsapp">
+            Escríbele a un coach por WhatsApp
+          </a>
         </div>
       </div>
     </section>

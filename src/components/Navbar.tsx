@@ -85,6 +85,9 @@ export default function Navbar() {
         </Link>
       ) : (
         <div className="nav-auth-links">
+          <a href="/#planes" className="nav-login-link nav-plans-link">
+            Planes
+          </a>
           <Link href="/login" className="nav-login-link">
             Iniciar sesión
           </Link>

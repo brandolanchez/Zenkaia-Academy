@@ -10,14 +10,24 @@ export default function Hero() {
         <div className="hero-content fade-in-up">
           <span className="pre-title">Entrenamiento Funcional Real y Calistenia</span>
           <h1 className="main-title">
-            Estás perdiendo el tiempo si sigues entrenando como el <span className="highlight">90% de la gente.</span>
+            Estás perdiendo el tiempo si sigues entrenando como <span className="highlight">todo el mundo.</span>
           </h1>
           <p className="subtitle">
-            No somos una app de rutinas. Somos una academia con mentoría humana. Las aplicaciones genéricas de 5 dólares no te van a dar el cuerpo ni la mentalidad que buscas. Necesitas a alguien que te mire de frente, te quite las dudas de la cabeza y te diga qué estás haciendo mal. Para eso nació Zenkai Academy.
+            No somos una app de rutinas. Somos una academia con coaches reales que revisan tu técnica, te corrigen y ajustan tu plan según tu progreso.
           </p>
-          <Link href="/register" className="btn btn-primary btn-large">
-            Quiero dejar de perder el tiempo
-          </Link>
+          <div className="hero-actions">
+            <Link href="/register" className="btn btn-primary btn-large">
+              Quiero dejar de perder el tiempo
+            </Link>
+            <a href="#planes" className="hero-secondary-link">
+              Ver planes y precios
+            </a>
+          </div>
+          <ul className="hero-trust">
+            <li>Desde $47/mes</li>
+            <li>Sin contratos</li>
+            <li>Cancela cuando quieras</li>
+          </ul>
         </div>
       </section>
       

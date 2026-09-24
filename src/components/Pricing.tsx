@@ -13,14 +13,15 @@ export default function Pricing() {
             <div className="plan-price"><span>$</span>47<span className="period">/mes</span></div>
             
             <ul className="plan-features">
-              <li><span className="check">✓</span> App de rutinas en video: <strong>Incluida</strong></li>
-              <li><span className="check">✓</span> Corrección de técnica grupal: <strong>Google Meets (3x semana)</strong></li>
-              <li><span className="check">✓</span> Plan Nutricional: <strong>Incluido</strong></li>
-              <li><span className="check">✓</span> Evaluación física: <strong>Trimestral</strong></li>
-              <li className="disabled"><span className="cross">✕</span> Revisión de técnica 1 a 1 en video</li>
-              <li className="disabled"><span className="cross">✕</span> Protocolos de Mentalidad Inquebrantable</li>
+              <li><span className="check">✓</span><span>App de rutinas en video: <strong>Incluida</strong></span></li>
+              <li><span className="check">✓</span><span>Corrección de técnica grupal: <strong>Google Meets (3x semana)</strong></span></li>
+              <li><span className="check">✓</span><span>Plan Nutricional: <strong>Incluido</strong></span></li>
+              <li><span className="check">✓</span><span>Evaluación física: <strong>Trimestral</strong></span></li>
+              <li className="disabled"><span className="cross">✕</span><span>Revisión de técnica 1 a 1 en video</span></li>
+              <li className="disabled"><span className="cross">✕</span><span>Protocolos de Mentalidad Inquebrantable</span></li>
             </ul>
-            <Link href="/checkout?plan=standard" className="btn btn-outline" suppressHydrationWarning>Empezar ahora</Link>
+            <Link href={`/register?next=${encodeURIComponent('/checkout?plan=standard')}`} className="btn btn-outline" suppressHydrationWarning>Empezar con Standard</Link>
+            <p className="plan-note">Sin contratos. Cancela cuando quieras.</p>
           </div>
 
           {/* Plan Avanzado (Premium) */}
@@ -31,14 +32,15 @@ export default function Pricing() {
             <div className="plan-price"><span>$</span>97<span className="period">/mes</span></div>
             
             <ul className="plan-features">
-              <li><span className="check">✓</span> <strong>Revisión de técnica 1 a 1 en video (Nos envías tus videos)</strong></li>
-              <li><span className="check">✓</span> Corrección de técnica grupal: <strong>Google Meets (Libre acceso)</strong></li>
-              <li><span className="check">✓</span> App de rutinas en video: <strong>Incluida</strong></li>
-              <li><span className="check">✓</span> Plan Nutricional: <strong>Avanzado</strong></li>
-              <li><span className="check">✓</span> <strong>Protocolos de Mentalidad Inquebrantable</strong></li>
-              <li><span className="check">✓</span> <strong>Evaluación física mensual personalizada</strong></li>
+              <li><span className="check">✓</span><span><strong>Revisión de técnica 1 a 1 en video (Nos envías tus videos)</strong></span></li>
+              <li><span className="check">✓</span><span>Corrección de técnica grupal: <strong>Google Meets (Libre acceso)</strong></span></li>
+              <li><span className="check">✓</span><span>App de rutinas en video: <strong>Incluida</strong></span></li>
+              <li><span className="check">✓</span><span>Plan Nutricional: <strong>Avanzado</strong></span></li>
+              <li><span className="check">✓</span><span><strong>Protocolos de Mentalidad Inquebrantable</strong></span></li>
+              <li><span className="check">✓</span><span><strong>Evaluación física mensual personalizada</strong></span></li>
             </ul>
-            <Link href="/checkout?plan=elite" className="btn btn-primary" suppressHydrationWarning>Quiero resultados reales ya</Link>
+            <Link href={`/register?next=${encodeURIComponent('/checkout?plan=elite')}`} className="btn btn-primary" suppressHydrationWarning>Quiero resultados reales ya</Link>
+            <p className="plan-note">Sin contratos. Cancela cuando quieras.</p>
           </div>
         </div>
 

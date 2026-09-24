@@ -9,6 +9,7 @@ import FAQ from '@/components/FAQ';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
 import ScrollAnimations from '@/components/ScrollAnimations';
+import MobileStickyCta from '@/components/MobileStickyCta';
 
 export default function Home() {
   return (
@@ -60,6 +61,7 @@ export default function Home() {
       </main>
 
       <Footer />
+      <MobileStickyCta />
     </>
   );
 }

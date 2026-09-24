@@ -9,6 +9,7 @@ import { login } from '@/app/auth/actions';
 function LoginForm() {
   const searchParams = useSearchParams();
   const errorMessage = searchParams.get('error');
+  const next = searchParams.get('next');
   const [loading, setLoading] = useState(false);
 
   return (
@@ -32,6 +33,7 @@ function LoginForm() {
         {errorMessage && <div className="error-message">{errorMessage}</div>}
 
         <form action={login} onSubmit={() => setLoading(true)}>
+          {next && <input type="hidden" name="next" value={next} />}
           <div className="form-group">
             <label className="form-label" htmlFor="email">Correo Electrónico</label>
             <input className="form-input" id="email" name="email" type="email" required placeholder="tu@email.com" />
@@ -48,7 +50,7 @@ function LoginForm() {
         </form>
 
         <p style={{ textAlign: 'center', marginTop: '2rem', color: 'var(--text-secondary)' }}>
-          ¿No tienes cuenta? <Link href="/register" className="auth-link">Regístrate</Link>
+          ¿No tienes cuenta? <Link href={next ? `/register?next=${encodeURIComponent(next)}` : '/register'} className="auth-link">Regístrate</Link>
         </p>
       </div>
     </div>

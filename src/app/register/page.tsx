@@ -9,6 +9,7 @@ import { signup } from '@/app/auth/actions';
 function RegisterForm() {
   const searchParams = useSearchParams();
   const errorMessage = searchParams.get('error');
+  const next = searchParams.get('next');
   const [loading, setLoading] = useState(false);
 
   return (
@@ -32,6 +33,7 @@ function RegisterForm() {
         {errorMessage && <div className="error-message">{errorMessage}</div>}
 
         <form action={signup} onSubmit={() => setLoading(true)}>
+          {next && <input type="hidden" name="next" value={next} />}
           <div className="form-group">
             <label className="form-label" htmlFor="full_name">Nombre Completo</label>
             <input className="form-input" id="full_name" name="full_name" type="text" required placeholder="Ej: Juan Pérez" />
@@ -77,7 +79,7 @@ function RegisterForm() {
         </form>
 
         <p style={{ textAlign: 'center', marginTop: '2rem', color: 'var(--text-secondary)' }}>
-          ¿Ya tienes cuenta? <Link href="/login" className="auth-link">Inicia Sesión</Link>
+          ¿Ya tienes cuenta? <Link href={next ? `/login?next=${encodeURIComponent(next)}` : '/login'} className="auth-link">Inicia Sesión</Link>
         </p>
       </div>
     </div>

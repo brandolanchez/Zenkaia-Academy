@@ -4,6 +4,17 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 
+// Solo rutas internas: evita redirecciones a otros dominios (//sitio.com, https://...)
+function safeNext(value: FormDataEntryValue | null): string | null {
+  if (typeof value !== 'string') return null
+  if (!value.startsWith('/') || value.startsWith('//') || value.startsWith('/\\')) return null
+  return value
+}
+
+function withNext(path: string, next: string | null) {
+  return next ? `${path}&next=${encodeURIComponent(next)}` : path
+}
+
 export async function login(formData: FormData): Promise<void> {
   const supabase = await createClient()
 
@@ -12,14 +23,16 @@ export async function login(formData: FormData): Promise<void> {
     password: formData.get('password') as string,
   }
 
+  const next = safeNext(formData.get('next'))
+
   const { error } = await supabase.auth.signInWithPassword(data)
 
   if (error) {
-    redirect(`/login?error=${encodeURIComponent(error.message)}`)
+    redirect(withNext(`/login?error=${encodeURIComponent(error.message)}`, next))
   }
 
   revalidatePath('/', 'layout')
-  redirect('/dashboard/profile')
+  redirect(next || '/dashboard/profile')
 }
 
 export async function signup(formData: FormData): Promise<void> {
@@ -34,13 +47,15 @@ export async function signup(formData: FormData): Promise<void> {
     phone: formData.get('phone') as string,
   }
 
+  const next = safeNext(formData.get('next'))
+
   const { data: authData, error } = await supabase.auth.signUp({
     email: data.email,
     password: data.password,
   })
 
   if (error) {
-    redirect(`/register?error=${encodeURIComponent(error.message)}`)
+    redirect(withNext(`/register?error=${encodeURIComponent(error.message)}`, next))
   }
 
   if (authData.user) {
@@ -59,11 +74,11 @@ export async function signup(formData: FormData): Promise<void> {
       
     if (profileError) {
       console.error("Error creating profile:", profileError)
-      redirect(`/register?error=${encodeURIComponent("Usuario creado pero hubo un error al crear el perfil.")}`)
+      redirect(withNext(`/register?error=${encodeURIComponent("Usuario creado pero hubo un error al crear el perfil.")}`, next))
     }
   }
 
   revalidatePath('/', 'layout')
-  redirect('/dashboard/profile')
+  redirect(next || '/dashboard/profile')
 }
 
