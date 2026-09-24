@@ -27,7 +27,13 @@ export default async function CursoPage({
     .eq('course_id', courseId)
     .single()
     
-  const hasPaid = !!userCourse
+  const { data: viewer } = await supabase.from('profiles').select('role').eq('id', user.id).single()
+  const isAdmin = viewer?.role === 'admin'
+
+  // El alumno solo entra a rutas que el admin le habilitó
+  if (!userCourse && !isAdmin) redirect('/dashboard/profile')
+
+  const hasPaid = true
 
   // Lista de clases SIN video_url (vista pública). Si la vista aún no existe
   // en Supabase, se usa la tabla directamente.

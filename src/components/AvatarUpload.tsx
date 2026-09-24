@@ -13,6 +13,7 @@ interface AvatarUploadProps {
 export default function AvatarUpload({ userId, avatarUrl }: AvatarUploadProps) {
   const [uploading, setUploading] = useState(false);
   const [preview, setPreview] = useState<string | null>(avatarUrl);
+  const [error, setError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const supabase = createBrowserClient(
@@ -23,12 +24,16 @@ export default function AvatarUpload({ userId, avatarUrl }: AvatarUploadProps) {
   const handleUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     try {
       setUploading(true);
+      setError(null);
       
       if (!event.target.files || event.target.files.length === 0) {
         throw new Error('Debes seleccionar una imagen.');
       }
 
       const file = event.target.files[0];
+      if (file.size > 5 * 1024 * 1024) {
+        throw new Error('La imagen pesa más de 5 MB. Elige una más liviana.');
+      }
       const fileExt = file.name.split('.').pop();
       const filePath = `${userId}-${Math.random()}.${fileExt}`;
 
@@ -52,7 +57,7 @@ export default function AvatarUpload({ userId, avatarUrl }: AvatarUploadProps) {
 
       window.location.reload();
     } catch (error: any) {
-      alert(error.message || 'Error al subir la imagen');
+      setError(error.message || 'No se pudo subir la imagen. Intenta de nuevo.');
       // Revert preview on error
       setPreview(avatarUrl);
     } finally {
@@ -62,9 +67,12 @@ export default function AvatarUpload({ userId, avatarUrl }: AvatarUploadProps) {
 
   return (
     <div className="avatar-upload-container">
-      <div 
+      <button
+        type="button"
         className="avatar-wrapper"
         onClick={() => !uploading && fileInputRef.current?.click()}
+        aria-label="Cambiar foto de perfil"
+        disabled={uploading}
       >
         {preview ? (
           <Image 
@@ -84,7 +92,17 @@ export default function AvatarUpload({ userId, avatarUrl }: AvatarUploadProps) {
         <div className="avatar-overlay">
           {uploading ? <Loader2 className="spin" size={24} /> : <Camera size={24} />}
         </div>
-      </div>
+      </button>
+
+      <button
+        type="button"
+        className="avatar-change-link"
+        onClick={() => !uploading && fileInputRef.current?.click()}
+        disabled={uploading}
+      >
+        {uploading ? 'Subiendo…' : preview ? 'Cambiar foto' : 'Agregar foto'}
+      </button>
+      {error && <p className="avatar-error" role="alert">{error}</p>}
       
       <input
         style={{ display: 'none' }}
@@ -98,10 +116,31 @@ export default function AvatarUpload({ userId, avatarUrl }: AvatarUploadProps) {
       <style jsx>{`
         .avatar-upload-container {
           display: flex;
-          justify-content: center;
-          margin-bottom: 2rem;
+          flex-direction: column;
+          align-items: center;
+          gap: 0.5rem;
+        }
+        .avatar-change-link {
+          background: none;
+          border: none;
+          color: var(--text-secondary);
+          font: inherit;
+          font-size: 0.85rem;
+          text-decoration: underline;
+          text-underline-offset: 3px;
+          cursor: pointer;
+        }
+        .avatar-change-link:hover {
+          color: var(--accent-color);
+        }
+        .avatar-error {
+          color: #ff3366;
+          font-size: 0.85rem;
+          max-width: 240px;
+          text-align: center;
         }
         .avatar-wrapper {
+          padding: 0;
           position: relative;
           width: 100px;
           height: 100px;
