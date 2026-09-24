@@ -13,7 +13,7 @@ export default function Hero() {
             Estás perdiendo el tiempo si sigues entrenando como <span className="highlight">todo el mundo.</span>
           </h1>
           <p className="subtitle">
-            No somos una app de rutinas. Somos una academia con coaches reales que revisan tu técnica, te corrigen y ajustan tu plan según tu progreso.
+            Zenkai es una academia con coaches reales: revisan tu técnica, te corrigen y ajustan tu plan según tu progreso.
           </p>
           <div className="hero-actions">
             <Link href="/register" className="btn btn-primary btn-large">
@@ -34,7 +34,7 @@ export default function Hero() {
       {/* Marquee Tape */}
       <div className="marquee-container">
         <div className="marquee-content">
-          <span>NO EXCUSAS</span>
+          <span>SIN EXCUSAS</span>
           <span>•</span>
           <span>CALISTENIA REAL</span>
           <span>•</span>
@@ -44,7 +44,7 @@ export default function Hero() {
           <span>•</span>
           <span>MÁXIMO POTENCIAL</span>
           <span>•</span>
-          <span>NO EXCUSAS</span>
+          <span>SIN EXCUSAS</span>
           <span>•</span>
           <span>CALISTENIA REAL</span>
           <span>•</span>

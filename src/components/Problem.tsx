@@ -8,7 +8,7 @@ export default function Problem() {
           <p>
             Llevas meses, tal vez años, intentando ponerte en forma. Descargas una app, sigues rutinas aleatorias de internet y durante dos semanas te sientes invencible. Luego llega la vida real: el cansancio, la falta de tiempo... y lo dejas. Vuelves a la casilla de salida. 
             <br/><br/>
-            No es que te falte fuerza de voluntad, ni es tu "genética". Es que intentar cambiar tu vida y tu físico en solitario, sin un plan real, es la receta perfecta para el abandono.
+            El problema no es tu fuerza de voluntad. Es que intentar cambiar tu físico en solitario, sin un plan ni alguien que te corrija, termina casi siempre en abandono.
           </p>
         </div>
 
@@ -22,7 +22,7 @@ export default function Problem() {
               </svg>
             </div>
             <h3 className="card-title">El espejismo de las apps</h3>
-            <p>Te tratan como a un número más. No hay exigencia real, solo algoritmos pregrabados que no te conocen y no se adaptan a tu nivel de cansancio o frustración.</p>
+            <p>Te tratan como a un número más. No hay exigencia real: son rutinas pregrabadas que no te conocen y no se adaptan a tu nivel, a tu cansancio ni a tus días malos.</p>
           </div>
           
           {/* Card 2 */}
@@ -50,7 +50,7 @@ export default function Problem() {
         </div>
 
         <div className="fade-in" style={{ textAlign: 'center', marginTop: '4rem', fontSize: '1.2rem', fontWeight: 600 }}>
-          <p>¿Te suena familiar? Respira, no es que te falte genética, es que te falta un sistema.</p>
+          <p>¿Te suena? No te falta genética. Te falta un sistema.</p>
         </div>
       </div>
     </section>

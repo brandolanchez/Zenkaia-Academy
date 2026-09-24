@@ -180,7 +180,7 @@ export default function CheckoutPage() {
               color: '#fff', cursor: 'pointer', borderRadius: '8px', transition: 'all 0.2s'
             }}
           >
-            <h3 style={{ marginBottom: '0.5rem' }}>Mentoría Elite</h3>
+            <h3 style={{ marginBottom: '0.5rem' }}>Mentoría Élite</h3>
             <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '1rem' }}>Todo lo del Standard + mentoría 1 a 1 y nutrición.</p>
             <strong style={{ fontSize: '1.2rem', color: 'var(--accent-color)' }}>$97 USD</strong>
           </button>
@@ -314,7 +314,7 @@ export default function CheckoutPage() {
               <div style={{ marginTop: '2rem', paddingTop: '2rem', borderTop: '1px solid var(--border-color)' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem', fontSize: '0.9rem' }}>
                   <span style={{ color: 'var(--text-secondary)' }}>Plan</span>
-                  <span>{plan === 'standard' ? 'Standard' : 'Elite'}</span>
+                  <span>{plan === 'standard' ? 'Standard' : 'Élite'}</span>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem', fontSize: '0.9rem' }}>
                   <span style={{ color: 'var(--text-secondary)' }}>Método</span>

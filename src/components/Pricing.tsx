@@ -13,7 +13,7 @@ export default function Pricing() {
             <div className="plan-price"><span>$</span>47<span className="period">/mes</span></div>
             
             <ul className="plan-features">
-              <li><span className="check">✓</span><span>App de rutinas en video: <strong>Incluida</strong></span></li>
+              <li><span className="check">✓</span><span>Plataforma de rutinas en video: <strong>Incluida</strong></span></li>
               <li><span className="check">✓</span><span>Corrección de técnica grupal: <strong>Google Meets (3x semana)</strong></span></li>
               <li><span className="check">✓</span><span>Plan Nutricional: <strong>Incluido</strong></span></li>
               <li><span className="check">✓</span><span>Evaluación física: <strong>Trimestral</strong></span></li>
@@ -24,17 +24,17 @@ export default function Pricing() {
             <p className="plan-note">Sin contratos. Cancela cuando quieras.</p>
           </div>
 
-          {/* Plan Avanzado (Premium) */}
+          {/* Plan Élite (Premium) */}
           <div className="pricing-card premium fade-in">
             <div className="badge">Recomendado</div>
-            <h3 className="plan-name">Élite (Avanzado)</h3>
+            <h3 className="plan-name">Élite</h3>
             <p className="plan-desc">La experiencia completa: entrenamiento, mentalidad y contacto diario.</p>
             <div className="plan-price"><span>$</span>97<span className="period">/mes</span></div>
             
             <ul className="plan-features">
               <li><span className="check">✓</span><span><strong>Revisión de técnica 1 a 1 en video (Nos envías tus videos)</strong></span></li>
-              <li><span className="check">✓</span><span>Corrección de técnica grupal: <strong>Google Meets (Libre acceso)</strong></span></li>
-              <li><span className="check">✓</span><span>App de rutinas en video: <strong>Incluida</strong></span></li>
+              <li><span className="check">✓</span><span>Corrección de técnica grupal: <strong>Google Meets (todas las sesiones)</strong></span></li>
+              <li><span className="check">✓</span><span>Plataforma de rutinas en video: <strong>Incluida</strong></span></li>
               <li><span className="check">✓</span><span>Plan Nutricional: <strong>Avanzado</strong></span></li>
               <li><span className="check">✓</span><span><strong>Protocolos de Mentalidad Inquebrantable</strong></span></li>
               <li><span className="check">✓</span><span><strong>Evaluación física mensual personalizada</strong></span></li>

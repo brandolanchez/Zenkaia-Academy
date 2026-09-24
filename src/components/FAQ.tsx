@@ -16,17 +16,17 @@ const faqs = [
     answer: 'Lo mínimo: una barra de dominadas. Lo ideal: acceso a un parque de calistenia o gimnasio con barra y paralelas. Muchos ejercicios se pueden hacer en casa con cero equipo. En tu evaluación inicial, un coach te dice exactamente qué necesitas según tu situación.',
   },
   {
-    question: '¿Qué diferencia hay entre el plan Standard y el Avanzado?',
-    answer: 'Ambos planes incluyen nuestra app con las rutinas en video y tu plan nutricional. La gran diferencia está en el nivel de seguimiento. En el plan Standard te unes a nuestros Google Meets grupales (3 veces por semana) para resolver dudas y revisar técnica en grupo. En el plan Avanzado (Élite), la atención es 1 a 1: tú nos envías videos de tus entrenamientos y nosotros te corregimos la técnica personalmente para asegurar que avances sin lesionarte. Además, el plan Avanzado incluye protocolos de mentalidad inquebrantable y una evaluación física mensual.',
+    question: '¿Qué diferencia hay entre el plan Standard y el Élite?',
+    answer: 'Ambos planes incluyen la plataforma con las rutinas en video y tu plan nutricional. La diferencia está en el seguimiento. En Standard te unes a los Google Meets grupales (3 veces por semana) para resolver dudas y revisar técnica en grupo. En Élite la atención es 1 a 1: nos envías videos de tus entrenamientos y te corregimos la técnica personalmente, para que avances con menos riesgo de lesionarte. Además, Élite incluye los Protocolos de Mentalidad Inquebrantable y una evaluación física mensual.',
   },
 
   {
     question: '¿En qué se diferencia Zenkai de una app de ejercicios?',
-    answer: 'Una app te da un video genérico y te deja solo. Zenkai te da un sistema con un coach real que te mira, te corrige y te empuja. Las apps no saben si estás haciendo mal un movimiento. Las apps no te preguntan cómo te sientes hoy. Las apps no te adaptan la rutina cuando te duele el hombro. Nosotros sí.',
+    answer: 'Una app te da un video genérico y te deja solo. Zenkai te da un sistema con un coach real que te mira, te corrige y te empuja. Una app no sabe si estás haciendo mal un movimiento, no te pregunta cómo te sientes hoy y no te ajusta la rutina cuando te molesta el hombro. Nosotros sí.',
   },
   {
     question: '¿Sirve si tengo más de 30 años o alguna lesión?',
-    answer: 'La mayoría de nuestros alumnos tienen entre 25 y 40 años. Varios llegaron con dolores crónicos de espalda, hombros o rodillas. En el plan Avanzado, nuestro equipo evalúa tu movilidad y adapta todo el programa para que entrenes SIN empeorar nada. De hecho, muchos han eliminado sus dolores con el trabajo de movilidad funcional que hacemos.',
+    answer: 'Sí. La mayoría de nuestros alumnos tienen entre 25 y 40 años, y también entrenan personas mayores. Varios llegaron con molestias de espalda, hombros o rodillas. En el plan Élite evaluamos tu movilidad y adaptamos el programa a lo que tu cuerpo tolera hoy. Si tienes una lesión activa, consulta primero con tu médico y cuéntanos su indicación en la evaluación.',
   },
 ];
 

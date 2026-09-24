@@ -2,13 +2,13 @@ export default function HowItWorks() {
   const steps = [
     {
       number: '01',
-      title: 'Te registras y completas tu evaluación',
+      title: 'Eliges tu plan y completas tu evaluación',
       desc: 'Nos cuentas tu nivel actual, tus objetivos y tu disponibilidad. Con eso, nuestro equipo arma un plan a tu medida.',
     },
     {
       number: '02',
-      title: 'Recibes tu plan en la app',
-      desc: 'Accedes a tu rutina personalizada con videos de cada ejercicio. Sin adivinar, sin improvisar.',
+      title: 'Recibes tu plan en la plataforma',
+      desc: 'Entras a tu rutina con videos de cada ejercicio. Sin adivinar, sin improvisar.',
     },
     {
       number: '03',

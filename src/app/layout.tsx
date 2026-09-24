@@ -11,7 +11,7 @@ const outfit = Outfit({
 
 export const metadata: Metadata = {
   title: "Zenkai Academy | Entrenamiento Funcional y Calistenia",
-  description: "Desata tu máximo potencial con Zenkai Academy. Ve 'a toda máquina' con un ecosistema digital de mentoría y entrenamiento diseñado para darte resultados reales.",
+  description: "Calistenia y entrenamiento funcional con coaches reales. Rutinas en video, plan nutricional y corrección de técnica en vivo. Planes desde $47/mes, sin contratos.",
 };
 
 import Script from 'next/script';

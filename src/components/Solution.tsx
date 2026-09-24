@@ -8,7 +8,7 @@ export default function Solution() {
         <div className="solution-content fade-in-left">
           <h2 className="section-title text-left">No somos una app. Somos el empujón que necesitas.</h2>
           <p className="solution-desc">
-            Si buscas "rutinitas mágicas" de 10 minutos para hacer en pijama, cierra esta pestaña. En Zenkai Academy combinamos tecnología con mentores de verdad (humanos que respiran y entrenan duro). Nuestro objetivo no es solo que sudes, es que construyas una disciplina inquebrantable que transforme tu estilo de vida.
+            Si buscas "rutinitas mágicas" de 10 minutos para hacer en pijama, cierra esta pestaña. En Zenkai Academy tienes rutinas en video y coaches que entrenan duro y te revisan de verdad. El objetivo no es solo que sudes: es que construyas la disciplina para seguir cuando la motivación se acabe.
           </p>
           
           <ul className="solution-list">
@@ -19,7 +19,7 @@ export default function Solution() {
               <strong>Cero excusas geográficas:</strong> Entrena en tu casa, en un parque o en tu gimnasio de toda la vida.
             </li>
             <li>
-              <strong>Resultados probados:</strong> Únete a nuestra tribu de atletas que ya están transformando su físico, rompiendo estancamientos y forjando una mentalidad inquebrantable con el método Zenkai.
+              <strong>Una comunidad que te empuja:</strong> Entrenas junto a gente con tus mismas metas, que rinde cuentas y no te deja aflojar.
             </li>
           </ul>
           <div style={{ marginTop: '2rem' }}>

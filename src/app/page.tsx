@@ -37,7 +37,7 @@ export default function Home() {
               </div>
               <h3 className="guarantee-title">Sin contratos. Sin permanencia. Sin trampa.</h3>
               <p className="guarantee-desc">
-                Cancela en cualquier momento con un solo mensaje. Pero eso no es todo: si en algún momento sientes que tu plan no está funcionando, nuestro equipo se sienta contigo, ajusta tu rutina y tu nutrición hasta que veas los resultados. No te dejamos solo.
+                Cancela cuando quieras con un solo mensaje. Y si sientes que tu plan no está funcionando, nos sentamos contigo a revisar tu rutina y tu nutrición y las ajustamos. No te dejamos solo.
               </p>
             </div>
           </div>
