@@ -1,10 +1,17 @@
 import type { Metadata } from "next";
-import { Outfit } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
-const outfit = Outfit({
-  subsets: ['latin'],
-  weight: ['300', '400', '600', '800', '900'],
+// Outfit servida desde el proyecto (licencia OFL). Así el build no depende de
+// descargar fuentes de Google, que falla con Turbopack en Netlify.
+const outfit = localFont({
+  src: [
+    { path: './fonts/outfit-latin-300-normal.woff2', weight: '300', style: 'normal' },
+    { path: './fonts/outfit-latin-400-normal.woff2', weight: '400', style: 'normal' },
+    { path: './fonts/outfit-latin-600-normal.woff2', weight: '600', style: 'normal' },
+    { path: './fonts/outfit-latin-800-normal.woff2', weight: '800', style: 'normal' },
+    { path: './fonts/outfit-latin-900-normal.woff2', weight: '900', style: 'normal' },
+  ],
   display: 'swap',
   variable: '--font-main',
 });
