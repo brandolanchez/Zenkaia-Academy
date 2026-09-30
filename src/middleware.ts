@@ -1,7 +1,22 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { createServerClient } from '@supabase/ssr'
 
+// Subdominio del evento: endurance.fortisworkout.org sirve las páginas de /endurance
+const ENDURANCE_HOST_PREFIX = 'endurance.'
+
 export async function middleware(request: NextRequest) {
+  const host = request.headers.get('host') || ''
+  if (host.startsWith(ENDURANCE_HOST_PREFIX)) {
+    const { pathname } = request.nextUrl
+    // API y archivos estáticos se sirven tal cual
+    if (pathname.startsWith('/api') || pathname.startsWith('/endurance') || pathname.includes('.')) {
+      return NextResponse.next()
+    }
+    const url = request.nextUrl.clone()
+    url.pathname = pathname === '/' ? '/endurance' : `/endurance${pathname}`
+    return NextResponse.rewrite(url)
+  }
+
   let supabaseResponse = NextResponse.next({
     request,
   })
