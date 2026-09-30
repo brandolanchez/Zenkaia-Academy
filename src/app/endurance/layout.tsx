@@ -14,11 +14,11 @@ const display = localFont({
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://endurance.fortisworkout.org'),
-  title: 'Endurance at the Limit · 2ª Edición | Competencia de calistenia en el Zulia',
+  title: 'Endurance at the Limit · 3ª Edición | Competencia de calistenia en el Zulia',
   description:
     'Competencia de resistencia en calistenia del Zulia: circuitos de cinco ejercicios contra el reloj, top 16 a enfrentamientos directos y tres jueces por atleta. Inscripción $20. Abierta a patrocinadores.',
   openGraph: {
-    title: 'Endurance at the Limit · 2ª Edición',
+    title: 'Endurance at the Limit · 3ª Edición',
     description: 'Competencia de resistencia en calistenia del Estado Zulia. Inscripciones y patrocinios abiertos.',
     url: 'https://endurance.fortisworkout.org',
     type: 'website',

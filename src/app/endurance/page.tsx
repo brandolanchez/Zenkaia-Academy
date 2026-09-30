@@ -7,7 +7,7 @@ import HeroVideo from '@/components/endurance/HeroVideo';
 // DATOS DEL EVENTO — edita aquí fecha, lugar y contacto
 // ─────────────────────────────────────────────────────────────
 const EVENT = {
-  edition: '2ª Edición',
+  edition: '3ª Edición',
   date: 'Fecha por anunciar',
   venue: 'Maracaibo, Zulia',
   price: 20,
@@ -96,7 +96,7 @@ export default function EndurancePage() {
             <div className="eal-hero-copy">
               <p className="eal-kicker">
                 <span>{EVENT.edition}</span>
-                <span>Competencia de calistenia</span>
+                <span>Endurance at the Limit</span>
                 <span>{EVENT.venue}</span>
               </p>
               <h1 className="eal-display eal-hero-title">
