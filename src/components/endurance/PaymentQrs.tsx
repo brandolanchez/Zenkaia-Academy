@@ -7,28 +7,30 @@ import QRCode from 'react-qr-code';
 const METHODS = [
   {
     id: 'pagomovil',
-    name: 'Pago Móvil / Depósito',
+    tab: 'Pago Móvil / Depósito',
+    amount: 'Equivalente a $20 en Bs. (tasa BCV del día)',
     rows: [
       ['Banco', 'Banco de Prueba (0000)'],
       ['Teléfono', '0412-000-0000'],
       ['Cédula / RIF', 'V-00.000.000'],
       ['Titular', 'Nombre de prueba'],
-      ['Monto', 'Equivalente a $20 en Bs. (tasa BCV del día)'],
     ],
   },
   {
     id: 'binance',
-    name: 'Binance Pay',
+    tab: 'Binance Pay',
+    amount: '20 USDT',
     rows: [
       ['Pay ID', '000000000'],
       ['Usuario', 'endurance_prueba'],
-      ['Monto', '20 USDT'],
     ],
   },
 ];
 
 export default function PaymentQrs() {
+  const [active, setActive] = useState(METHODS[0].id);
   const [copied, setCopied] = useState<string | null>(null);
+  const method = METHODS.find(m => m.id === active)!;
 
   const copy = async (key: string, value: string) => {
     try {
@@ -40,37 +42,48 @@ export default function PaymentQrs() {
     }
   };
 
+  const qrValue = `${method.tab}\n` + method.rows.map(([k, v]) => `${k}: ${v}`).join('\n') + `\nMonto: ${method.amount}`;
+
   return (
-    <div className="eal-qrs">
-      {METHODS.map(m => {
-        const qrValue = `${m.name}\n` + m.rows.map(([k, v]) => `${k}: ${v}`).join('\n');
-        return (
-          <div key={m.id} className="eal-qr-card">
-            <div className="eal-qr-head">
-              <h3>{m.name}</h3>
-              <span className="eal-test-badge">Datos de prueba</span>
-            </div>
-            <div className="eal-qr-code">
-              <QRCode value={qrValue} size={148} bgColor="#ffffff" fgColor="#030303" level="M" />
-            </div>
-            <dl className="eal-qr-data">
-              {m.rows.map(([k, v]) => (
-                <div key={k}>
-                  <dt>{k}</dt>
-                  <dd>
-                    <span>{v}</span>
-                    {k !== 'Monto' && (
-                      <button type="button" onClick={() => copy(`${m.id}-${k}`, v)} aria-label={`Copiar ${k}`}>
-                        {copied === `${m.id}-${k}` ? 'Copiado' : 'Copiar'}
-                      </button>
-                    )}
-                  </dd>
-                </div>
-              ))}
-            </dl>
-          </div>
-        );
-      })}
+    <div className="eal-paybox">
+      <div className="eal-tabs" role="tablist" aria-label="Método de pago">
+        {METHODS.map(m => (
+          <button
+            key={m.id}
+            type="button"
+            role="tab"
+            aria-selected={active === m.id}
+            aria-controls={`pay-${m.id}`}
+            className={active === m.id ? 'is-active' : ''}
+            onClick={() => setActive(m.id)}
+          >
+            {m.tab}
+          </button>
+        ))}
+      </div>
+
+      <div className="eal-paypanel" role="tabpanel" id={`pay-${method.id}`}>
+        <div className="eal-qr">
+          <QRCode value={qrValue} size={136} bgColor="#ffffff" fgColor="#11161b" level="M" />
+          <span className="eal-test-badge">Datos de prueba</span>
+        </div>
+        <div className="eal-paydata">
+          <p className="eal-amount"><span>Monto</span>{method.amount}</p>
+          <dl>
+            {method.rows.map(([k, v]) => (
+              <div key={k}>
+                <dt>{k}</dt>
+                <dd>
+                  <span>{v}</span>
+                  <button type="button" onClick={() => copy(`${method.id}-${k}`, v)} aria-label={`Copiar ${k}`}>
+                    {copied === `${method.id}-${k}` ? 'Copiado ✓' : 'Copiar'}
+                  </button>
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </div>
     </div>
   );
 }

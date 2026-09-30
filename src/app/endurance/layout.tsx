@@ -1,14 +1,13 @@
 import type { Metadata } from 'next';
-import { Bodoni_Moda } from 'next/font/google';
+import localFont from 'next/font/local';
 import './endurance.css';
 
-// Tipografía de títulos. Reemplazo temporal de "Nocturna Giorgia":
-// cuando tengas el archivo, ponlo en /public/fonts y cambia esta carga por next/font/local
-// (ver instrucciones en endurance.css, variable --eal-display).
-const display = Bodoni_Moda({
-  subsets: ['latin'],
-  weight: ['500', '700', '900'],
-  style: ['normal', 'italic'],
+// Tipografía display: Anton (licencia OFL), condensada y pesada como las letras del logo.
+// Reemplazo temporal de "Nocturna Giorgia": cuando tengas el archivo .woff2,
+// ponlo en ./fonts/ y cambia el `src` de abajo por esa ruta.
+const display = localFont({
+  src: './fonts/anton-latin-400-normal.woff2',
+  weight: '400',
   display: 'swap',
   variable: '--eal-display-font',
 });
