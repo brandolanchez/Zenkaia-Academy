@@ -106,7 +106,7 @@ export default function PaymentQrs() {
         <div className="eal-paypanel" role="tabpanel" id="pay-pagomovil">
           <div className="eal-qr">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/images/endurance/qr-pagomovil.webp" alt="Código QR de Pago Móvil Bancamiga" width={440} height={445} />
+            <img src="/images/endurance/qr-pagomovil.webp" alt="Código QR de Pago Móvil Bancamiga" width={440} height={448} />
           </div>
           <div className="eal-paydata">
             <div className="eal-amount">
