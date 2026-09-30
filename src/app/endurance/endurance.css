@@ -106,7 +106,7 @@
     padding: 0.4rem 0.7rem; border: 1px solid var(--eal-line-strong); color: var(--eal-muted);
 }
 .eal-kicker span:first-child { background: var(--eal-orange); color: #140a05; border-color: var(--eal-orange); }
-.eal-hero-title { font-size: clamp(3rem, 6vw, 5.4rem); margin-bottom: 1.5rem; line-height: 1.12 !important; }
+.eal-hero-title { font-size: clamp(2.8rem, 5.2vw, 4.7rem); margin-bottom: 1.5rem; line-height: 1.12 !important; }
 .eal-lead { max-width: 560px; font-size: 1.2rem; line-height: 1.55; color: #cdd0d3; margin-bottom: 2.25rem !important; }
 .eal-hero-actions { display: flex; flex-wrap: wrap; gap: 0.9rem; }
 /* Video del hero: tarjeta vertical en escritorio, fondo completo en móvil */
@@ -168,7 +168,7 @@
 .eal-path-brand .eal-path-cta { color: var(--eal-orange); }
 
 /* Camino al título */
-.eal-road { list-style: none; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0; margin: 0 0 4rem; padding: 0; position: relative; }
+.eal-road { list-style: none; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0; margin: 0 0 1.5rem; padding: 0; position: relative; }
 .eal-road::before { content: ''; position: absolute; left: 0; right: 0; top: 1.05rem; height: 2px; background: linear-gradient(90deg, var(--eal-line-strong), var(--eal-orange)); }
 .eal-road li { position: relative; padding: 3rem 1.25rem 0 0; display: flex; flex-direction: column; gap: 0.5rem; }
 .eal-road-num {
@@ -181,6 +181,9 @@
 .eal-road strong { font-size: 2rem; }
 .eal-road li.is-final strong { color: var(--eal-orange); }
 .eal-road span:last-child { color: var(--eal-muted); font-size: 0.95rem; line-height: 1.45; }
+
+.eal-road-note { color: var(--eal-muted); font-size: 0.95rem; margin-bottom: 3.5rem !important; }
+.eal-road-note::before { content: '↳ '; color: var(--eal-orange); }
 
 /* Categorías */
 .eal-cats { display: grid; grid-template-columns: 1.2fr 1fr; gap: 1.25rem; }
@@ -197,6 +200,11 @@
 .eal-judges > div { border-top: 3px solid var(--eal-orange); padding-top: 1.25rem; }
 .eal-judges strong { display: block; font-size: 1.9rem; margin-bottom: 0.6rem; }
 .eal-judges p { color: var(--eal-muted); line-height: 1.55; }
+.eal-subhead { font-size: 1rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; color: var(--eal-orange); margin: 1rem 0 1.25rem; }
+.eal-nulls { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; margin-bottom: 2rem; }
+.eal-nulls > div { background: var(--eal-bg); border: 1px solid var(--eal-line); padding: 1.5rem; }
+.eal-nulls strong { display: block; font-size: 1.05rem; margin-bottom: 0.5rem; }
+.eal-nulls p { color: var(--eal-muted); line-height: 1.55; }
 .eal-note { color: #c3c7ca; max-width: 720px; line-height: 1.6; padding-left: 1rem; border-left: 2px solid var(--eal-line-strong); }
 
 /* Inscripción */
@@ -325,8 +333,9 @@
     .eal-road::before { left: 1.05rem; right: auto; top: 0; bottom: 0; width: 2px; height: auto; background: linear-gradient(180deg, var(--eal-line-strong), var(--eal-orange)); }
     .eal-road li { padding: 0 0 1.75rem 3.5rem; }
     .eal-road li:last-child { padding-bottom: 0; }
+    .eal-road-note { margin-bottom: 3rem !important; }
     .eal-cats, .eal-register, .eal-sponsor-box, .eal-faq-wrap, .eal-paths-grid { grid-template-columns: 1fr; }
-    .eal-reasons, .eal-judges { grid-template-columns: 1fr; }
+    .eal-reasons, .eal-judges, .eal-nulls { grid-template-columns: 1fr; }
     .eal-section { padding: 5rem 0; }
     .eal-paths { padding-top: 4rem; padding-bottom: 0; }
 }

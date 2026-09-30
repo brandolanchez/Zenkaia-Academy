@@ -21,11 +21,17 @@ const WA_SPONSOR = waLink('Hola, me interesa patrocinar Endurance at the Limit. 
 const WA_DUDA = waLink('Hola, tengo una duda sobre Endurance at the Limit.');
 
 const ROAD = [
-  { stage: 'Clasificación', detail: '1 minuto por circuito · 5 ejercicios' },
-  { stage: 'Octavos', detail: '16 atletas' },
-  { stage: 'Cuartos', detail: '8 atletas' },
-  { stage: 'Semifinal', detail: '4 atletas' },
-  { stage: 'Final', detail: '2 atletas + duelo por el 3er lugar' },
+  { stage: 'Clasificación', detail: '1 minuto para sumar la mayor puntuación. Pasan los 16 mejores.' },
+  { stage: 'Octavos', detail: 'Cruces armados según el puntaje de clasificación.' },
+  { stage: 'Cuartos', detail: '8 atletas. Cruces por sorteo.' },
+  { stage: 'Semifinal', detail: '4 atletas. Los dos que caen pelean el 3er lugar.' },
+  { stage: 'Final', detail: '2 atletas. Uno se lleva el título.' },
+];
+
+const NULLS = [
+  { t: 'Flexiones', d: 'Con los dedos flexionados, o apoyado en un bordillo, una barra o una superficie inclinada.' },
+  { t: 'Tracción y empuje', d: 'Con los pies despegados del suelo cuando no corresponde: la repetición es nula y hay que hacerla de nuevo.' },
+  { t: 'Muscle-up', d: 'Subir primero un brazo y luego el otro no cuenta. En Élite, en octavos y cuartos, tampoco se permite encoger las piernas.' },
 ];
 
 const INCLUDES = [
@@ -50,8 +56,16 @@ const FAQ = [
     a: 'Sí, por Pago Móvil o depósito, al equivalente de $20 a la tasa del día. También puedes pagar 20 USDT por Binance.',
   },
   {
-    q: '¿Qué se evalúa?',
-    a: 'Cinco ejercicios fundamentales y sus variantes. El jurado valida la técnica de cada repetición: dominadas, flexiones y muscle-ups que no cumplen el estándar no suman.',
+    q: '¿A qué hora tengo que llegar?',
+    a: 'Una hora antes del inicio, para verificar tu inscripción, calentar y recibir los implementos. Si no estás a la hora del chequeo, quedas descalificado. La hora exacta se anuncia en redes y en los grupos de cada club.',
+  },
+  {
+    q: '¿Qué tengo que llevar?',
+    a: 'La franela de tu club. El magnesio está permitido. Si quieres usar cualquier otro implemento, avísanos al menos 15 días antes para que el jurado lo apruebe.',
+  },
+  {
+    q: 'Tengo una lesión o una condición en las articulaciones. ¿Puedo competir?',
+    a: 'Avísanos con anticipación (hasta 15 días antes) y díselo a los jueces antes de empezar. Ellos evalúan tu caso para no anular repeticiones que por tu condición no puedes ejecutar exactamente igual.',
   },
 ];
 
@@ -86,12 +100,10 @@ export default function EndurancePage() {
                 <span>{EVENT.venue}</span>
               </p>
               <h1 className="eal-display eal-hero-title">
-                Un minuto.<br />
-                Cinco ejercicios.<br />
-                <span className="eal-accent">Un campeón del Zulia.</span>
+                La competencia de resistencia en calistenia <span className="eal-accent">del Zulia</span>
               </h1>
               <p className="eal-lead">
-                Clasificación por circuitos, top 16 a eliminación directa y un jurado que no deja pasar una repetición a medias.
+                Circuitos de cinco ejercicios, en orden estricto y contra el reloj. Clasifican 16. De ahí en adelante, es cara a cara hasta la final.
               </p>
               <div className="eal-hero-actions">
                 <a href="#inscripcion" className="eal-btn eal-btn-primary eal-btn-lg">Quiero competir · ${EVENT.price}</a>
@@ -116,7 +128,7 @@ export default function EndurancePage() {
           <div className="eal-tape-track">
             {Array.from({ length: 2 }).map((_, i) => (
               <span key={i}>
-                1 minuto <b>·</b> 5 ejercicios <b>·</b> top 16 <b>·</b> eliminación directa <b>·</b> un campeón <b>·</b> sin repeticiones a medias <b>·</b>{' '}
+                5 ejercicios <b>·</b> orden estricto <b>·</b> contra el reloj <b>·</b> top 16 <b>·</b> cara a cara <b>·</b> un jurado por atleta <b>·</b>{' '}
               </span>
             ))}
           </div>
@@ -134,7 +146,7 @@ export default function EndurancePage() {
             <a href="#sponsors" className="eal-path eal-path-brand">
               <span className="eal-path-label">Marcas</span>
               <strong className="eal-display">Quiero patrocinar</strong>
-              <span className="eal-path-text">Tu marca frente a atletas y público de calistenia, en el momento de más tensión.</span>
+              <span className="eal-path-text">Tu marca frente a los atletas y el público de calistenia del Zulia, ronda tras ronda.</span>
               <span className="eal-path-cta">Ver patrocinio →</span>
             </a>
           </div>
@@ -144,9 +156,9 @@ export default function EndurancePage() {
         <section id="formato" className="eal-section">
           <div className="eal-container">
             <p className="eal-eyebrow">El formato</p>
-            <h2 className="eal-display eal-h2">El camino al título</h2>
+            <h2 className="eal-display eal-h2">Cómo se gana</h2>
             <p className="eal-intro">
-              Primero, un minuto por circuito con cinco ejercicios fundamentales y sus variantes. Los 16 mejores tiempos y puntuaciones pasan a las llaves. De ahí en adelante, cada serie deja a alguien fuera.
+              Cada circuito tiene cinco ejercicios con sus variantes, un número fijo de repeticiones y un orden que no se puede cambiar. Gana quien lo termina en menos tiempo, con todas sus repeticiones válidas.
             </p>
 
             <ol className="eal-road">
@@ -158,17 +170,18 @@ export default function EndurancePage() {
                 </li>
               ))}
             </ol>
+            <p className="eal-road-note">¿Empate en la clasificación? Set de desempate: avanza quien termine primero.</p>
 
             <div className="eal-cats">
               <article className="eal-cat eal-cat-elite">
                 <span className="eal-tag">Categoría Élite</span>
-                <h3 className="eal-display">Campeón del Estado Zulia</h3>
-                <p>El ganador se lleva el título oficial del estado y la opción de defenderlo en las próximas ediciones.</p>
+                <h3 className="eal-display">Campeón de resistencia del Zulia</h3>
+                <p>El primer lugar se lleva el título estatal de la modalidad y lo defiende en las siguientes ediciones, hasta un máximo de cuatro.</p>
               </article>
               <article className="eal-cat">
                 <span className="eal-tag eal-tag-ghost">Categoría Alfa Junior</span>
                 <h3 className="eal-display">Atleta Revelación</h3>
-                <p>Reconocimiento al talento emergente que más destaque en la competencia.</p>
+                <p>En esta categoría no hay campeón: el primer lugar recibe el título de Atleta Revelación, un empujón para subir de categoría en las próximas ediciones.</p>
               </article>
             </div>
           </div>
@@ -178,23 +191,33 @@ export default function EndurancePage() {
         <section className="eal-section eal-judging">
           <div className="eal-container">
             <p className="eal-eyebrow">Jueceo</p>
-            <h2 className="eal-display eal-h2">Aquí no cuentan las repeticiones a medias</h2>
+            <h2 className="eal-display eal-h2">Tres jueces para cada atleta</h2>
             <div className="eal-judges">
               <div>
                 <strong className="eal-display">Árbitro principal</strong>
-                <p>Dirige la serie y decide si cada ejecución es válida.</p>
+                <p>Evalúa la técnica, aplica las penalizaciones y registra tu resultado.</p>
               </div>
               <div>
-                <strong className="eal-display">Ayudante de conteo</strong>
-                <p>Lleva las repeticiones en tiempo real.</p>
+                <strong className="eal-display">Árbitro ayudante</strong>
+                <p>Cuenta tus repeticiones, verifica que sean válidas y te guía en el orden del circuito.</p>
               </div>
               <div>
                 <strong className="eal-display">Mesa técnica</strong>
-                <p>Registra tiempos y puntuaciones.</p>
+                <p>Registra tu ejecución.</p>
               </div>
             </div>
+
+            <h3 className="eal-subhead">Qué anula una repetición</h3>
+            <div className="eal-nulls">
+              {NULLS.map(n => (
+                <div key={n.t}>
+                  <strong>{n.t}</strong>
+                  <p>{n.d}</p>
+                </div>
+              ))}
+            </div>
             <p className="eal-note">
-              Dominadas, flexiones y muscle-ups se juzgan con el estándar técnico del reglamento. A todos los participantes se les exige conducta deportiva.
+              En semifinal, final y tercer lugar el jurado es más flexible con la forma del muscle-up, por el cansancio acumulado. Saltarse un set o hacer una serie completa mal puede costar la descalificación, igual que cualquier falta de conducta con otro atleta, el jurado, el público o la organización.
             </p>
           </div>
         </section>
@@ -241,9 +264,9 @@ export default function EndurancePage() {
         <section id="sponsors" className="eal-section eal-sponsors">
           <div className="eal-container">
             <p className="eal-eyebrow">Patrocinio</p>
-            <h2 className="eal-display eal-h2">Tu marca, en el momento de más tensión</h2>
+            <h2 className="eal-display eal-h2">Pon tu marca donde se decide el campeón</h2>
             <p className="eal-intro">
-              En una llave de eliminación directa, el público no se distrae: cada serie define quién sigue. Ahí es donde aparece tu marca.
+              Desde octavos, cada enfrentamiento elimina a alguien. El público sigue cada serie de principio a fin, en el lugar y en redes. Ahí aparece tu marca.
             </p>
 
             <div className="eal-reasons">
@@ -254,13 +277,13 @@ export default function EndurancePage() {
               </article>
               <article>
                 <span className="eal-reason-num eal-display">02</span>
-                <h3>Atención de principio a fin</h3>
-                <p>Octavos, cuartos, semifinal y final. La tensión sube en cada ronda, en el lugar y en redes.</p>
+                <h3>Una llave que sostiene la atención</h3>
+                <p>Octavos, cuartos, semifinal, tercer lugar y final: cinco rondas de enfrentamientos directos, con más tensión en cada una.</p>
               </article>
               <article>
                 <span className="eal-reason-num eal-display">03</span>
-                <h3>Un evento con reglamento</h3>
-                <p>Jurado por comité, estándar técnico escrito y código de conducta. Tu marca se asocia a un evento organizado.</p>
+                <h3>Un evento serio</h3>
+                <p>Reglamento general escrito, tres jueces por atleta y un código de conducta con descalificación inmediata. Tu marca queda asociada a una competencia bien organizada.</p>
               </article>
             </div>
 
@@ -299,7 +322,7 @@ export default function EndurancePage() {
         {/* CIERRE */}
         <section className="eal-final">
           <div className="eal-container">
-            <h2 className="eal-display">16 cupos a la llave.<br /><span className="eal-accent">¿Uno es tuyo?</span></h2>
+            <h2 className="eal-display">Solo 16 llegan a la llave.<br /><span className="eal-accent">¿Vas a ser uno?</span></h2>
             <a href="#inscripcion" className="eal-btn eal-btn-primary eal-btn-lg">Quiero competir · ${EVENT.price}</a>
           </div>
         </section>
