@@ -43,6 +43,7 @@
     padding-top: 0.06em;
 }
 .eal-accent { color: var(--eal-orange); }
+.eal-hero-title .eal-accent { white-space: nowrap; }
 
 /* ── Botones ───────────────────────────────────── */
 .eal-btn {
@@ -106,7 +107,7 @@
     padding: 0.4rem 0.7rem; border: 1px solid var(--eal-line-strong); color: var(--eal-muted);
 }
 .eal-kicker span:first-child { background: var(--eal-orange); color: #140a05; border-color: var(--eal-orange); }
-.eal-hero-title { font-size: clamp(2.8rem, 5.2vw, 4.7rem); margin-bottom: 1.5rem; line-height: 1.12 !important; }
+.eal-hero-title { font-size: clamp(3rem, 6.6vw, 6.2rem); margin-bottom: 1.5rem; line-height: 1.12 !important; }
 .eal-lead { max-width: 560px; font-size: 1.2rem; line-height: 1.55; color: #cdd0d3; margin-bottom: 2.25rem !important; }
 .eal-hero-actions { display: flex; flex-wrap: wrap; gap: 0.9rem; }
 /* Video del hero: tarjeta vertical en escritorio, fondo completo en móvil */
@@ -299,6 +300,14 @@
 .eal-final .eal-btn-primary { background: #140a05; color: var(--eal-text); border-color: #140a05; }
 .eal-final .eal-btn-primary:hover { background: #2a1409; border-color: #2a1409; }
 
+
+/* Escasez */
+.eal-scarcity { display: flex; align-items: center; gap: 0.6rem; margin-top: 1.25rem !important; font-size: 0.95rem; font-weight: 600; color: #e7e2da; }
+.eal-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--eal-orange); flex-shrink: 0; box-shadow: 0 0 0 0 rgba(226, 90, 42, 0.7); animation: eal-pulse 1.8s ease-out infinite; }
+@keyframes eal-pulse { 0% { box-shadow: 0 0 0 0 rgba(226, 90, 42, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(226, 90, 42, 0); } 100% { box-shadow: 0 0 0 0 rgba(226, 90, 42, 0); } }
+.eal-ticket-spots { align-self: flex-start; margin-top: 0.6rem; font-size: 0.72rem; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; background: #140a05; color: var(--eal-orange); padding: 0.35rem 0.6rem; }
+.eal-final-note { margin-top: 1.25rem !important; font-weight: 600; font-size: 0.95rem; opacity: 0.85; }
+
 /* Footer */
 .eal-footer { border-top: 1px solid var(--eal-line); padding: 3rem 0 6rem; }
 .eal-footer-inner { display: flex; justify-content: space-between; align-items: flex-end; gap: 2rem; flex-wrap: wrap; }
@@ -371,6 +380,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .eal-tape-track { animation: none; }
+    .eal-tape-track, .eal-dot { animation: none; }
     .eal-path, .eal-btn { transition: none; }
 }

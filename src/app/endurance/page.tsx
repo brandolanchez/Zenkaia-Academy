@@ -13,6 +13,7 @@ const EVENT = {
   price: 20,
   whatsapp: '584126134013', // 0412-6134013
   whatsappLabel: '0412-613-4013',
+  spotsPerCategory: 20, // cupos por categoría (Élite y Alfa Junior)
 };
 
 const waLink = (text: string) => `https://wa.me/${EVENT.whatsapp}?text=${encodeURIComponent(text)}`;
@@ -46,6 +47,10 @@ const FAQ = [
   {
     q: '¿Cuándo queda confirmada mi inscripción?',
     a: 'Cuando envías el comprobante de pago por WhatsApp y te respondemos confirmando tu cupo. Pagar sin enviar el comprobante no reserva el cupo.',
+  },
+  {
+    q: '¿Cuántos cupos hay?',
+    a: `${EVENT.spotsPerCategory} en Élite y ${EVENT.spotsPerCategory} en Alfa Junior. Se asignan en el orden en que confirmamos los comprobantes. Cuando una categoría se llena, se cierra su inscripción.`,
   },
   {
     q: '¿Cuántas personas entran con mi inscripción?',
@@ -100,15 +105,19 @@ export default function EndurancePage() {
                 <span>{EVENT.venue}</span>
               </p>
               <h1 className="eal-display eal-hero-title">
-                La competencia de resistencia en calistenia <span className="eal-accent">del Zulia</span>
+                El reto de resistencia <span className="eal-accent">del Zulia</span>
               </h1>
               <p className="eal-lead">
-                Circuitos de cinco ejercicios, en orden estricto y contra el reloj. Clasifican 16. De ahí en adelante, es cara a cara hasta la final.
+                Cinco ejercicios de calistenia contra el reloj. Clasifican 16 y, cara a cara, solo uno se lleva el título.
               </p>
               <div className="eal-hero-actions">
                 <a href="#inscripcion" className="eal-btn eal-btn-primary eal-btn-lg">Quiero competir · ${EVENT.price}</a>
                 <a href="#sponsors" className="eal-btn eal-btn-ghost eal-btn-lg">Quiero patrocinar</a>
               </div>
+              <p className="eal-scarcity">
+                <span className="eal-dot" aria-hidden />
+                Solo {EVENT.spotsPerCategory} cupos por categoría. Se asignan por orden de pago confirmado.
+              </p>
             </div>
             <HeroVideo />
           </div>
@@ -118,7 +127,7 @@ export default function EndurancePage() {
               <div><dt>Fecha</dt><dd>{EVENT.date}</dd></div>
               <div><dt>Lugar</dt><dd>{EVENT.venue}</dd></div>
               <div><dt>Inscripción</dt><dd>${EVENT.price} · entran 4 personas</dd></div>
-              <div><dt>Categorías</dt><dd>Élite y Alfa Junior</dd></div>
+              <div><dt>Cupos</dt><dd>{EVENT.spotsPerCategory} Élite · {EVENT.spotsPerCategory} Alfa Junior</dd></div>
             </dl>
           </div>
         </section>
@@ -128,7 +137,7 @@ export default function EndurancePage() {
           <div className="eal-tape-track">
             {Array.from({ length: 2 }).map((_, i) => (
               <span key={i}>
-                5 ejercicios <b>·</b> orden estricto <b>·</b> contra el reloj <b>·</b> top 16 <b>·</b> cara a cara <b>·</b> un jurado por atleta <b>·</b>{' '}
+                5 ejercicios <b>·</b> orden estricto <b>·</b> contra el reloj <b>·</b> {EVENT.spotsPerCategory} cupos por categoría <b>·</b> top 16 <b>·</b> cara a cara <b>·</b> un jurado por atleta <b>·</b>{' '}
               </span>
             ))}
           </div>
@@ -140,7 +149,7 @@ export default function EndurancePage() {
             <a href="#inscripcion" className="eal-path eal-path-athlete">
               <span className="eal-path-label">Atletas</span>
               <strong className="eal-display">Vengo a competir</strong>
-              <span className="eal-path-text">${EVENT.price} con refrigerio, jueceo y entrada para 3 acompañantes.</span>
+              <span className="eal-path-text">{EVENT.spotsPerCategory} cupos por categoría. ${EVENT.price} con refrigerio, jueceo y entrada para 3 acompañantes.</span>
               <span className="eal-path-cta">Ver inscripción →</span>
             </a>
             <a href="#sponsors" className="eal-path eal-path-brand">
@@ -227,6 +236,9 @@ export default function EndurancePage() {
           <div className="eal-container">
             <p className="eal-eyebrow">Inscripción de atletas</p>
             <h2 className="eal-display eal-h2">Asegura tu cupo en 3 pasos</h2>
+            <p className="eal-intro">
+              Hay {EVENT.spotsPerCategory} cupos en Élite y {EVENT.spotsPerCategory} en Alfa Junior. Tu cupo queda reservado cuando confirmamos tu comprobante, no antes. Cuando una categoría se llena, se cierra.
+            </p>
 
             <div className="eal-register">
               {/* Ticket */}
@@ -235,6 +247,7 @@ export default function EndurancePage() {
                   <span className="eal-ticket-label">Inscripción de atleta</span>
                   <span className="eal-display eal-ticket-price">${EVENT.price}</span>
                   <span className="eal-ticket-sub">Entran 4 personas: tú y 3 acompañantes</span>
+                  <span className="eal-ticket-spots">{EVENT.spotsPerCategory} cupos por categoría</span>
                 </div>
                 <ul className="eal-ticket-list">
                   {INCLUDES.map(i => <li key={i}>{i}</li>)}
@@ -322,8 +335,9 @@ export default function EndurancePage() {
         {/* CIERRE */}
         <section className="eal-final">
           <div className="eal-container">
-            <h2 className="eal-display">Solo 16 llegan a la llave.<br /><span className="eal-accent">¿Vas a ser uno?</span></h2>
-            <a href="#inscripcion" className="eal-btn eal-btn-primary eal-btn-lg">Quiero competir · ${EVENT.price}</a>
+            <h2 className="eal-display">{EVENT.spotsPerCategory} cupos por categoría.<br /><span className="eal-accent">Solo 16 llegan a la llave.</span></h2>
+            <a href="#inscripcion" className="eal-btn eal-btn-primary eal-btn-lg">Reservar mi cupo · ${EVENT.price}</a>
+            <p className="eal-final-note">Los cupos se asignan por orden de pago confirmado.</p>
           </div>
         </section>
       </main>
