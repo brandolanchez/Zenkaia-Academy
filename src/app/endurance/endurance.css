@@ -251,6 +251,17 @@
 .eal-paydata button { background: none; border: 1px solid var(--eal-line-strong); color: var(--eal-muted); font: inherit; font-size: 0.72rem; font-weight: 700; padding: 0.3rem 0.6rem; cursor: pointer; flex-shrink: 0; }
 .eal-paydata button:hover { color: var(--eal-text); border-color: var(--eal-text); }
 
+
+/* Pago: QR reales, monto en bolívares y copiar */
+.eal-qr img { width: 170px; height: auto; display: block; background: #fff; }
+.eal-amount strong { font-family: var(--eal-display); font-weight: 400; font-size: 2rem; color: var(--eal-orange); line-height: 1.1; }
+.eal-amount small { color: var(--eal-muted); font-size: 0.8rem; font-weight: 500; line-height: 1.45; }
+.eal-amount .eal-loading { font-family: var(--eal-sans); font-size: 1rem; font-weight: 600; color: var(--eal-muted); }
+.eal-copy-amount { align-self: flex-start; margin-top: 0.4rem; background: none; border: 1px solid var(--eal-orange); color: var(--eal-orange); font: inherit; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; padding: 0.35rem 0.7rem; cursor: pointer; }
+.eal-copy-amount:hover { background: var(--eal-orange); color: #140a05; }
+.eal-copy-all { width: 100%; margin-top: 1.1rem; background: var(--eal-bg-3); border: 1px solid var(--eal-line-strong); color: var(--eal-text); font: inherit; font-weight: 800; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; padding: 0.8rem; cursor: pointer; }
+.eal-copy-all:hover { border-color: var(--eal-orange); color: var(--eal-orange); }
+
 /* Sponsors */
 .eal-sponsors { background: radial-gradient(ellipse 60% 45% at 15% 0%, rgba(226, 90, 42, 0.14), transparent 70%); }
 .eal-reasons { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; margin-bottom: 3rem; }
@@ -378,6 +389,7 @@
     .eal-ticket-top, .eal-ticket-list { padding-left: 1.5rem; padding-right: 1.5rem; }
     .eal-ticket-price { font-size: 5rem; }
     .eal-paypanel { grid-template-columns: 1fr; }
+    .eal-qr img { width: 200px; }
     .eal-field-row, .eal-spots { grid-template-columns: 1fr; }
     .eal-final { padding: 4.5rem 0 5.5rem; }
     .eal-mobile-cta {

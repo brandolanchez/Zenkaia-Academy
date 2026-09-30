@@ -97,7 +97,7 @@ const FAQ = [
   },
   {
     q: '¿Puedo pagar en bolívares?',
-    a: 'Sí, por Pago Móvil o depósito, al equivalente de $20 a la tasa del día. También puedes pagar 20 USDT por Binance.',
+    a: 'Sí, por Pago Móvil a Bancamiga. El monto en bolívares se calcula a la tasa oficial del euro del BCV, y en la sección de inscripción te mostramos la cifra exacta del día. Si prefieres pagar en dólares, son 20 USDT por Binance Pay.',
   },
   {
     q: '¿A qué hora tengo que llegar?',
@@ -297,7 +297,7 @@ export default function EndurancePage() {
               {/* Pasos + pago */}
               <div className="eal-pay">
                 <ol className="eal-steps">
-                  <li><span>1</span><div><strong>Paga ${EVENT.price}</strong> por Pago Móvil, depósito o Binance.</div></li>
+                  <li><span>1</span><div><strong>Paga</strong> por Pago Móvil (en bolívares, a tasa euro BCV) o 20 USDT por Binance Pay.</div></li>
                   <li><span>2</span><div><strong>Envía el comprobante por WhatsApp</strong> con tu nombre completo y tu categoría.</div></li>
                   <li><span>3</span><div><strong>Recibe la confirmación</strong> de tu cupo en el mismo chat.</div></li>
                 </ol>
