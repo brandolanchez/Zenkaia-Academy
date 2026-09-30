@@ -1,6 +1,7 @@
 import PaymentQrs from '@/components/endurance/PaymentQrs';
 import SponsorForm from '@/components/endurance/SponsorForm';
 import StickyCta from '@/components/endurance/StickyCta';
+import HeroVideo from '@/components/endurance/HeroVideo';
 
 // ─────────────────────────────────────────────────────────────
 // DATOS DEL EVENTO — edita aquí fecha, lugar y contacto
@@ -97,10 +98,7 @@ export default function EndurancePage() {
                 <a href="#sponsors" className="eal-btn eal-btn-ghost eal-btn-lg">Quiero patrocinar</a>
               </div>
             </div>
-            <div className="eal-hero-logo">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/images/endurance/logo.webp" alt="Logo de Endurance at the Limit" width={960} height={849} fetchPriority="high" />
-            </div>
+            <HeroVideo />
           </div>
 
           <div className="eal-container">

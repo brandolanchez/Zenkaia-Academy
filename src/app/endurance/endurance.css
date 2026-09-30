@@ -83,7 +83,7 @@
 .eal-nav-cta { padding: 0.7rem 1.2rem; font-size: 0.78rem; }
 
 /* ── Hero ──────────────────────────────────────── */
-.eal-hero { position: relative; padding: 5.5rem 0 3rem; overflow: hidden; }
+.eal-hero { position: relative; padding: 4rem 0 3rem; overflow: hidden; }
 .eal-hero-grid {
     position: absolute; inset: 0;
     background-image:
@@ -106,13 +106,26 @@
     padding: 0.4rem 0.7rem; border: 1px solid var(--eal-line-strong); color: var(--eal-muted);
 }
 .eal-kicker span:first-child { background: var(--eal-orange); color: #140a05; border-color: var(--eal-orange); }
-.eal-hero-title { font-size: clamp(3rem, 7.2vw, 6.4rem); margin-bottom: 1.5rem; }
+.eal-hero-title { font-size: clamp(3rem, 6vw, 5.4rem); margin-bottom: 1.5rem; line-height: 1.12 !important; }
 .eal-lead { max-width: 560px; font-size: 1.2rem; line-height: 1.55; color: #cdd0d3; margin-bottom: 2.25rem !important; }
 .eal-hero-actions { display: flex; flex-wrap: wrap; gap: 0.9rem; }
-.eal-hero-logo img { width: 100%; max-width: 440px; height: auto; display: block; margin-left: auto; filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.55)); }
+/* Video del hero: tarjeta vertical en escritorio, fondo completo en móvil */
+.eal-hero-copy { position: relative; z-index: 1; }
+.eal-hero-media {
+    position: relative; justify-self: end;
+    width: 100%; max-width: 330px; aspect-ratio: 9 / 16;
+    border: 2px solid var(--eal-orange);
+    box-shadow: 18px 18px 0 rgba(226, 90, 42, 0.18), 0 30px 80px rgba(0, 0, 0, 0.55);
+    overflow: hidden; background: var(--eal-bg-2);
+}
+.eal-hero-media::after {
+    content: ''; position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(180deg, rgba(15, 20, 24, 0) 55%, rgba(15, 20, 24, 0.55) 100%);
+}
+.eal-hero-video { width: 100%; height: 100%; object-fit: cover; display: block; filter: saturate(0.85) contrast(1.05); }
 
 .eal-facts {
-    position: relative;
+    position: relative; z-index: 1;
     display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
     margin-top: 4rem; border-top: 1px solid var(--eal-line-strong);
 }
@@ -294,8 +307,17 @@
 /* ── Responsive ────────────────────────────────── */
 @media (max-width: 1000px) {
     .eal-hero-inner { grid-template-columns: 1fr; gap: 2rem; }
-    .eal-hero-logo { order: -1; }
-    .eal-hero-logo img { max-width: 260px; margin: 0; }
+    .eal-hero-inner { position: static; }
+    .eal-hero-media {
+        position: absolute; inset: 0; max-width: none; aspect-ratio: auto;
+        border: none; box-shadow: none; z-index: 0;
+    }
+    .eal-hero-media::after {
+        background:
+            linear-gradient(180deg, rgba(15, 20, 24, 0.82) 0%, rgba(15, 20, 24, 0.7) 45%, rgba(15, 20, 24, 0.94) 85%, var(--eal-bg) 100%);
+    }
+    .eal-hero-video { filter: grayscale(0.35) contrast(1.05); }
+    .eal-hero-grid, .eal-hero-glow { display: none; }
     .eal-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .eal-facts > div:nth-child(3) { padding-left: 0; border-left: none; }
     .eal-facts > div:nth-child(n+3) { padding-top: 1rem; }
@@ -316,7 +338,6 @@
     .eal-nav-cta { margin-left: auto; }
     .eal-brand img { height: 40px; }
     .eal-hero { padding: 2.5rem 0 2rem; }
-    .eal-hero-logo img { max-width: 170px; }
     .eal-hero-title { font-size: clamp(2.6rem, 12vw, 3.4rem); }
     .eal-lead { font-size: 1.05rem; }
     .eal-hero-actions .eal-btn { width: 100%; }
