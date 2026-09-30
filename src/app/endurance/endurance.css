@@ -72,12 +72,12 @@
 .eal-nav {
     position: sticky; top: 0; z-index: 50;
     display: flex; align-items: center; gap: 2rem;
-    padding: 0.7rem 2rem;
+    padding: 0.45rem 2rem;
     background: rgba(15, 20, 24, 0.9);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--eal-line);
 }
-.eal-brand img { height: 48px; width: auto; display: block; }
+.eal-brand img { height: 66px; width: auto; display: block; }
 .eal-nav-links { display: flex; gap: 2rem; margin-left: auto; }
 .eal-nav-links a { text-decoration: none; font-size: 0.8rem; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--eal-muted); transition: color 0.2s; }
 .eal-nav-links a:hover { color: var(--eal-text); }
@@ -295,7 +295,7 @@
 
 /* Cierre */
 .eal-final { padding: 6rem 0; text-align: center; background: var(--eal-orange); color: #140a05; position: relative; overflow: hidden; }
-.eal-final h2 { font-size: clamp(2.8rem, 7vw, 6rem); margin-bottom: 2rem; }
+.eal-final h2 { font-size: clamp(2.4rem, 5.5vw, 4.8rem); margin-bottom: 2rem; }
 .eal-final .eal-accent { color: var(--eal-text); -webkit-text-stroke: 0; }
 .eal-final .eal-btn-primary { background: #140a05; color: var(--eal-text); border-color: #140a05; }
 .eal-final .eal-btn-primary:hover { background: #2a1409; border-color: #2a1409; }
@@ -307,6 +307,17 @@
 @keyframes eal-pulse { 0% { box-shadow: 0 0 0 0 rgba(226, 90, 42, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(226, 90, 42, 0); } 100% { box-shadow: 0 0 0 0 rgba(226, 90, 42, 0); } }
 .eal-ticket-spots { align-self: flex-start; margin-top: 0.6rem; font-size: 0.72rem; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; background: #140a05; color: var(--eal-orange); padding: 0.35rem 0.6rem; }
 .eal-final-note { margin-top: 1.25rem !important; font-weight: 600; font-size: 0.95rem; opacity: 0.85; }
+
+
+/* Cupos restantes */
+.eal-spots { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: -1.5rem 0 2.5rem; }
+.eal-spot { background: var(--eal-bg-2); border: 1px solid var(--eal-line-strong); padding: 1.1rem 1.25rem; }
+.eal-spot-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; margin-bottom: 0.75rem; }
+.eal-spot-head span { font-size: 0.72rem; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; color: var(--eal-muted); }
+.eal-spot-head strong { font-size: 1rem; font-weight: 700; }
+.eal-spot-head b { font-family: var(--eal-display); font-weight: 400; font-size: 1.6rem; color: var(--eal-orange); margin: 0 0.1rem; }
+.eal-spot-bar { height: 6px; background: rgba(255, 255, 255, 0.08); }
+.eal-spot-bar span { display: block; height: 100%; background: var(--eal-orange); }
 
 /* Footer */
 .eal-footer { border-top: 1px solid var(--eal-line); padding: 3rem 0 6rem; }
@@ -351,10 +362,10 @@
 
 @media (max-width: 640px) {
     .eal-container { padding: 0 1.25rem; }
-    .eal-nav { padding: 0.6rem 1.25rem; }
+    .eal-nav { padding: 0.4rem 1.25rem; }
     .eal-nav-links { display: none; }
     .eal-nav-cta { margin-left: auto; }
-    .eal-brand img { height: 40px; }
+    .eal-brand img { height: 52px; }
     .eal-hero { padding: 2.5rem 0 2rem; }
     .eal-hero-title { font-size: clamp(2.6rem, 12vw, 3.4rem); }
     .eal-lead { font-size: 1.05rem; }
@@ -367,7 +378,7 @@
     .eal-ticket-top, .eal-ticket-list { padding-left: 1.5rem; padding-right: 1.5rem; }
     .eal-ticket-price { font-size: 5rem; }
     .eal-paypanel { grid-template-columns: 1fr; }
-    .eal-field-row { grid-template-columns: 1fr; }
+    .eal-field-row, .eal-spots { grid-template-columns: 1fr; }
     .eal-final { padding: 4.5rem 0 5.5rem; }
     .eal-mobile-cta {
         display: block; position: fixed; left: 1rem; right: 1rem; bottom: calc(1rem + env(safe-area-inset-bottom)); z-index: 60;
