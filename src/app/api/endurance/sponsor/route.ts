@@ -1,15 +1,15 @@
 import { NextResponse } from 'next/server';
+import { createAdminClient } from '@/lib/supabase/admin';
+import { sendEmail } from '@/lib/email/resend';
+import { renderEmail } from '@/lib/email/render';
 
-// Envía las solicitudes de patrocinio por correo usando la API de Resend.
-// Variables de entorno (Vercel → Settings → Environment Variables):
-//   RESEND_API_KEY           clave de Resend
-//   ENDURANCE_CONTACT_TO     correo que recibe las solicitudes
-//   ENDURANCE_CONTACT_FROM   remitente verificado en Resend, ej. "Endurance <sponsors@fortisworkout.org>"
-
-const escape = (v: string) =>
-  v.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+// Formulario de patrocinio de endurance.fortisworkout.org
+// 1) Guarda la solicitud en la bandeja del admin (Admin → Correos → Bandeja)
+// 2) Agrega o actualiza a la persona como contacto con la etiqueta "sponsor"
+// 3) Le envía una confirmación y, si EMAIL_FORWARD_TO está configurado, te reenvía el aviso
 
 const field = (v: unknown, max: number) => (typeof v === 'string' ? v.trim().slice(0, max) : '');
+const escape = (v: string) => v.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
 export async function POST(request: Request) {
   let body: Record<string, unknown>;
@@ -19,12 +19,12 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Solicitud inválida.' }, { status: 400 });
   }
 
-  // Bots: si llenaron el campo oculto, respondemos OK sin enviar nada
+  // Bots: si llenaron el campo oculto, respondemos OK sin hacer nada
   if (field(body.website, 200)) return NextResponse.json({ ok: true });
 
   const name = field(body.name, 100);
   const company = field(body.company, 120);
-  const email = field(body.email, 160);
+  const email = field(body.email, 160).toLowerCase();
   const phone = field(body.phone, 40);
   const message = field(body.message, 2000);
 
@@ -32,39 +32,65 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Revisa tu nombre, empresa y correo.' }, { status: 400 });
   }
 
-  const apiKey = process.env.RESEND_API_KEY;
-  const to = process.env.ENDURANCE_CONTACT_TO;
-  const from = process.env.ENDURANCE_CONTACT_FROM;
-  if (!apiKey || !to || !from) {
-    console.error('Faltan RESEND_API_KEY, ENDURANCE_CONTACT_TO o ENDURANCE_CONTACT_FROM');
-    return NextResponse.json({ error: 'El formulario no está disponible ahora. Escríbenos por WhatsApp.' }, { status: 500 });
+  let saved = false;
+  try {
+    const supabase = createAdminClient();
+    const { error } = await supabase.from('email_inbox').insert({
+      direction: 'in',
+      source: 'form',
+      from_email: email,
+      from_name: name,
+      subject: `Solicitud de patrocinio: ${company}`,
+      text_body: `Empresa: ${company}\nTeléfono: ${phone || '—'}\n\n${message || '(sin mensaje)'}`,
+      meta: { company, phone },
+    });
+    saved = !error;
+    if (error) console.error('sponsor inbox', error);
+
+    const { data: existing } = await supabase.from('email_contacts').select('id, tags').ilike('email', email).maybeSingle();
+    if (existing) {
+      const tags = Array.from(new Set([...(existing.tags || []), 'sponsor', 'lead-web']));
+      await supabase.from('email_contacts').update({ name, company, phone: phone || null, tags, updated_at: new Date().toISOString() }).eq('id', existing.id);
+    } else {
+      await supabase.from('email_contacts').insert({ email, name, company, phone: phone || null, tags: ['sponsor', 'lead-web'], source: 'formulario' });
+    }
+  } catch (e) {
+    console.error('sponsor save', e);
   }
 
-  const html = `
-    <h2>Nueva solicitud de patrocinio · Endurance at the Limit</h2>
-    <p><strong>Nombre:</strong> ${escape(name)}</p>
-    <p><strong>Empresa:</strong> ${escape(company)}</p>
-    <p><strong>Correo:</strong> ${escape(email)}</p>
-    <p><strong>Teléfono:</strong> ${escape(phone || '—')}</p>
-    <p><strong>Mensaje:</strong><br>${escape(message || '—').replace(/\n/g, '<br>')}</p>
-  `;
+  let notified = false;
+  if (process.env.RESEND_API_KEY) {
+    // Confirmación para la marca
+    try {
+      const { html, text } = renderEmail({
+        recipient: { name, company, email },
+        preheader: 'Recibimos tu solicitud de patrocinio.',
+        body: `Hola {{nombre}},\n\nRecibimos tu interés en patrocinar **Endurance at the Limit** con {{empresa}}. Te vamos a responder a este correo con la propuesta y sus opciones.\n\nSi quieres adelantar la conversación, responde este mensaje con tu disponibilidad para una llamada corta.\n\nUn saludo,\nEndurance at the Limit`,
+      });
+      await sendEmail({ to: email, subject: 'Recibimos tu solicitud de patrocinio', html, text });
+      notified = true;
+    } catch (e) {
+      console.error('sponsor confirm', e);
+    }
 
-  const res = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      from,
-      to: [to],
-      reply_to: email,
-      subject: `Patrocinio Endurance: ${company}`,
-      html,
-    }),
-  });
+    // Aviso interno opcional
+    const forwardTo = process.env.EMAIL_FORWARD_TO || process.env.ENDURANCE_CONTACT_TO;
+    if (forwardTo) {
+      try {
+        await sendEmail({
+          to: forwardTo,
+          reply_to: email,
+          subject: `Patrocinio Endurance: ${company}`,
+          html: `<h2>Nueva solicitud de patrocinio</h2><p><strong>Nombre:</strong> ${escape(name)}<br><strong>Empresa:</strong> ${escape(company)}<br><strong>Correo:</strong> ${escape(email)}<br><strong>Teléfono:</strong> ${escape(phone || '—')}</p><p>${escape(message || '—').replace(/\n/g, '<br>')}</p>`,
+        });
+      } catch (e) {
+        console.error('sponsor forward', e);
+      }
+    }
+  }
 
-  if (!res.ok) {
-    console.error('Resend error', res.status, await res.text().catch(() => ''));
+  if (!saved && !notified) {
     return NextResponse.json({ error: 'No se pudo enviar. Intenta de nuevo o escríbenos por WhatsApp.' }, { status: 502 });
   }
-
   return NextResponse.json({ ok: true });
 }

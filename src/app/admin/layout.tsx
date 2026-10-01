@@ -2,7 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import Navbar from '@/components/Navbar'
-import { LayoutDashboard, Users, BookOpen, CreditCard } from 'lucide-react'
+import { LayoutDashboard, Users, BookOpen, CreditCard, Mail } from 'lucide-react'
 
 export default async function AdminLayout({
   children,
@@ -44,6 +44,9 @@ export default async function AdminLayout({
             </Link>
             <Link href="/admin/clients" className="admin-nav-link">
               <Users size={18} /> Alumnos
+            </Link>
+            <Link href="/admin/correos" className="admin-nav-link">
+              <Mail size={18} /> Correos
             </Link>
           </nav>
         </aside>
