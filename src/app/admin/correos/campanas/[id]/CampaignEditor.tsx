@@ -298,6 +298,8 @@ export default function CampaignEditor({
           {!locked && (
             <div className="mail-toolbar" role="toolbar" aria-label="Formato">
               <button type="button" onClick={() => insert('**', '**', 'texto en negrita')}><b>N</b></button>
+              <button type="button" onClick={() => insert('==', '==', 'dato clave')} title="Texto en naranja y negrita">Resaltar</button>
+              <button type="button" onClick={() => insert('\n\n[[DATOS: ', ' | atletas ; $460 | en premios ; 3 | jueces por atleta]]\n\n', '40')} title="Franja de cifras grandes">Cifras</button>
               <button type="button" onClick={() => insert('[', '](https://)', 'texto del enlace')}>Enlace</button>
               <button type="button" onClick={() => insert('\n\n[[', '|https://endurance.fortisworkout.org]]\n\n', 'Texto del botón')}>Botón</button>
               <button type="button" onClick={() => fileRef.current?.click()} disabled={uploading}>{uploading ? 'Subiendo…' : 'Imagen'}</button>
@@ -316,7 +318,7 @@ export default function CampaignEditor({
           )}
           <textarea ref={bodyRef} value={form.body} onChange={e => update({ body: e.target.value })} rows={22} disabled={locked} />
           <small>
-            Deja una línea en blanco entre párrafos. Usa como máximo una imagen por correo, y ninguna en el primer correo a contactos fríos. <code>{'{{nombre}}'}</code> y <code>{'{{empresa|tu marca}}'}</code> se reemplazan por los datos de cada contacto (lo que va después de la barra se usa si el dato está vacío).
+            Deja una línea en blanco entre párrafos. <code>**negrita**</code>, <code>==resaltado naranja==</code>. La firma con el logo se agrega sola. Usa como máximo una imagen por correo, y ninguna en el primer correo a contactos fríos. <code>{'{{nombre}}'}</code> y <code>{'{{empresa|tu marca}}'}</code> se reemplazan por los datos de cada contacto (lo que va después de la barra se usa si el dato está vacío).
           </small>
         </div>
 

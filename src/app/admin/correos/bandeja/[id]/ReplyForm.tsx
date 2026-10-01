@@ -87,6 +87,7 @@ export default function ReplyForm({ id, defaultBody }: { id: string; defaultBody
         <input ref={inputRef} type="file" multiple hidden onChange={e => addFiles(e.target.files)} />
       </div>
 
+      <small className="mail-muted">Tu firma con el logo se agrega sola al final: no hace falta escribirla.</small>
       {error && <p className="mail-err">{error}</p>}
       <button type="submit" className="mail-btn mail-btn-primary" disabled={busy}>
         {busy ? (files.length ? 'Subiendo y enviando…' : 'Enviando…') : 'Enviar respuesta'}
