@@ -12,6 +12,8 @@ type Campaign = {
   body: string;
   audience_tag: string | null;
   exclude_replied: boolean;
+  after_campaigns: string[] | null;
+  wait_days: number | null;
   status: 'draft' | 'sending' | 'sent';
   sent_at: string | null;
 };
@@ -25,11 +27,13 @@ export default function CampaignEditor({
   audiences,
   sentCount,
   failedCount,
+  otherCampaigns,
 }: {
   campaign: Campaign;
   audiences: Audience[];
   sentCount: number;
   failedCount: number;
+  otherCampaigns: { id: string; name: string }[];
 }) {
   const [form, setForm] = useState<CampaignInput>({
     name: campaign.name,
@@ -38,7 +42,10 @@ export default function CampaignEditor({
     body: campaign.body,
     audience_tag: campaign.audience_tag ?? '',
     exclude_replied: campaign.exclude_replied ?? true,
+    after_campaigns: campaign.after_campaigns ?? [],
+    wait_days: campaign.wait_days ?? 0,
   });
+  const [limit, setLimit] = useState(30);
   const [dirty, setDirty] = useState(false);
   const [saving, setSaving] = useState(false);
   const [device, setDevice] = useState<'desktop' | 'mobile'>('desktop');
@@ -106,28 +113,42 @@ export default function CampaignEditor({
       setNotice({ type: 'err', text: 'Guarda los cambios antes de enviar.' });
       return;
     }
-    const { audience: total, sent } = await audienceStatus(campaign.id);
-    const pending = total - sent;
-    if (pending <= 0) {
-      setNotice({ type: 'err', text: 'No hay contactos pendientes para esta audiencia.' });
+    setNotice(null);
+    let st: { audience: number; sent: number; pending: number };
+    try {
+      st = await audienceStatus(campaign.id);
+    } catch (e) {
+      setNotice({ type: 'err', text: e instanceof Error ? e.message : 'No se pudo calcular la audiencia.' });
       return;
     }
-    if (!confirm(`Vas a enviar "${form.subject}" a ${pending} contactos. ¿Continuar?`)) return;
+    if (st.pending <= 0) {
+      setNotice({
+        type: 'err',
+        text: form.after_campaigns.length
+          ? 'Hoy no hay contactos pendientes: nadie cumple todavía los días de espera desde el correo anterior.'
+          : 'No hay contactos pendientes para esta audiencia.',
+      });
+      return;
+    }
+    const cap = Math.max(1, Math.floor(limit) || 1);
+    const toSend = Math.min(st.pending, cap);
+    const rest = st.pending - toSend;
+    if (!confirm(`Vas a enviar "${form.subject}" a ${toSend} contactos${rest > 0 ? ` (quedan ${rest} para los próximos días)` : ''}. ¿Continuar?`)) return;
 
     setSending(true);
-    setNotice(null);
     setStatus('sending');
-    let done = sent;
-    setProgress({ sent: done, total });
+    let done = 0;
+    setProgress({ sent: 0, total: toSend });
     try {
-      for (let i = 0; i < 200; i++) {
-        const r = await sendNextBatch(campaign.id);
-        done += r.sent;
-        setProgress({ sent: done, total });
-        if (r.remaining === 0) break;
+      while (done < toSend) {
+        const r = await sendNextBatch(campaign.id, Math.min(100, toSend - done));
+        done += r.sent + r.failed;
+        setProgress({ sent: done, total: toSend });
+        if (r.remaining === 0 || r.sent + r.failed === 0) break;
       }
-      setStatus('sent');
-      setNotice({ type: 'ok', text: `Campaña enviada a ${done} contactos.` });
+      const left = st.pending - done;
+      setStatus(left > 0 ? 'sending' : 'sent');
+      setNotice({ type: 'ok', text: left > 0 ? `Enviado a ${done} contactos. Quedan ${left} pendientes: vuelve mañana y dale a "Continuar envío".` : `Enviado a ${done} contactos.` });
     } catch (e) {
       setNotice({ type: 'err', text: `${e instanceof Error ? e.message : 'Error al enviar.'} Puedes volver a intentarlo: solo se envía a quien falta.` });
     } finally {
@@ -168,6 +189,30 @@ export default function CampaignEditor({
           <input type="checkbox" checked={form.exclude_replied} onChange={e => update({ exclude_replied: e.target.checked })} disabled={locked} />
           <span>No enviar a quienes ya respondieron (etiqueta <code>respondio</code>)</span>
         </label>
+
+        <fieldset className="mail-field mail-seq" disabled={locked}>
+          <span>Secuencia</span>
+          <small>Si marcas correos aquí, este solo sale a quien recibió alguno de ellos hace al menos los días indicados. Déjalo vacío si es un primer correo.</small>
+          <div className="mail-seq-list">
+            {otherCampaigns.map(o => (
+              <label key={o.id} className="mail-check">
+                <input
+                  type="checkbox"
+                  checked={form.after_campaigns.includes(o.id)}
+                  onChange={e => update({ after_campaigns: e.target.checked ? [...form.after_campaigns, o.id] : form.after_campaigns.filter(x => x !== o.id) })}
+                />
+                <span>{o.name}</span>
+              </label>
+            ))}
+          </div>
+          {form.after_campaigns.length > 0 && (
+            <label className="mail-inline-form">
+              <span>Esperar</span>
+              <input type="number" min={0} max={60} value={form.wait_days} onChange={e => update({ wait_days: Number(e.target.value) })} style={{ width: 80 }} />
+              <span>días desde ese correo</span>
+            </label>
+          )}
+        </fieldset>
 
         <div className="mail-field">
           <span>Contenido</span>
@@ -211,7 +256,7 @@ export default function CampaignEditor({
         <div className="mail-card mail-card-inner">
           <h3>Envío</h3>
           <p className="mail-muted">
-            Audiencia: <strong>{audience?.label}</strong> · {audience?.count ?? 0} suscritos · ya enviados: {progress?.sent ?? sentCount}
+            Audiencia: <strong>{audience?.label}</strong> · {audience?.count ?? 0} suscritos · ya enviados: {sentCount}
             {failedCount > 0 && ` · fallidos: ${failedCount}`}
           </p>
           {progress && (
@@ -219,13 +264,17 @@ export default function CampaignEditor({
               <span style={{ width: `${progress.total ? Math.min(100, (progress.sent / progress.total) * 100) : 0}%` }} />
             </div>
           )}
-          {!locked ? (
-            <button type="button" className="mail-btn mail-btn-primary" onClick={onSend} disabled={sending}>
-              {sending ? `Enviando… ${progress?.sent ?? 0}/${progress?.total ?? 0}` : status === 'sending' ? 'Continuar envío' : 'Enviar campaña'}
-            </button>
-          ) : (
-            <p className="mail-ok">Campaña enviada{campaign.sent_at ? ` el ${new Date(campaign.sent_at).toLocaleString('es-VE')}` : ''}.</p>
+          {status === 'sent' && (
+            <p className="mail-ok">Enviada a todos los que cumplían las condiciones{campaign.sent_at ? ` (${new Date(campaign.sent_at).toLocaleString('es-VE')})` : ''}. Si agregas contactos nuevos, puedes enviarles desde aquí.</p>
           )}
+          <label className="mail-inline-form">
+            <span>Máximo en este envío</span>
+            <input type="number" min={1} max={1000} value={limit} onChange={e => setLimit(Number(e.target.value))} style={{ width: 90 }} disabled={sending} />
+          </label>
+          <small className="mail-muted">Dominio nuevo: semana 1, 30 al día · semana 2, 60 · semana 3 en adelante, 100. Mandar de golpe a cientos de contactos fríos te manda a spam.</small>
+          <button type="button" className="mail-btn mail-btn-primary" onClick={onSend} disabled={sending}>
+            {sending ? `Enviando… ${progress?.sent ?? 0}/${progress?.total ?? 0}` : status === 'draft' ? 'Enviar campaña' : 'Continuar envío'}
+          </button>
         </div>
       </div>
 

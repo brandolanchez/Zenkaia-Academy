@@ -132,3 +132,8 @@
   .mail-inbox-row { grid-template-columns: 1fr; gap: 0.25rem; }
   .mail-inbox-row time { text-align: left; }
 }
+
+/* Secuencia */
+.mail-seq { border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 0.9rem 1rem; margin: 0; }
+.mail-seq-list { display: flex; flex-direction: column; gap: 0.4rem; margin: 0.6rem 0; max-height: 220px; overflow: auto; }
+.mail-seq .mail-inline-form { align-items: center; gap: 0.5rem; }
