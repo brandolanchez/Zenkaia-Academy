@@ -13,6 +13,8 @@ const EVENT = {
   price: 20,
   whatsapp: '584126134013', // 0412-6134013
   whatsappLabel: '0412-613-4013',
+  instagram: '@fortisworkout',
+  instagramUrl: 'https://www.instagram.com/fortisworkout/',
   spotsPerCategory: 20, // cupos por categoría (Élite y Alfa Junior)
   // Inscripciones confirmadas. Pon aquí las cifras reales y cambia showRemaining a true
   // para mostrar "Solo quedan X cupos" con barras de progreso en toda la página.
@@ -347,6 +349,9 @@ export default function EndurancePage() {
                 <a href={WA_SPONSOR} target="_blank" rel="noopener noreferrer" className="eal-link">
                   ¿Prefieres WhatsApp? Escríbenos al {EVENT.whatsappLabel} →
                 </a>
+                <a href={EVENT.instagramUrl} target="_blank" rel="noopener noreferrer" className="eal-link">
+                  Mira las ediciones anteriores en Instagram {EVENT.instagram} →
+                </a>
               </div>
               <SponsorForm />
             </div>
@@ -397,6 +402,7 @@ export default function EndurancePage() {
             <a href="#inscripcion">Inscripción</a>
             <a href="#sponsors">Patrocinio</a>
             <a href={WA_DUDA} target="_blank" rel="noopener noreferrer">WhatsApp {EVENT.whatsappLabel}</a>
+            <a href={EVENT.instagramUrl} target="_blank" rel="noopener noreferrer">Instagram {EVENT.instagram}</a>
           </div>
         </div>
       </footer>

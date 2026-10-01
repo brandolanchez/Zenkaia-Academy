@@ -64,8 +64,9 @@ export async function POST(request: Request) {
     try {
       const { html, text } = renderEmail({
         recipient: { name, company, email },
-        preheader: 'Recibimos tu solicitud de patrocinio.',
-        body: `Hola {{nombre}},\n\nRecibimos tu interés en patrocinar **Endurance at the Limit** con {{empresa}}. Te vamos a responder a este correo con la propuesta y sus opciones.\n\nSi quieres adelantar la conversación, responde este mensaje con tu disponibilidad para una llamada corta.\n\nUn saludo,\nEndurance at the Limit`,
+        preheader: 'Te enviamos la propuesta en las próximas 24 horas.',
+        template: 'marca',
+        body: `Hola {{nombre|}},\n\nGracias por escribirnos. Recibimos el interés de **{{empresa|tu marca}}** en patrocinar Endurance at the Limit.\n\nEn las próximas 24 horas te respondo a este correo con la propuesta: niveles de patrocinio, qué incluye cada uno y opciones en efectivo o en especie.\n\nSi prefieres adelantarlo, escríbeme por [WhatsApp al 0412-613-4013](https://wa.me/584126134013). Fotos y videos de ediciones anteriores en [Instagram @fortisworkout](https://www.instagram.com/fortisworkout/).\n\nBrando Lanchez\nEndurance at the Limit`,
       });
       await sendEmail({ to: email, subject: 'Recibimos tu solicitud de patrocinio', html, text });
       notified = true;

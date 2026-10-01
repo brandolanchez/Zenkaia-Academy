@@ -6,6 +6,8 @@ import { PUBLIC_SITE_URL } from './config';
 //   **negrita**            [texto](https://enlace)
 //   # Título               - elemento de lista
 //   [[Texto del botón|https://enlace]]   → botón naranja
+//   ![descripción](https://imagen.jpg)    → imagen (sola en su párrafo)
+//   [FOTO: indicación]                    → recordatorio de foto pendiente (bloquea el envío)
 // Variables: {{nombre}}, {{empresa}}, {{email}}, con valor por defecto: {{empresa|tu marca}}
 // ─────────────────────────────────────────────────────────────
 
@@ -40,6 +42,14 @@ function inline(s: string): string {
   return out;
 }
 
+const PHOTO_RE = /^\[FOTO:\s*([^\]]*)\]$/i;
+const IMG_RE = /^!\[([^\]]*)\]\(([^)\s]+)\)$/;
+
+// ¿El cuerpo tiene alguna foto pendiente por subir?
+export function hasPhotoPlaceholder(body: string): boolean {
+  return body.split('\n').some(l => PHOTO_RE.test(l.trim()));
+}
+
 const P = 'margin:0 0 16px;font-size:16px;line-height:1.6;color:#1d262e;';
 
 export function bodyToHtml(body: string): string {
@@ -47,6 +57,16 @@ export function bodyToHtml(body: string): string {
   return blocks
     .map(block => {
       const lines = block.split('\n');
+      const img = block.trim().match(IMG_RE);
+      if (img) {
+        const src = /^https:\/\//i.test(img[2]) ? img[2] : '';
+        if (!src) return '';
+        return `<img src="${esc(src)}" alt="${esc(img[1])}" width="536" style="display:block;width:100%;max-width:536px;height:auto;border:0;margin:4px 0 20px;">`;
+      }
+      const photo = block.trim().match(PHOTO_RE);
+      if (photo) {
+        return `<div style="margin:4px 0 20px;padding:28px 20px;border:2px dashed #e25a2a;background:#fff4ef;text-align:center;font-size:14px;line-height:1.5;color:#a8401c;"><strong>FOTO PENDIENTE</strong><br>${esc(photo[1])}</div>`;
+      }
       const btn = block.trim().match(/^\[\[([^|\]]+)\|([^\]]+)\]\]$/);
       if (btn) {
         return `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:8px 0 24px;"><tr><td style="background:#e25a2a;">
@@ -67,28 +87,41 @@ export function bodyToHtml(body: string): string {
 
 export function bodyToText(body: string): string {
   return body
+    .replace(/^!\[[^\]]*\]\([^)\s]+\)\s*$/gm, '')
+    .replace(/^\[FOTO:[^\]]*\]\s*$/gim, '')
+    .replace(/\n{3,}/g, '\n\n')
     .replace(/\[\[([^|\]]+)\|([^\]]+)\]\]/g, '$1: $2')
     .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, '$1 ($2)')
     .replace(/\*\*(.+?)\*\*/g, '$1')
     .replace(/^#\s+/gm, '');
 }
 
+export type EmailTemplate = 'personal' | 'marca';
+
+// personal: parece un correo escrito a mano (sin cabecera ni colores). Es el que
+//           mejor llega a la bandeja principal cuando el contacto no te conoce.
+// marca:    cabecera oscura con logo. Para contactos que ya te conocen.
 export function renderEmail(opts: {
   body: string;
   preheader?: string;
   recipient: Recipient;
   unsubscribeUrl?: string;
+  template?: EmailTemplate;
 }): { html: string; text: string } {
   const body = personalize(opts.body, opts.recipient);
   const preheader = personalize(opts.preheader || '', opts.recipient);
   const unsub = opts.unsubscribeUrl
     ? `<a href="${esc(opts.unsubscribeUrl)}" style="color:#7a8288;text-decoration:underline;">Darme de baja</a>`
     : '';
+  const pre = preheader
+    ? `<div style="display:none;max-height:0;overflow:hidden;opacity:0;">${esc(preheader)}&#8199;&#65279;&#847;&#8199;&#65279;&#847;</div>`
+    : '';
 
-  const html = `<!doctype html>
+  const html = opts.template === 'marca'
+    ? `<!doctype html>
 <html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title></title></head>
 <body style="margin:0;padding:0;background:#eef0f2;">
-<div style="display:none;max-height:0;overflow:hidden;opacity:0;">${esc(preheader)}&#8199;&#65279;&#847;&#8199;&#65279;&#847;</div>
+${pre}
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#eef0f2;padding:24px 12px;">
 <tr><td align="center">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;background:#ffffff;font-family:Arial,Helvetica,sans-serif;">
@@ -101,6 +134,23 @@ ${bodyToHtml(body)}
 <tr><td style="padding:18px 32px 26px;border-top:1px solid #e3e6e8;font-size:12px;line-height:1.5;color:#7a8288;">
 Endurance at the Limit · 3ª Edición · Maracaibo, Zulia<br>
 <a href="${PUBLIC_SITE_URL}" style="color:#7a8288;">endurance.fortisworkout.org</a>${unsub ? ' · ' + unsub : ''}
+</td></tr>
+</table>
+</td></tr>
+</table>
+</body></html>`
+    : `<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title></title></head>
+<body style="margin:0;padding:0;background:#ffffff;">
+${pre}
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#ffffff;">
+<tr><td style="padding:20px 16px;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;font-family:Arial,Helvetica,sans-serif;">
+<tr><td>
+${bodyToHtml(body)}
+</td></tr>
+<tr><td style="padding:14px 0 0;font-size:12px;line-height:1.5;color:#7a8288;">
+Endurance at the Limit · Maracaibo, Zulia${unsub ? ' · ' + unsub : ''}
 </td></tr>
 </table>
 </td></tr>

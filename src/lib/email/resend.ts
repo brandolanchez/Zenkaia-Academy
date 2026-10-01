@@ -7,6 +7,8 @@ export type OutgoingEmail = {
   text?: string;
   reply_to?: string;
   headers?: Record<string, string>;
+  // path = URL pública o firmada que Resend descarga; content = base64
+  attachments?: { filename: string; path?: string; content?: string }[];
 };
 
 const API = 'https://api.resend.com';
@@ -21,7 +23,7 @@ export async function sendEmail(email: OutgoingEmail): Promise<{ id: string }> {
   const res = await fetch(`${API}/emails`, {
     method: 'POST',
     headers: { Authorization: `Bearer ${key()}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ from: EMAIL_FROM, ...email, to: [email.to] }),
+    body: JSON.stringify({ from: EMAIL_FROM, ...email, to: [email.to], attachments: email.attachments?.length ? email.attachments : undefined }),
   });
   const data = await res.json().catch(() => ({}));
   if (!res.ok) throw new Error(data?.message || `Resend respondió ${res.status}`);

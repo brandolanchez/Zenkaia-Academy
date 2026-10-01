@@ -1,7 +1,8 @@
 'use client';
 
 import { useMemo, useRef, useState } from 'react';
-import { renderEmail, personalize } from '@/lib/email/render';
+import { renderEmail, personalize, hasPhotoPlaceholder } from '@/lib/email/render';
+import { createClient } from '@/lib/supabase/client';
 import { saveCampaign, sendTest, sendNextBatch, audienceStatus, type CampaignInput } from '../actions';
 
 type Campaign = {
@@ -14,11 +15,32 @@ type Campaign = {
   exclude_replied: boolean;
   after_campaigns: string[] | null;
   wait_days: number | null;
+  template: 'personal' | 'marca' | null;
   status: 'draft' | 'sending' | 'sent';
   sent_at: string | null;
 };
 
 type Audience = { tag: string; label: string; count: number };
+
+// Reduce la foto a máx. 1200 px de ancho en JPEG: queda liviana para el correo.
+async function compressImage(file: File): Promise<Blob> {
+  const bitmap = await createImageBitmap(file);
+  const scale = Math.min(1, 1200 / bitmap.width);
+  const canvas = document.createElement('canvas');
+  canvas.width = Math.round(bitmap.width * scale);
+  canvas.height = Math.round(bitmap.height * scale);
+  const ctx = canvas.getContext('2d')!;
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+  for (const q of [0.82, 0.72, 0.62]) {
+    const blob = await new Promise<Blob | null>(r => canvas.toBlob(r, 'image/jpeg', q));
+    if (blob && (blob.size < 250_000 || q === 0.62)) return blob;
+  }
+  throw new Error('No se pudo procesar la imagen.');
+}
+
+const PHOTO_LINE = /^\[FOTO:\s*([^\]]*)\]$/i;
 
 const SAMPLE = { name: 'María Pérez', company: 'Suplementos del Lago', email: 'maria@ejemplo.com' };
 
@@ -44,6 +66,7 @@ export default function CampaignEditor({
     exclude_replied: campaign.exclude_replied ?? true,
     after_campaigns: campaign.after_campaigns ?? [],
     wait_days: campaign.wait_days ?? 0,
+    template: campaign.template ?? 'personal',
   });
   const [limit, setLimit] = useState(30);
   const [dirty, setDirty] = useState(false);
@@ -55,13 +78,16 @@ export default function CampaignEditor({
   const [progress, setProgress] = useState<{ sent: number; total: number } | null>(null);
   const [status, setStatus] = useState(campaign.status);
   const bodyRef = useRef<HTMLTextAreaElement>(null);
+  const fileRef = useRef<HTMLInputElement>(null);
+  const [uploading, setUploading] = useState(false);
+  const pendingPhoto = hasPhotoPlaceholder(form.body);
 
   const locked = status === 'sent';
   const audience = audiences.find(a => a.tag === (form.audience_tag || '')) ?? audiences[0];
 
   const preview = useMemo(
-    () => renderEmail({ body: form.body, preheader: form.preheader, recipient: SAMPLE, unsubscribeUrl: '#' }).html,
-    [form.body, form.preheader]
+    () => renderEmail({ body: form.body, preheader: form.preheader, template: form.template, recipient: SAMPLE, unsubscribeUrl: '#' }).html,
+    [form.body, form.preheader, form.template]
   );
 
   const update = (patch: Partial<CampaignInput>) => {
@@ -82,6 +108,51 @@ export default function CampaignEditor({
       const pos = start + before.length;
       el.setSelectionRange(pos, pos + selected.length);
     });
+  };
+
+  // Sube la foto y la coloca donde está el recordatorio [FOTO: …] (o donde esté el cursor)
+  const onImage = async (file: File) => {
+    if (!file.type.startsWith('image/')) {
+      setNotice({ type: 'err', text: 'Elige un archivo de imagen (JPG, PNG o WEBP).' });
+      return;
+    }
+    setUploading(true);
+    setNotice(null);
+    try {
+      const blob = await compressImage(file);
+      const supabase = createClient();
+      const path = `campaigns/${campaign.id}/${Date.now()}.jpg`;
+      const { error } = await supabase.storage.from('email-assets').upload(path, blob, { contentType: 'image/jpeg', cacheControl: '31536000' });
+      if (error) throw new Error(error.message.includes('not found') ? 'Falta crear el espacio de imágenes: corre supabase/email-adjuntos.sql.' : error.message);
+      const url = supabase.storage.from('email-assets').getPublicUrl(path).data.publicUrl;
+
+      const el = bodyRef.current;
+      const lines = form.body.split('\n');
+      const cursor = el?.selectionStart ?? form.body.length;
+      // Línea donde está el cursor
+      let acc = 0;
+      let cursorLine = lines.length - 1;
+      for (let i = 0; i < lines.length; i++) {
+        if (cursor <= acc + lines[i].length) { cursorLine = i; break; }
+        acc += lines[i].length + 1;
+      }
+      const photoLines = lines.map((l, i) => (PHOTO_LINE.test(l.trim()) ? i : -1)).filter(i => i >= 0);
+      const target = PHOTO_LINE.test(lines[cursorLine]?.trim() ?? '') ? cursorLine : photoLines.length === 1 ? photoLines[0] : -1;
+
+      if (target >= 0) {
+        const alt = (lines[target].trim().match(PHOTO_LINE)?.[1] || 'Endurance at the Limit').split('.')[0].trim();
+        lines[target] = `![${alt}](${url})`;
+        update({ body: lines.join('\n') });
+      } else {
+        update({ body: form.body.slice(0, cursor) + `\n\n![Endurance at the Limit](${url})\n\n` + form.body.slice(cursor) });
+      }
+      setNotice({ type: 'ok', text: 'Imagen agregada. Revisa la vista previa y guarda los cambios.' });
+    } catch (e) {
+      setNotice({ type: 'err', text: e instanceof Error ? e.message : 'No se pudo subir la imagen.' });
+    } finally {
+      setUploading(false);
+      if (fileRef.current) fileRef.current.value = '';
+    }
   };
 
   const onSave = async () => {
@@ -185,6 +256,14 @@ export default function CampaignEditor({
           </select>
         </label>
 
+        <label className="mail-field">
+          <span>Diseño</span>
+          <select value={form.template} onChange={e => update({ template: e.target.value as 'personal' | 'marca' })} disabled={locked}>
+            <option value="personal">Personal: como un correo escrito a mano (recomendado para contactos fríos)</option>
+            <option value="marca">Con marca: cabecera con logo (para quien ya te conoce)</option>
+          </select>
+        </label>
+
         <label className="mail-check">
           <input type="checkbox" checked={form.exclude_replied} onChange={e => update({ exclude_replied: e.target.checked })} disabled={locked} />
           <span>No enviar a quienes ya respondieron (etiqueta <code>respondio</code>)</span>
@@ -221,6 +300,8 @@ export default function CampaignEditor({
               <button type="button" onClick={() => insert('**', '**', 'texto en negrita')}><b>N</b></button>
               <button type="button" onClick={() => insert('[', '](https://)', 'texto del enlace')}>Enlace</button>
               <button type="button" onClick={() => insert('\n\n[[', '|https://endurance.fortisworkout.org]]\n\n', 'Texto del botón')}>Botón</button>
+              <button type="button" onClick={() => fileRef.current?.click()} disabled={uploading}>{uploading ? 'Subiendo…' : 'Imagen'}</button>
+              <input ref={fileRef} type="file" accept="image/*" hidden onChange={e => { const f = e.target.files?.[0]; if (f) onImage(f); }} />
               <button type="button" onClick={() => insert('\n\n# ', '\n\n', 'Título')}>Título</button>
               <button type="button" onClick={() => insert('\n\n- ', '\n- \n\n', 'Elemento')}>Lista</button>
               <span className="mail-toolbar-sep" />
@@ -228,9 +309,14 @@ export default function CampaignEditor({
               <button type="button" onClick={() => insert('{{empresa|tu marca}}')}>Empresa</button>
             </div>
           )}
+          {pendingPhoto && (
+            <p className="mail-photo-note">
+              Este correo tiene una <strong>foto pendiente</strong> (la línea <code>[FOTO: …]</code>). Pon el cursor en esa línea y usa el botón <strong>Imagen</strong>, o bórrala si no vas a usar foto. No se puede enviar mientras esté.
+            </p>
+          )}
           <textarea ref={bodyRef} value={form.body} onChange={e => update({ body: e.target.value })} rows={22} disabled={locked} />
           <small>
-            Deja una línea en blanco entre párrafos. <code>{'{{nombre}}'}</code> y <code>{'{{empresa|tu marca}}'}</code> se reemplazan por los datos de cada contacto (lo que va después de la barra se usa si el dato está vacío).
+            Deja una línea en blanco entre párrafos. Usa como máximo una imagen por correo, y ninguna en el primer correo a contactos fríos. <code>{'{{nombre}}'}</code> y <code>{'{{empresa|tu marca}}'}</code> se reemplazan por los datos de cada contacto (lo que va después de la barra se usa si el dato está vacío).
           </small>
         </div>
 

@@ -3,7 +3,7 @@
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { requireAdmin } from '@/lib/auth/requireAdmin';
-import { renderEmail, personalize, unsubscribeUrl, oneClickUnsubscribeUrl } from '@/lib/email/render';
+import { renderEmail, personalize, unsubscribeUrl, oneClickUnsubscribeUrl, hasPhotoPlaceholder } from '@/lib/email/render';
 import { sendBatch, sendEmail, type OutgoingEmail } from '@/lib/email/resend';
 import { fromAddress } from '@/lib/email/config';
 
@@ -18,6 +18,7 @@ export type CampaignInput = {
   exclude_replied: boolean;
   after_campaigns: string[];
   wait_days: number;
+  template: 'personal' | 'marca';
 };
 
 type Supa = Awaited<ReturnType<typeof requireAdmin>>['supabase'];
@@ -78,7 +79,7 @@ export async function duplicateCampaign(formData: FormData) {
   if (!c) return;
   const { data } = await supabase.from('email_campaigns').insert({
     name: `${c.name} (copia)`, subject: c.subject, preheader: c.preheader, body: c.body, audience_tag: c.audience_tag, sort_order: c.sort_order, exclude_replied: c.exclude_replied,
-    after_campaigns: c.after_campaigns ?? [], wait_days: c.wait_days ?? 0,
+    after_campaigns: c.after_campaigns ?? [], wait_days: c.wait_days ?? 0, template: c.template ?? 'personal',
   }).select('id').single();
   revalidatePath('/admin/correos/campanas');
   if (data) redirect(`/admin/correos/campanas/${data.id}`);
@@ -100,6 +101,7 @@ export async function saveCampaign(id: string, input: CampaignInput) {
     audience_tag: input.audience_tag || null,
     exclude_replied: input.exclude_replied,
     after_campaigns: (input.after_campaigns || []).filter(x => x !== id),
+    template: input.template === 'marca' ? 'marca' : 'personal',
     wait_days: Math.max(0, Math.min(60, Math.round(Number(input.wait_days) || 0))),
     updated_at: new Date().toISOString(),
   }).eq('id', id).neq('status', 'sent');
@@ -113,7 +115,7 @@ export async function sendTest(input: CampaignInput, to: string) {
   await requireAdmin();
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(to)) throw new Error('Correo de prueba inválido.');
   const recipient = { name: 'María Pérez', company: 'Tu Empresa', email: to };
-  const { html, text } = renderEmail({ body: input.body, preheader: input.preheader, recipient, unsubscribeUrl: unsubscribeUrl('00000000-0000-0000-0000-000000000000') });
+  const { html, text } = renderEmail({ body: input.body, preheader: input.preheader, template: input.template, recipient, unsubscribeUrl: unsubscribeUrl('00000000-0000-0000-0000-000000000000') });
   await sendEmail({ to, subject: `[Prueba] ${personalize(input.subject, recipient)}`, html, text, reply_to: fromAddress() });
   return { ok: true };
 }
@@ -135,6 +137,7 @@ export async function sendNextBatch(id: string, max = BATCH) {
   const { data: c, error } = await supabase.from('email_campaigns').select('*').eq('id', id).single();
   if (error || !c) throw new Error('Campaña no encontrada.');
   if (!c.subject.trim() || !c.body.trim()) throw new Error('La campaña necesita asunto y contenido.');
+  if (hasPhotoPlaceholder(c.body)) throw new Error('Este correo tiene una foto pendiente ([FOTO: …]). Súbela con el botón Imagen o borra esa línea antes de enviar.');
   if (!process.env.RESEND_API_KEY) throw new Error('Falta configurar RESEND_API_KEY en Netlify.');
 
   const { pending } = await pendingContacts(supabase, id, c);
@@ -152,7 +155,7 @@ export async function sendNextBatch(id: string, max = BATCH) {
 
   const emails: OutgoingEmail[] = batch.map(ct => {
     const recipient = { name: ct.name, company: ct.company, email: ct.email };
-    const { html, text } = renderEmail({ body: c.body, preheader: c.preheader, recipient, unsubscribeUrl: unsubscribeUrl(ct.unsubscribe_token) });
+    const { html, text } = renderEmail({ body: c.body, preheader: c.preheader, template: c.template, recipient, unsubscribeUrl: unsubscribeUrl(ct.unsubscribe_token) });
     return {
       to: ct.email,
       subject: personalize(c.subject, recipient),

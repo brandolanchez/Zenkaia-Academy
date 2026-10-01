@@ -6,8 +6,19 @@ import { requireAdmin } from '@/lib/auth/requireAdmin';
 import { sendEmail } from '@/lib/email/resend';
 import { renderEmail } from '@/lib/email/render';
 import { fromAddress } from '@/lib/email/config';
+import { createAdminClient } from '@/lib/supabase/admin';
 
-export async function replyMessage(formData: FormData) {
+// Devuelve { error } en vez de lanzar: en producción Next oculta el texto de los errores.
+export async function replyMessage(formData: FormData): Promise<{ error?: string }> {
+  try {
+    return await doReply(formData);
+  } catch (e) {
+    if (e && typeof e === 'object' && 'digest' in e && String((e as { digest?: string }).digest).startsWith('NEXT_REDIRECT')) throw e;
+    return { error: e instanceof Error ? e.message : 'No se pudo enviar la respuesta.' };
+  }
+}
+
+async function doReply(formData: FormData): Promise<{ error?: string }> {
   const { supabase } = await requireAdmin();
   const id = String(formData.get('id'));
   const body = String(formData.get('body') || '').trim();
@@ -23,7 +34,24 @@ export async function replyMessage(formData: FormData) {
     headers['In-Reply-To'] = msg.message_id;
     headers['References'] = msg.message_id;
   }
-  await sendEmail({ to: msg.from_email, subject, html, text, reply_to: fromAddress(), headers });
+
+  // Adjuntos: ya están en el bucket privado; Resend los descarga con un enlace temporal
+  let files: { path: string; filename: string }[] = [];
+  try {
+    const raw = JSON.parse(String(formData.get('attachments') || '[]'));
+    if (Array.isArray(raw)) files = raw.filter(f => typeof f?.path === 'string' && f.path.startsWith(`replies/${id}/`)).slice(0, 10);
+  } catch { /* sin adjuntos */ }
+  const attachments: { filename: string; path: string }[] = [];
+  if (files.length) {
+    const admin = createAdminClient();
+    for (const f of files) {
+      const { data, error } = await admin.storage.from('email-attachments').createSignedUrl(f.path, 60 * 60);
+      if (error || !data) throw new Error(`No se pudo preparar el adjunto ${f.filename}.`);
+      attachments.push({ filename: String(f.filename).slice(0, 120), path: data.signedUrl });
+    }
+  }
+
+  await sendEmail({ to: msg.from_email, subject, html, text, reply_to: fromAddress(), headers, attachments });
 
   await supabase.from('email_inbox').insert({
     direction: 'out',
@@ -32,7 +60,7 @@ export async function replyMessage(formData: FormData) {
     to_email: msg.from_email,
     subject,
     text_body: body,
-    meta: { in_reply_to: id },
+    meta: { in_reply_to: id, attachments: files.map(f => ({ filename: f.filename, path: f.path })) },
     is_read: true,
   });
   await supabase.from('email_inbox').update({ is_read: true }).eq('id', id);

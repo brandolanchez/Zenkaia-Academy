@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
-import { replyMessage, toggleRead, deleteMessage } from '../actions';
+import { toggleRead, deleteMessage } from '../actions';
+import ReplyForm from './ReplyForm';
 
 export const dynamic = 'force-dynamic';
 
@@ -14,7 +15,7 @@ export default async function MensajePage({ params, searchParams }: { params: Pr
   if (m.direction === 'in' && !m.is_read) {
     await supabase.from('email_inbox').update({ is_read: true }).eq('id', id);
   }
-  const { data: replies } = await supabase.from('email_inbox').select('id, text_body, created_at').eq('direction', 'out').contains('meta', { in_reply_to: id }).order('created_at');
+  const { data: replies } = await supabase.from('email_inbox').select('id, text_body, meta, created_at').eq('direction', 'out').contains('meta', { in_reply_to: id }).order('created_at');
 
   return (
     <div className="mail-stack">
@@ -45,6 +46,9 @@ export default async function MensajePage({ params, searchParams }: { params: Pr
         <section key={r.id} className="mail-card mail-reply-sent">
           <p className="mail-muted">Tu respuesta · {new Date(r.created_at).toLocaleString('es-VE')}</p>
           <pre className="mail-msg-text">{r.text_body}</pre>
+          {Array.isArray(r.meta?.attachments) && r.meta.attachments.length > 0 && (
+            <p className="mail-attach-sent mail-muted">📎 {(r.meta.attachments as { filename: string }[]).map(a => a.filename).join(' · ')}</p>
+          )}
         </section>
       ))}
 
@@ -52,11 +56,7 @@ export default async function MensajePage({ params, searchParams }: { params: Pr
         <section className="mail-card">
           <h2>Responder a {m.from_name || m.from_email}</h2>
           {enviado && <p className="mail-ok">Respuesta enviada.</p>}
-          <form action={replyMessage} className="mail-form">
-            <input type="hidden" name="id" value={m.id} />
-            <textarea name="body" rows={8} required defaultValue={`Hola ${m.from_name?.split(' ')[0] || ''},\n\n`} />
-            <button type="submit" className="mail-btn mail-btn-primary">Enviar respuesta</button>
-          </form>
+          <ReplyForm id={m.id} defaultBody={`Hola ${m.from_name?.split(' ')[0] || ''},\n\n`} />
         </section>
       )}
     </div>

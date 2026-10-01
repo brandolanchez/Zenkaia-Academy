@@ -406,3 +406,6 @@
     .eal-tape-track, .eal-dot { animation: none; }
     .eal-path, .eal-btn { transition: none; }
 }
+
+/* Enlaces de contacto en patrocinio, uno debajo del otro */
+.eal-sponsor-copy .eal-link { display: table; margin-top: 0.85rem; }
