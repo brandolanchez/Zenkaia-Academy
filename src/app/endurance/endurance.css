@@ -610,3 +610,5 @@ html.eal-shake .eal main { animation: eal-shake 0.24s linear; }
 .eal-power i { display: block; height: 100%; transform-origin: 0 50%; transform: scaleX(0); background: linear-gradient(90deg, #e25a2a, #ff8a3d 60%, #ffd45c); box-shadow: 0 0 10px rgba(255, 170, 60, 0.85), 0 0 2px #fff; will-change: transform; }
 .eal-power.is-max i { animation: eal-ki-bar 0.7s ease-in-out infinite alternate; }
 @keyframes eal-ki-bar { from { box-shadow: 0 0 8px rgba(255, 170, 60, 0.7); } to { box-shadow: 0 0 22px rgba(255, 212, 92, 1), 0 0 4px #fff; } }
+
+.eal-dossier-btn { align-self: flex-start; }

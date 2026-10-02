@@ -18,6 +18,8 @@ const EVENT = {
   dateISO: null as string | null,
   // Enlace al reglamento completo (PDF en /public o Google Drive). Vacío = "próximamente".
   reglamentoUrl: '',
+  // Dossier de patrocinio en /public/docs
+  dossierUrl: '/docs/endurance-dossier-patrocinio-2026.pdf',
   venue: 'Maracaibo, Zulia',
   price: 20,
   whatsapp: '584126134013', // 0412-6134013
@@ -518,6 +520,7 @@ export default function EndurancePage() {
               <div className="eal-sponsor-copy">
                 <h3 className="eal-display">Armemos tu participación</h3>
                 <p>Elige un nivel o propón el tuyo: efectivo, producto o una combinación. Déjanos tus datos y te enviamos la propuesta completa.</p>
+                <a href={EVENT.dossierUrl} download className="eal-btn eal-btn-primary eal-dossier-btn">Descargar dossier (PDF)</a>
                 <a href={WA_SPONSOR} target="_blank" rel="noopener noreferrer" className="eal-link">
                   ¿Prefieres WhatsApp? Escríbenos al {EVENT.whatsappLabel} →
                 </a>
@@ -580,6 +583,7 @@ export default function EndurancePage() {
         <div className="eal-container eal-footer-legal">
           <a href="/privacidad">Política de privacidad</a>
           <a href="/exoneracion">Exoneración de responsabilidad</a>
+          <a href={EVENT.dossierUrl} download>Dossier de patrocinio</a>
           {EVENT.reglamentoUrl ? <a href={EVENT.reglamentoUrl} target="_blank" rel="noopener noreferrer">Reglamento</a> : <span>Reglamento · próximamente</span>}
         </div>
       </footer>
