@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { sfx, music } from '@/lib/endurance/audio';
+import { sfx, music, unlockAudio } from '@/lib/endurance/audio';
 
 const KEY_SFX = 'eal-sfx';
 const KEY_MUSIC = 'eal-music';
@@ -10,9 +10,12 @@ const read = (k: string, def: boolean) => {
 };
 const save = (k: string, v: boolean) => { try { localStorage.setItem(k, v ? '1' : '0'); } catch { /* sin almacenamiento */ } };
 
-// Efectos de "golpe" al tocar botones, entrada con impacto de los títulos
-// y control de música 8-bit. La música nunca arranca sola: el navegador
-// lo bloquea y además molesta. Arranca cuando la persona la enciende.
+// Efectos de "golpe" al tocar botones, entrada con impacto de los títulos,
+// barra de "nivel de poder" al bajar y música 8-bit.
+// La música está encendida por defecto: suena apenas el navegador lo permite.
+// Chrome, Safari y Firefox no dejan sonar audio hasta el primer toque, clic o
+// tecla de la persona, así que en la mayoría de los casos arranca con esa
+// primera interacción. Si la persona la apaga, se recuerda.
 export default function SaiyanFx() {
   const [sound, setSound] = useState(true);
   const [playing, setPlaying] = useState(false);
@@ -20,6 +23,44 @@ export default function SaiyanFx() {
   useEffect(() => {
     const t = setTimeout(() => setSound(read(KEY_SFX, true)), 0);
     return () => clearTimeout(t);
+  }, []);
+
+  // Música encendida por defecto: intenta sonar ya y, si el navegador lo
+  // bloquea, arranca con la primera interacción de la persona.
+  useEffect(() => {
+    if (!read(KEY_MUSIC, true)) return;
+    const t = setTimeout(() => setPlaying(true), 0);
+    music.start();
+    const wake = () => { unlockAudio(); music.start(); };
+    const opts = { once: true, capture: true } as const;
+    window.addEventListener('pointerdown', wake, opts);
+    window.addEventListener('keydown', wake, opts);
+    window.addEventListener('touchend', wake, opts);
+    return () => {
+      clearTimeout(t);
+      window.removeEventListener('pointerdown', wake, opts);
+      window.removeEventListener('keydown', wake, opts);
+      window.removeEventListener('touchend', wake, opts);
+    };
+  }, []);
+
+  // Barra de "nivel de poder": se llena a medida que bajas
+  useEffect(() => {
+    const bar = document.querySelector<HTMLElement>('.eal-power i');
+    if (!bar) return;
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      const p = max > 0 ? Math.min(1, window.scrollY / max) : 0;
+      bar.style.transform = `scaleX(${p})`;
+      bar.parentElement!.classList.toggle('is-max', p > 0.985);
+    };
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
+    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    return () => { window.removeEventListener('scroll', onScroll); window.removeEventListener('resize', onScroll); };
   }, []);
 
   // Golpe al tocar botones y enlaces de acción
@@ -73,6 +114,8 @@ export default function SaiyanFx() {
   const toggleSound = () => { const v = !sound; setSound(v); save(KEY_SFX, v); if (v) sfx.tap(); };
 
   return (
+    <>
+    <div className="eal-power" aria-hidden><i /></div>
     <div className="eal-fx-controls" role="group" aria-label="Sonido">
       <button type="button" onClick={toggleMusic} className={playing ? 'is-on' : ''} aria-pressed={playing} title={playing ? 'Apagar música' : 'Poner música 8-bit'}>
         <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden><path fill="currentColor" d="M9 18V6l11-2v12" stroke="currentColor" strokeWidth="2" fillOpacity="0"/><circle cx="6.5" cy="18" r="2.5" fill="currentColor"/><circle cx="17.5" cy="16" r="2.5" fill="currentColor"/></svg>
@@ -87,5 +130,6 @@ export default function SaiyanFx() {
         )}
       </button>
     </div>
+    </>
   );
 }
