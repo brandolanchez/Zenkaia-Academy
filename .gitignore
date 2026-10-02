@@ -42,3 +42,5 @@ next-env.d.ts
 
 # originales pesados del material POP (la web usa las versiones optimizadas en public/images/endurance/pop)
 /public/pop/
+# originales de fotos de ediciones pasadas (la web usa las versiones optimizadas en public/images/endurance/ediciones)
+/public/images/ediciones pasadas/

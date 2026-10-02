@@ -1,5 +1,6 @@
 import PaymentQrs from '@/components/endurance/PaymentQrs';
 import SponsorForm from '@/components/endurance/SponsorForm';
+import PastEditions from '@/components/endurance/PastEditions';
 import StickyCta from '@/components/endurance/StickyCta';
 import HeroVideo from '@/components/endurance/HeroVideo';
 
@@ -214,6 +215,18 @@ export default function EndurancePage() {
               <span className="eal-path-text">Tu marca frente a los atletas y el público de calistenia del Zulia, ronda tras ronda.</span>
               <span className="eal-path-cta">Ver patrocinio →</span>
             </a>
+          </div>
+        </section>
+
+        {/* EDICIONES ANTERIORES */}
+        <section id="ediciones" className="eal-section eal-past">
+          <div className="eal-container">
+            <p className="eal-eyebrow">Ediciones anteriores</p>
+            <h2 className="eal-display eal-h2">Así se vive Endurance</h2>
+            <p className="eal-intro">
+              Dos ediciones, público alrededor de cada serie y premiación en el podio. Toca cualquier foto para verla en grande.
+            </p>
+            <PastEditions />
           </div>
         </section>
 
