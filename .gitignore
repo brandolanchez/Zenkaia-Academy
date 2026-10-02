@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# originales pesados del material POP (la web usa las versiones optimizadas en public/images/endurance/pop)
+/public/pop/

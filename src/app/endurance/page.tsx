@@ -57,6 +57,21 @@ function SpotsLeft() {
 
 const waLink = (text: string) => `https://wa.me/${EVENT.whatsapp}?text=${encodeURIComponent(text)}`;
 const WA_INSCRIPCION = waLink('Hola, quiero inscribirme en Endurance at the Limit. Te envío mi comprobante de pago de $20, mi nombre completo y mi categoría.');
+const PRIZES = [
+  { place: '1.er lugar', amount: 100 },
+  { place: '2.º lugar', amount: 80 },
+  { place: '3.er lugar', amount: 50 },
+];
+
+// Imágenes en /public/images/endurance/pop (versiones de 800 y 1400 px)
+const GEAR = [
+  { key: 'credenciales', label: 'Credenciales del staff', alt: 'Credenciales de seguridad y organizador de Endurance at the Limit', w: 1400, h: 788 },
+  { key: 'franelas', label: 'Franelas del staff', alt: 'Franela negra de organizador con el logo de Endurance at the Limit', w: 1400, h: 791 },
+  { key: 'lanyard', label: 'Lanyards', alt: 'Lanyard naranja con el logo de Endurance at the Limit', w: 1400, h: 896 },
+  { key: 'pulsera', label: 'Pulseras de acceso', alt: 'Pulsera de acceso naranja de Endurance at the Limit', w: 1400, h: 511 },
+  { key: 'stickers', label: 'Stickers', alt: 'Stickers con el logo de Endurance at the Limit', w: 1400, h: 788 },
+];
+
 const WA_SPONSOR = waLink('Hola, me interesa patrocinar Endurance at the Limit. ¿Me pueden enviar información?');
 const WA_DUDA = waLink('Hola, tengo una duda sobre Endurance at the Limit.');
 
@@ -234,6 +249,34 @@ export default function EndurancePage() {
                 <p>En esta categoría no hay campeón: el primer lugar recibe el título de Atleta Revelación, un empujón para subir de categoría en las próximas ediciones.</p>
               </article>
             </div>
+
+            <div className="eal-prize">
+              <figure className="eal-prize-media">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/images/endurance/pop/trofeo-800.webp"
+                  srcSet="/images/endurance/pop/trofeo-800.webp 800w, /images/endurance/pop/trofeo-1400.webp 1400w"
+                  sizes="(max-width: 1000px) 100vw, 560px"
+                  alt="Trofeo de primer lugar de Endurance at the Limit, tercera edición"
+                  width={1400}
+                  height={967}
+                  loading="lazy"
+                />
+              </figure>
+              <div className="eal-prize-copy">
+                <p className="eal-eyebrow">Premios por categoría</p>
+                <h3 className="eal-display">Lo que se lleva el podio</h3>
+                <ol className="eal-prize-list">
+                  {PRIZES.map(p => (
+                    <li key={p.place}>
+                      <span>{p.place}</span>
+                      <strong className="eal-display">${p.amount}</strong>
+                    </li>
+                  ))}
+                </ol>
+                <p className="eal-prize-note">En efectivo, en Élite y en Alfa Junior. Medalla y trofeo para los ganadores.</p>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -316,6 +359,34 @@ export default function EndurancePage() {
         </section>
 
         {/* SPONSORS */}
+        {/* MATERIAL OFICIAL */}
+        <section id="material" className="eal-section eal-gear">
+          <div className="eal-container">
+            <p className="eal-eyebrow">Material oficial</p>
+            <h2 className="eal-display eal-h2">La 3ª edición, hasta el último detalle</h2>
+            <p className="eal-intro">
+              Franelas, credenciales, lanyards y pulseras con la identidad del evento. Una competencia seria también se nota en lo que se ve.
+            </p>
+            <div className="eal-gear-grid">
+              {GEAR.map(g => (
+                <figure key={g.key} className={`eal-gear-item eal-gear-${g.key}`}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={`/images/endurance/pop/${g.key}-800.webp`}
+                    srcSet={`/images/endurance/pop/${g.key}-800.webp 800w, /images/endurance/pop/${g.key}-1400.webp 1400w`}
+                    sizes={g.key === 'credenciales' ? '(max-width: 640px) 100vw, 66vw' : '(max-width: 640px) 100vw, 33vw'}
+                    alt={g.alt}
+                    width={g.w}
+                    height={g.h}
+                    loading="lazy"
+                  />
+                  <figcaption>{g.label}</figcaption>
+                </figure>
+              ))}
+            </div>
+          </div>
+        </section>
+
         <section id="sponsors" className="eal-section eal-sponsors">
           <div className="eal-container">
             <p className="eal-eyebrow">Patrocinio</p>
