@@ -471,3 +471,136 @@
 @media (prefers-reduced-motion: reduce) {
     .eal-past-item img { transition: none; }
 }
+
+/* ── Fecha y cuenta regresiva ─────────────────────── */
+.eal-facts dd small { display: block; font-weight: 400; font-size: 0.8rem; color: var(--eal-muted); margin-top: 0.25rem; line-height: 1.4; }
+.eal-countdown { display: inline-flex; align-items: center; gap: 1rem; margin-top: 1.25rem; padding: 0.75rem 1rem; border: 1px solid var(--eal-line-strong); background: rgba(15, 20, 24, 0.6); }
+.eal-countdown-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--eal-muted); }
+.eal-countdown-part { display: flex; flex-direction: column; align-items: center; line-height: 1; }
+.eal-countdown-part strong { font-size: 2rem; color: var(--eal-orange); }
+.eal-countdown-part small { font-size: 0.68rem; color: var(--eal-muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 0.3rem; }
+
+/* ── El día del evento ────────────────────────────── */
+.eal-day-list { list-style: none; margin: 2rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; counter-reset: none; }
+.eal-day-list li { display: flex; gap: 1rem; padding: 1.25rem; border: 1px solid var(--eal-line); background: var(--eal-bg-2); }
+.eal-day-num { font-size: 1.8rem; color: var(--eal-orange); line-height: 1; min-width: 2.2rem; }
+.eal-day-list strong { display: block; font-size: 1.05rem; margin-bottom: 0.35rem; }
+.eal-day-list p { color: var(--eal-muted); font-size: 0.92rem; line-height: 1.5; }
+.eal-docs { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.5rem; }
+.eal-doc-link { display: inline-flex; align-items: center; padding: 0.7rem 1rem; border: 1px solid var(--eal-line-strong); font-size: 0.85rem; font-weight: 700; text-decoration: none; color: var(--eal-text); }
+.eal-doc-link:hover { border-color: var(--eal-orange); color: var(--eal-orange); }
+.eal-doc-link.is-soon { color: var(--eal-muted); border-style: dashed; cursor: default; }
+.eal-doc-link.is-soon:hover { border-color: var(--eal-line-strong); color: var(--eal-muted); }
+
+/* ── Inscripción: categoría y mensaje de WhatsApp ─── */
+.eal-category-help { border-left: 3px solid var(--eal-orange); padding: 0.25rem 0 0.25rem 1rem; }
+.eal-category-help strong { display: block; margin-bottom: 0.3rem; }
+.eal-category-help p { color: #c3c7ca; font-size: 0.92rem; line-height: 1.55; }
+.eal-reg-form { display: flex; flex-direction: column; gap: 1rem; }
+.eal-reg-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+.eal-reg-form label:not(.eal-reg-accept) > span, .eal-reg-choice legend { display: block; font-size: 0.72rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--eal-muted); margin-bottom: 0.4rem; }
+.eal-reg-form input:not([type=checkbox]) { width: 100%; background: var(--eal-bg); border: 1px solid var(--eal-line-strong); color: var(--eal-text); padding: 0.85rem 1rem; font: inherit; font-size: 1rem; border-radius: 0; }
+.eal-reg-form input:not([type=checkbox]):focus { outline: none; border-color: var(--eal-orange); box-shadow: 0 0 0 3px rgba(226, 90, 42, 0.18); }
+.eal-reg-choice { border: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+.eal-reg-choice legend { grid-column: 1 / -1; padding: 0; }
+.eal-reg-choice button { background: var(--eal-bg); border: 1px solid var(--eal-line-strong); color: var(--eal-muted); padding: 0.8rem; font: inherit; font-weight: 700; cursor: pointer; }
+.eal-reg-choice button.is-active { border-color: var(--eal-orange); color: var(--eal-text); background: var(--eal-orange-soft); }
+.eal-reg-accept { display: flex; gap: 0.6rem; align-items: flex-start; font-size: 0.9rem; color: #c3c7ca; cursor: pointer; }
+.eal-reg-accept input { margin-top: 0.2rem; accent-color: var(--eal-orange); width: 18px; height: 18px; flex-shrink: 0; }
+.eal-reg-accept a { color: var(--eal-orange); }
+.eal-reg-error { color: #ff7a6b; font-size: 0.88rem; }
+.eal-btn[aria-disabled="true"] { opacity: 0.55; }
+.eal-pay-note a { color: var(--eal-text); }
+
+/* ── Patrocinio: niveles y marcas anteriores ──────── */
+.eal-tiers { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; margin: 2.5rem 0 1.5rem; }
+.eal-tier { display: flex; flex-direction: column; gap: 0.35rem; padding: 1.5rem; border: 1px solid var(--eal-line-strong); background: var(--eal-bg-2); }
+.eal-tier.is-featured { border-color: var(--eal-orange); background: linear-gradient(160deg, rgba(226, 90, 42, 0.14), transparent 60%), var(--eal-bg-2); }
+.eal-tier-name { font-size: 0.75rem; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase; color: var(--eal-muted); }
+.eal-tier.is-featured .eal-tier-name { color: var(--eal-orange); }
+.eal-tier-price { font-size: 2.6rem; line-height: 1; }
+.eal-tier-spots { font-size: 0.85rem; color: var(--eal-muted); }
+.eal-tier ul { list-style: none; margin: 0.75rem 0 0; padding: 0.75rem 0 0; border-top: 1px solid var(--eal-line); display: flex; flex-direction: column; gap: 0.5rem; }
+.eal-tier li { font-size: 0.9rem; line-height: 1.45; color: #c3c7ca; padding-left: 1.1rem; position: relative; }
+.eal-tier li::before { content: ''; position: absolute; left: 0; top: 0.5em; width: 6px; height: 6px; background: var(--eal-orange); }
+.eal-past-sponsors { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; padding: 1.25rem 0; margin-bottom: 2rem; border-top: 1px solid var(--eal-line); border-bottom: 1px solid var(--eal-line); }
+.eal-past-sponsors > span { font-size: 0.75rem; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--eal-muted); }
+.eal-past-sponsors ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 2rem; flex-wrap: wrap; }
+.eal-past-sponsors li { font-size: 1.5rem; color: var(--eal-text); opacity: 0.85; }
+
+/* ── Pie y páginas legales ────────────────────────── */
+.eal-footer-legal { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-top: 2rem !important; padding-top: 1.25rem; border-top: 1px solid var(--eal-line); font-size: 0.82rem; }
+.eal-footer-legal a, .eal-footer-legal span { color: var(--eal-muted); text-decoration: none; }
+.eal-footer-legal a:hover { color: var(--eal-text); }
+.eal-nav-static { justify-content: space-between; }
+.eal-legal-inner { max-width: 760px; }
+.eal-legal-updated { color: var(--eal-muted); font-size: 0.85rem; margin: 0.5rem 0 2rem !important; }
+.eal-legal h2 { font-size: 1.25rem; margin: 2.25rem 0 0.75rem; color: var(--eal-text); }
+.eal-legal p, .eal-legal li { color: #c3c7ca; line-height: 1.7; font-size: 1rem; }
+.eal-legal p + p { margin-top: 0.75rem !important; }
+.eal-legal ul { padding-left: 1.2rem; display: flex; flex-direction: column; gap: 0.5rem; }
+.eal-legal a { color: var(--eal-orange); }
+
+@media (max-width: 1000px) {
+    .eal-day-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .eal-tiers { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 640px) {
+    .eal-day-list, .eal-tiers, .eal-reg-grid { grid-template-columns: 1fr; }
+    .eal-past-sponsors li { font-size: 1.2rem; }
+}
+
+/* ── Efectos "ki": aura, golpe, impacto ───────────── */
+@keyframes eal-ki {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255, 196, 61, 0.0), 0 0 18px 2px rgba(226, 90, 42, 0.35); }
+    50% { box-shadow: 0 0 0 4px rgba(255, 196, 61, 0.18), 0 0 34px 8px rgba(226, 90, 42, 0.55); }
+}
+.eal .eal-btn-primary:hover, .eal .eal-btn-primary:focus-visible { animation: eal-ki 0.9s ease-in-out infinite; }
+@keyframes eal-hit {
+    0% { transform: scale(1); filter: brightness(1); }
+    30% { transform: scale(0.93); filter: brightness(1.6); }
+    60% { transform: scale(1.04); }
+    100% { transform: scale(1); filter: brightness(1); }
+}
+.eal .is-hit { animation: eal-hit 0.28s cubic-bezier(.2,.9,.3,1.4); }
+.eal-burst {
+    position: fixed; z-index: 2000; width: 16px; height: 16px; margin: -8px 0 0 -8px; pointer-events: none; border-radius: 50%;
+    background: radial-gradient(circle, #fff7d6 0%, #ffc43d 30%, rgba(226, 90, 42, 0.8) 55%, transparent 70%);
+    animation: eal-burst 0.55s ease-out forwards;
+}
+.eal-burst::after {
+    content: ''; position: absolute; inset: -20px; border-radius: 50%;
+    background: repeating-conic-gradient(rgba(255, 220, 120, 0.85) 0 4deg, transparent 4deg 22deg);
+    -webkit-mask: radial-gradient(circle, transparent 40%, #000 42%, transparent 70%); mask: radial-gradient(circle, transparent 40%, #000 42%, transparent 70%);
+}
+@keyframes eal-burst { 0% { transform: scale(0.4); opacity: 1; } 100% { transform: scale(7); opacity: 0; } }
+@keyframes eal-shake { 0%, 100% { transform: translate(0, 0); } 25% { transform: translate(-3px, 2px); } 50% { transform: translate(3px, -2px); } 75% { transform: translate(-2px, -1px); } }
+html.eal-shake .eal main { animation: eal-shake 0.24s linear; }
+
+.eal-fx-in { opacity: 0; transform: translateX(-28px) skewX(-8deg); filter: blur(6px); }
+.eal-fx-in.is-in { opacity: 1; transform: none; filter: none; transition: opacity 0.35s ease-out, transform 0.45s cubic-bezier(.2,.9,.3,1.3), filter 0.35s ease-out; }
+.eal-h2.eal-fx-in.is-in { animation: eal-flash 0.6s ease-out 0.1s; }
+@keyframes eal-flash { 0% { text-shadow: 0 0 0 transparent; } 30% { text-shadow: 0 0 24px rgba(255, 196, 61, 0.75), 0 0 2px #fff; } 100% { text-shadow: 0 0 0 transparent; } }
+
+/* ── Control de sonido ────────────────────────────── */
+.eal-fx-controls { position: fixed; left: 1rem; bottom: 1rem; z-index: 60; display: flex; gap: 0.4rem; }
+.eal-fx-controls button {
+    display: inline-flex; align-items: center; gap: 0.45rem; height: 40px; padding: 0 0.85rem; cursor: pointer;
+    background: rgba(15, 20, 24, 0.88); backdrop-filter: blur(10px); border: 1px solid var(--eal-line-strong); color: var(--eal-muted);
+    font: inherit; font-size: 0.75rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; border-radius: 999px;
+}
+.eal-fx-controls button:hover { color: var(--eal-text); border-color: var(--eal-orange); }
+.eal-fx-controls button.is-on { color: var(--eal-text); border-color: rgba(226, 90, 42, 0.7); }
+.eal-eq { display: inline-flex; gap: 2px; align-items: flex-end; height: 12px; }
+.eal-eq b { width: 3px; background: var(--eal-orange); animation: eal-eq 0.8s ease-in-out infinite; }
+.eal-eq b:nth-child(2) { animation-delay: -0.3s; }
+.eal-eq b:nth-child(3) { animation-delay: -0.55s; }
+@keyframes eal-eq { 0%, 100% { height: 3px; } 50% { height: 12px; } }
+@media (max-width: 640px) {
+    .eal-fx-controls { bottom: 5.25rem; left: 0.75rem; }
+    .eal-fx-controls button span { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .eal .eal-btn-primary:hover { animation: none; }
+    .eal-eq b { animation: none; height: 8px; }
+}

@@ -3,13 +3,21 @@ import SponsorForm from '@/components/endurance/SponsorForm';
 import PastEditions from '@/components/endurance/PastEditions';
 import StickyCta from '@/components/endurance/StickyCta';
 import HeroVideo from '@/components/endurance/HeroVideo';
+import Countdown from '@/components/endurance/Countdown';
+import RegisterWhatsApp from '@/components/endurance/RegisterWhatsApp';
 
 // ─────────────────────────────────────────────────────────────
 // DATOS DEL EVENTO — edita aquí fecha, lugar y contacto
 // ─────────────────────────────────────────────────────────────
 const EVENT = {
   edition: '3ª Edición',
-  date: 'Fecha por anunciar',
+  date: 'Diciembre · por definir',
+  dateDetail: 'Segunda semana de diciembre. Anunciamos el día exacto en Instagram.',
+  // Cuando haya fecha confirmada, pon aquí la fecha y hora (hora de Venezuela) y aparece
+  // la cuenta regresiva en el hero. Ejemplo: '2026-12-12T08:00:00-04:00'
+  dateISO: null as string | null,
+  // Enlace al reglamento completo (PDF en /public o Google Drive). Vacío = "próximamente".
+  reglamentoUrl: '',
   venue: 'Maracaibo, Zulia',
   price: 20,
   whatsapp: '584126134013', // 0412-6134013
@@ -73,6 +81,26 @@ const GEAR = [
   { key: 'stickers', label: 'Stickers', alt: 'Stickers con el logo de Endurance at the Limit', w: 1400, h: 788 },
 ];
 
+// El día del evento (sin horas hasta que haya fecha)
+const DAY = [
+  { t: 'Chequeo y pases', d: 'El equipo de protocolo te recibe, verifica tu inscripción y te entrega tu pase. Llega una hora antes.' },
+  { t: 'Chequeo médico', d: 'Antes de competir pasas una revisión rápida. El equipo de primeros auxilios está en el lugar todo el evento.' },
+  { t: 'Calentamiento', d: 'Tiempo para preparar el cuerpo y conocer la zona de competencia.' },
+  { t: 'Clasificación', d: 'Élite y Alfa Junior pasan por su ronda. Tu puntaje define tu lugar en la llave.' },
+  { t: 'Llaves', d: 'Octavos, cuartos, semifinal, tercer lugar y final, cara a cara.' },
+  { t: 'Premiación', d: 'Podio, premio en metálico, medallas y trofeos.' },
+];
+
+// Niveles de patrocinio (los mismos de los correos)
+const TIERS = [
+  { name: 'Patrocinador principal', price: '$300', spots: '1 cupo', perks: ['"Endurance at the Limit, presentado por tu marca"', 'Logo principal en backdrop, medallas y redes', 'Stand o activación con atletas y público', 'Entrega del premio de la final'], featured: true },
+  { name: 'Patrocinio de categoría', price: '$150', spots: '2 cupos: Élite y Alfa Junior', perks: ['Los premios de la categoría llevan tu nombre', 'Tu marca entrega los premios en el podio', 'Logo en backdrop y web'] },
+  { name: 'Aliado oficial', price: '$50', spots: 'o su equivalente en producto', perks: ['Logo en backdrop y web', 'Menciones del animador durante el evento'] },
+  { name: 'Aliado en especie', price: 'Producto', spots: 'bebidas, comida, premios, servicios', perks: ['Hidratación, refrigerio o premios del podio', 'Logo en la web y mención en el evento'] },
+];
+
+const PAST_SPONSORS = ['HIVE', 'Valhalla Fitness Center', 'Nature'];
+
 const WA_SPONSOR = waLink('Hola, me interesa patrocinar Endurance at the Limit. ¿Me pueden enviar información?');
 const WA_DUDA = waLink('Hola, tengo una duda sobre Endurance at the Limit.');
 
@@ -94,11 +122,16 @@ const INCLUDES = [
   'Tu cupo en la clasificación',
   'Jueceo de primer nivel en cada serie',
   'Refrigerio el día del evento',
+  'Chequeo médico y equipo de primeros auxilios',
   'Entrada para 3 acompañantes',
   'Premio en metálico, medalla y trofeo para los ganadores',
 ];
 
 const FAQ = [
+  {
+    q: '¿En qué categoría me inscribo?',
+    a: 'Eliges tu categoría al inscribirte: Élite, la de mayor nivel, o Alfa Junior, para quienes están empezando a competir. Si entrenas en Fortis Workout, la decide tu capitán. Si vienes de otro club o del interior, la eliges tú según tu nivel. Las dos categorías pasan por la clasificación.',
+  },
   {
     q: '¿Cuándo queda confirmada mi inscripción?',
     a: 'Cuando envías el comprobante de pago por WhatsApp y te respondemos confirmando tu cupo. Pagar sin enviar el comprobante no reserva el cupo.',
@@ -119,11 +152,15 @@ const FAQ = [
   },
   {
     q: '¿A qué hora tengo que llegar?',
-    a: 'Una hora antes del inicio, para verificar tu inscripción, calentar y recibir los implementos. Si no estás a la hora del chequeo, quedas descalificado. La hora exacta se anuncia en redes y en los grupos de cada club.',
+    a: 'Una hora antes del inicio. El equipo de protocolo te recibe, verifica tu inscripción y te entrega tu pase; después pasas el chequeo médico y calientas. Si no estás a la hora del chequeo, quedas descalificado. La fecha y la hora exactas se anuncian en Instagram y en los grupos de cada club.',
   },
   {
     q: '¿Qué tengo que llevar?',
     a: 'La franela de tu club. El magnesio está permitido. Si quieres usar cualquier otro implemento, avísanos al menos 15 días antes para que el jurado lo apruebe.',
+  },
+  {
+    q: '¿Hay atención médica durante la competencia?',
+    a: 'Sí. Antes de competir pasas un chequeo médico, y un equipo de primeros auxilios está en el lugar durante todo el evento. Si el chequeo detecta un riesgo para tu salud, el equipo médico puede indicar que no compitas.',
   },
   {
     q: 'Tengo una lesión o una condición en las articulaciones. ¿Puedo competir?',
@@ -141,6 +178,7 @@ export default function EndurancePage() {
           <img src="/images/endurance/logo-nav.webp" alt="Endurance at the Limit" width={240} height={212} />
         </a>
         <nav className="eal-nav-links" aria-label="Secciones">
+          <a href="#ediciones">Ediciones</a>
           <a href="#formato">Formato</a>
           <a href="#inscripcion">Inscripción</a>
           <a href="#sponsors">Patrocinio</a>
@@ -175,13 +213,14 @@ export default function EndurancePage() {
                 <span className="eal-dot" aria-hidden />
                 {SPOTS_LINE}
               </p>
+              <Countdown dateISO={EVENT.dateISO} />
             </div>
             <HeroVideo />
           </div>
 
           <div className="eal-container">
             <dl className="eal-facts">
-              <div><dt>Fecha</dt><dd>{EVENT.date}</dd></div>
+              <div><dt>Fecha</dt><dd>{EVENT.date}<small>{EVENT.dateDetail}</small></dd></div>
               <div><dt>Lugar</dt><dd>{EVENT.venue}</dd></div>
               <div><dt>Inscripción</dt><dd>${EVENT.price} · entran 4 personas</dd></div>
               <div><dt>Premios</dt><dd>Dinero, medalla y trofeo</dd></div>
@@ -194,7 +233,7 @@ export default function EndurancePage() {
           <div className="eal-tape-track">
             {Array.from({ length: 2 }).map((_, i) => (
               <span key={i}>
-                5 ejercicios <b>·</b> orden estricto <b>·</b> contra el reloj <b>·</b> llaves cara a cara <b>·</b> premio en metálico <b>·</b> un jurado por atleta <b>·</b>{' '}
+                5 ejercicios <b>·</b> orden estricto <b>·</b> contra el reloj <b>·</b> llaves cara a cara <b>·</b> premio en metálico <b>·</b> 3 jueces por atleta <b>·</b>{' '}
               </span>
             ))}
           </div>
@@ -328,6 +367,34 @@ export default function EndurancePage() {
           </div>
         </section>
 
+        {/* EL DÍA DEL EVENTO */}
+        <section id="cronograma" className="eal-section eal-day">
+          <div className="eal-container">
+            <p className="eal-eyebrow">El día del evento</p>
+            <h2 className="eal-display eal-h2">De la llegada al podio</h2>
+            <p className="eal-intro">Los horarios se publican con la fecha. El orden es este:</p>
+            <ol className="eal-day-list">
+              {DAY.map((d, i) => (
+                <li key={d.t}>
+                  <span className="eal-day-num eal-display">{String(i + 1).padStart(2, '0')}</span>
+                  <div>
+                    <strong>{d.t}</strong>
+                    <p>{d.d}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+            <div className="eal-docs">
+              {EVENT.reglamentoUrl ? (
+                <a href={EVENT.reglamentoUrl} target="_blank" rel="noopener noreferrer" className="eal-doc-link">Reglamento completo (PDF) →</a>
+              ) : (
+                <span className="eal-doc-link is-soon" aria-disabled="true">Reglamento completo · próximamente</span>
+              )}
+              <a href="/exoneracion" className="eal-doc-link">Exoneración de responsabilidad →</a>
+            </div>
+          </div>
+        </section>
+
         {/* INSCRIPCIÓN */}
         <section id="inscripcion" className="eal-section eal-register-section">
           <div className="eal-container">
@@ -356,16 +423,21 @@ export default function EndurancePage() {
               <div className="eal-pay">
                 <ol className="eal-steps">
                   <li><span>1</span><div><strong>Paga</strong> por Pago Móvil (en bolívares, a tasa euro BCV) o 20 USDT por Binance Pay.</div></li>
-                  <li><span>2</span><div><strong>Envía el comprobante por WhatsApp</strong> con tu nombre completo y tu categoría.</div></li>
+                  <li><span>2</span><div><strong>Llena tus datos abajo</strong> y toca el botón: se abre WhatsApp con tu inscripción escrita. Adjunta la captura del pago y envía.</div></li>
                   <li><span>3</span><div><strong>Recibe la confirmación</strong> de tu cupo en el mismo chat.</div></li>
                 </ol>
 
                 <PaymentQrs />
 
-                <a href={WA_INSCRIPCION} target="_blank" rel="noopener noreferrer" className="eal-btn eal-btn-whatsapp eal-btn-block eal-btn-lg">
-                  Enviar comprobante por WhatsApp
-                </a>
-                <p className="eal-pay-note">Sin comprobante no hay cupo reservado. WhatsApp: {EVENT.whatsappLabel}</p>
+                <div className="eal-category-help">
+                  <strong>¿Élite o Alfa Junior?</strong>
+                  <p>Élite es la categoría de mayor nivel; Alfa Junior, para quienes están empezando a competir. Si entrenas en Fortis Workout, la decide tu capitán. Si vienes de otro club o del interior, la eliges tú. Las dos pasan por la clasificación.</p>
+                </div>
+
+                <RegisterWhatsApp whatsapp={EVENT.whatsapp} edition={EVENT.edition} />
+                <p className="eal-pay-note">
+                  Sin comprobante no hay cupo reservado. ¿Prefieres escribir tú? <a href={WA_INSCRIPCION} target="_blank" rel="noopener noreferrer">WhatsApp {EVENT.whatsappLabel}</a>
+                </p>
               </div>
             </div>
           </div>
@@ -426,10 +498,26 @@ export default function EndurancePage() {
               </article>
             </div>
 
+            <div className="eal-tiers">
+              {TIERS.map(t => (
+                <article key={t.name} className={`eal-tier${t.featured ? ' is-featured' : ''}`}>
+                  <span className="eal-tier-name">{t.name}</span>
+                  <strong className="eal-display eal-tier-price">{t.price}</strong>
+                  <span className="eal-tier-spots">{t.spots}</span>
+                  <ul>{t.perks.map(p => <li key={p}>{p}</li>)}</ul>
+                </article>
+              ))}
+            </div>
+
+            <div className="eal-past-sponsors">
+              <span>Nos acompañaron en ediciones anteriores</span>
+              <ul>{PAST_SPONSORS.map(n => <li key={n} className="eal-display">{n}</li>)}</ul>
+            </div>
+
             <div className="eal-sponsor-box">
               <div className="eal-sponsor-copy">
                 <h3 className="eal-display">Armemos tu participación</h3>
-                <p>Puedes participar con presencia de marca en el evento, una activación con el público o aportando premios. Déjanos tus datos y te enviamos la propuesta.</p>
+                <p>Elige un nivel o propón el tuyo: efectivo, producto o una combinación. Déjanos tus datos y te enviamos la propuesta completa.</p>
                 <a href={WA_SPONSOR} target="_blank" rel="noopener noreferrer" className="eal-link">
                   ¿Prefieres WhatsApp? Escríbenos al {EVENT.whatsappLabel} →
                 </a>
@@ -488,6 +576,11 @@ export default function EndurancePage() {
             <a href={WA_DUDA} target="_blank" rel="noopener noreferrer">WhatsApp {EVENT.whatsappLabel}</a>
             <a href={EVENT.instagramUrl} target="_blank" rel="noopener noreferrer">Instagram {EVENT.instagram}</a>
           </div>
+        </div>
+        <div className="eal-container eal-footer-legal">
+          <a href="/privacidad">Política de privacidad</a>
+          <a href="/exoneracion">Exoneración de responsabilidad</a>
+          {EVENT.reglamentoUrl ? <a href={EVENT.reglamentoUrl} target="_blank" rel="noopener noreferrer">Reglamento</a> : <span>Reglamento · próximamente</span>}
         </div>
       </footer>
 

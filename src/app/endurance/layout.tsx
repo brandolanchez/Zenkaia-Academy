@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import './endurance.css';
+import SaiyanFx from '@/components/endurance/SaiyanFx';
 
 // Tipografía display: Anton (licencia OFL), condensada y pesada como las letras del logo.
 // Reemplazo temporal de "Nocturna Giorgia": cuando tengas el archivo .woff2,
@@ -26,5 +27,10 @@ export const metadata: Metadata = {
 };
 
 export default function EnduranceLayout({ children }: { children: React.ReactNode }) {
-  return <div className={`eal ${display.variable}`}>{children}</div>;
+  return (
+    <div className={`eal ${display.variable}`}>
+      {children}
+      <SaiyanFx />
+    </div>
+  );
 }

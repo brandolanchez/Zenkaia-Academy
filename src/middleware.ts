@@ -6,8 +6,17 @@ const ENDURANCE_HOST_PREFIX = 'endurance.'
 
 export async function middleware(request: NextRequest) {
   const host = request.headers.get('host') || ''
+  if (request.nextUrl.pathname === '/favicon.ico' && !host.startsWith(ENDURANCE_HOST_PREFIX)) {
+    return NextResponse.next()
+  }
   if (host.startsWith(ENDURANCE_HOST_PREFIX)) {
     const { pathname } = request.nextUrl
+    // Ícono de pestaña del evento (el de Zenkai es otro)
+    if (pathname === '/favicon.ico') {
+      const icon = request.nextUrl.clone()
+      icon.pathname = '/images/endurance/favicon.png'
+      return NextResponse.rewrite(icon)
+    }
     // API y archivos estáticos se sirven tal cual
     if (pathname.startsWith('/api') || pathname.startsWith('/endurance') || pathname.includes('.')) {
       return NextResponse.next()
@@ -81,6 +90,6 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+    '/((?!_next/static|_next/image|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
 }
