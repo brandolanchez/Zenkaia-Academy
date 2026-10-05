@@ -101,7 +101,7 @@ const TIERS = [
   { name: 'Aliado en especie', price: 'Producto', spots: 'bebidas, comida, premios, servicios', perks: ['Hidratación, refrigerio o premios del podio', 'Logo en la web y mención en el evento'] },
 ];
 
-const PAST_SPONSORS = ['HIVE', 'Valhalla Fitness Center', 'Nature'];
+const PAST_SPONSORS = ['Hive Blockchain', 'Valhalla Fitness Center', 'Nature'];
 
 const WA_SPONSOR = waLink('Hola, me interesa patrocinar Endurance at the Limit. ¿Me pueden enviar información?');
 const WA_DUDA = waLink('Hola, tengo una duda sobre Endurance at the Limit.');
@@ -520,7 +520,7 @@ export default function EndurancePage() {
               <div className="eal-sponsor-copy">
                 <h3 className="eal-display">Armemos tu participación</h3>
                 <p>Elige un nivel o propón el tuyo: efectivo, producto o una combinación. Déjanos tus datos y te enviamos la propuesta completa.</p>
-                <a href={EVENT.dossierUrl} download className="eal-btn eal-btn-primary eal-dossier-btn">Descargar dossier (PDF)</a>
+                <a href={EVENT.dossierUrl} target="_blank" rel="noopener" className="eal-btn eal-btn-primary eal-dossier-btn">Ver dossier (PDF)</a>
                 <a href={WA_SPONSOR} target="_blank" rel="noopener noreferrer" className="eal-link">
                   ¿Prefieres WhatsApp? Escríbenos al {EVENT.whatsappLabel} →
                 </a>
@@ -583,7 +583,7 @@ export default function EndurancePage() {
         <div className="eal-container eal-footer-legal">
           <a href="/privacidad">Política de privacidad</a>
           <a href="/exoneracion">Exoneración de responsabilidad</a>
-          <a href={EVENT.dossierUrl} download>Dossier de patrocinio</a>
+          <a href={EVENT.dossierUrl} target="_blank" rel="noopener">Dossier de patrocinio</a>
           {EVENT.reglamentoUrl ? <a href={EVENT.reglamentoUrl} target="_blank" rel="noopener noreferrer">Reglamento</a> : <span>Reglamento · próximamente</span>}
         </div>
       </footer>
