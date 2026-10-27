@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://endurance.fortisworkout.org'),
   title: 'Endurance at the Limit · 3ª Edición | Competencia de calistenia en el Zulia',
   description:
-    'El reto de resistencia en calistenia del Zulia: cinco ejercicios contra el reloj, llaves cara a cara, tres jueces por atleta y premio en metálico. Inscripción $20, cupos limitados. Abierta a patrocinadores.',
+    'El reto de resistencia en calistenia del Zulia: circuitos contra el reloj, final de 3 atletas por categoría, tres jueces por atleta y premio en metálico. Inscripción $20, cupos limitados.',
   openGraph: {
     title: 'Endurance at the Limit · 3ª Edición',
     description: 'Competencia de resistencia en calistenia del Estado Zulia. Inscripciones y patrocinios abiertos.',

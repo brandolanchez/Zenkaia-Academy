@@ -5,6 +5,7 @@ import StickyCta from '@/components/endurance/StickyCta';
 import HeroVideo from '@/components/endurance/HeroVideo';
 import Countdown from '@/components/endurance/Countdown';
 import RegisterWhatsApp from '@/components/endurance/RegisterWhatsApp';
+import CompetitionFormat from '@/components/endurance/CompetitionFormat';
 
 // ─────────────────────────────────────────────────────────────
 // DATOS DEL EVENTO — edita aquí fecha, lugar y contacto
@@ -88,8 +89,8 @@ const DAY = [
   { t: 'Chequeo y pases', d: 'El equipo de protocolo te recibe, verifica tu inscripción y te entrega tu pase. Llega una hora antes.' },
   { t: 'Chequeo médico', d: 'Antes de competir pasas una revisión rápida. El equipo de primeros auxilios está en el lugar todo el evento.' },
   { t: 'Calentamiento', d: 'Tiempo para preparar el cuerpo y conocer la zona de competencia.' },
-  { t: 'Clasificación', d: 'Élite y Alfa Junior pasan por su ronda. Tu puntaje define tu lugar en la llave.' },
-  { t: 'Llaves', d: 'Octavos, cuartos, semifinal, tercer lugar y final, cara a cara.' },
+  { t: 'Clasificatoria', d: 'Élite y Alfa Junior hacen su circuito contra el reloj. Avanzan los mejores tiempos.' },
+  { t: 'Segunda ronda y finales', d: 'Los 10 mejores de Élite corren la segunda ronda. Después, los 3 mejores de cada categoría van a la final.' },
   { t: 'Premiación', d: 'Podio, premio en metálico, medallas y trofeos.' },
 ];
 
@@ -107,21 +108,19 @@ const WA_SPONSOR = waLink('Hola, me interesa patrocinar Endurance at the Limit. 
 const WA_DUDA = waLink('Hola, tengo una duda sobre Endurance at the Limit.');
 
 const ROAD = [
-  { stage: 'Clasificación', detail: '1 minuto para sumar tu mejor puntuación. Nadie queda fuera: tu puntaje define tu lugar en la llave.' },
-  { stage: 'Octavos', detail: 'Los jueces arman los cruces para que los mejores no se enfrenten antes de tiempo.' },
-  { stage: 'Cuartos', detail: '8 atletas. Cruces por sorteo.' },
-  { stage: 'Semifinal', detail: '4 atletas. Los dos que caen pelean el 3er lugar.' },
-  { stage: 'Final', detail: '2 atletas. Uno se lleva el título.' },
+  { stage: 'Clasificatoria', detail: 'Todos los inscritos de tu categoría hacen el mismo circuito. Avanzan los mejores tiempos.' },
+  { stage: 'Segunda ronda', detail: 'Solo Élite: los 10 mejores tiempos de la clasificatoria. Pasan 3 a la final.' },
+  { stage: 'Final', detail: '3 atletas por categoría. El orden de llegada define el podio.' },
 ];
 
 const NULLS = [
   { t: 'Flexiones', d: 'Con los dedos flexionados, o apoyado en un bordillo, una barra o una superficie inclinada.' },
   { t: 'Tracción y empuje', d: 'Con los pies despegados del suelo cuando no corresponde: la repetición es nula y hay que hacerla de nuevo.' },
-  { t: 'Muscle-up', d: 'Subir primero un brazo y luego el otro no cuenta. En Élite, en octavos y cuartos, tampoco se permite encoger las piernas.' },
+  { t: 'Muscle-up', d: 'Subir primero un brazo y luego el otro no cuenta. En Élite, en la clasificatoria y la segunda ronda, tampoco se permite encoger las piernas.' },
 ];
 
 const INCLUDES = [
-  'Tu cupo en la clasificación',
+  'Tu cupo en la clasificatoria',
   'Jueceo de primer nivel en cada serie',
   'Refrigerio el día del evento',
   'Chequeo médico y equipo de primeros auxilios',
@@ -132,7 +131,11 @@ const INCLUDES = [
 const FAQ = [
   {
     q: '¿En qué categoría me inscribo?',
-    a: 'Eliges tu categoría al inscribirte: Élite, la de mayor nivel, o Alfa Junior, para quienes están empezando a competir. Si entrenas en Fortis Workout, la decide tu capitán. Si vienes de otro club o del interior, la eliges tú según tu nivel. Las dos categorías pasan por la clasificación.',
+    a: 'Eliges tu categoría al inscribirte: Élite, la de mayor nivel, o Alfa Junior, para quienes están empezando a competir. Si entrenas en Fortis Workout, la decide tu capitán. Si vienes de otro club o del interior, la eliges tú según tu nivel. Las dos categorías empiezan en la clasificatoria.',
+  },
+  {
+    q: '¿Cómo se pasa de una ronda a otra?',
+    a: 'Por tiempo. En Élite, los 10 mejores tiempos de la clasificatoria pasan a la segunda ronda, y los 3 mejores de esa ronda, a la final. En Alfa Junior, los 3 mejores tiempos de la clasificatoria van directo a la final. En la final, el más rápido gana.',
   },
   {
     q: '¿Cuándo queda confirmada mi inscripción?',
@@ -205,7 +208,7 @@ export default function EndurancePage() {
                 ¿Cuánto <span className="eal-accent">aguantas?</span>
               </h1>
               <p className="eal-lead">
-                El reto de resistencia en calistenia del Zulia: cinco ejercicios contra el reloj, llaves cara a cara y premio en metálico para quien llegue al final.
+                El reto de resistencia en calistenia del Zulia: circuitos contra el reloj, rondas que eliminan y una final de 3 atletas por categoría. Premio en metálico para el podio.
               </p>
               <div className="eal-hero-actions">
                 <a href="#inscripcion" className="eal-btn eal-btn-primary eal-btn-lg">Quiero competir · ${EVENT.price}</a>
@@ -235,7 +238,7 @@ export default function EndurancePage() {
           <div className="eal-tape-track">
             {Array.from({ length: 2 }).map((_, i) => (
               <span key={i}>
-                5 ejercicios <b>·</b> orden estricto <b>·</b> contra el reloj <b>·</b> llaves cara a cara <b>·</b> premio en metálico <b>·</b> 3 jueces por atleta <b>·</b>{' '}
+                contra el reloj <b>·</b> orden estricto <b>·</b> gana el mejor tiempo <b>·</b> final de 3 <b>·</b> premio en metálico <b>·</b> 3 jueces por atleta <b>·</b>{' '}
               </span>
             ))}
           </div>
@@ -277,7 +280,7 @@ export default function EndurancePage() {
             <p className="eal-eyebrow">El formato</p>
             <h2 className="eal-display eal-h2">Cómo se gana</h2>
             <p className="eal-intro">
-              Cada circuito tiene cinco ejercicios con sus variantes, un número fijo de repeticiones y un orden que no se puede cambiar. Gana quien lo termina en menos tiempo, con todas sus repeticiones válidas.
+              Cada ronda es un circuito de bloques con un número fijo de repeticiones y un orden que no se puede cambiar. Avanza, y al final gana, quien lo termina en menos tiempo, con todas sus repeticiones válidas.
             </p>
 
             <ol className="eal-road">
@@ -289,7 +292,13 @@ export default function EndurancePage() {
                 </li>
               ))}
             </ol>
-            <p className="eal-road-note">La clasificación no elimina a nadie. Sirve para ordenar la llave: con tu puntaje, los jueces arman los cruces para que los más fuertes no se eliminen entre ellos en la primera ronda y la final sea la que tiene que ser.</p>
+            <p className="eal-road-note">Élite compite en tres rondas: clasificatoria, segunda ronda y final. Alfa Junior, en dos: clasificatoria y final.</p>
+
+            <div id="circuitos">
+              <h3 className="eal-display eal-format-title">Los circuitos</h3>
+              <p className="eal-format-intro">Los bloques se hacen en el orden de la tabla, de arriba hacia abajo. Cuando un bloque lleva lastre, el peso aparece en su columna.</p>
+              <CompetitionFormat />
+            </div>
 
             <div className="eal-cats">
               <article className="eal-cat eal-cat-elite">
@@ -364,7 +373,7 @@ export default function EndurancePage() {
               ))}
             </div>
             <p className="eal-note">
-              En semifinal, final y tercer lugar el jurado es más flexible con la forma del muscle-up, por el cansancio acumulado. Saltarse un set o hacer una serie completa mal puede costar la descalificación, igual que cualquier falta de conducta con otro atleta, el jurado, el público o la organización.
+              En la final el jurado es más flexible con la forma del muscle-up, por el cansancio acumulado. Saltarse un bloque o hacer uno completo mal puede costar la descalificación, igual que cualquier falta de conducta con otro atleta, el jurado, el público o la organización.
             </p>
           </div>
         </section>
@@ -433,7 +442,7 @@ export default function EndurancePage() {
 
                 <div className="eal-category-help">
                   <strong>¿Élite o Alfa Junior?</strong>
-                  <p>Élite es la categoría de mayor nivel; Alfa Junior, para quienes están empezando a competir. Si entrenas en Fortis Workout, la decide tu capitán. Si vienes de otro club o del interior, la eliges tú. Las dos pasan por la clasificación.</p>
+                  <p>Élite es la categoría de mayor nivel; Alfa Junior, para quienes están empezando a competir. Si entrenas en Fortis Workout, la decide tu capitán. Si vienes de otro club o del interior, la eliges tú. Las dos empiezan en la clasificatoria.</p>
                 </div>
 
                 <RegisterWhatsApp whatsapp={EVENT.whatsapp} edition={EVENT.edition} />
@@ -479,7 +488,7 @@ export default function EndurancePage() {
             <p className="eal-eyebrow">Patrocinio</p>
             <h2 className="eal-display eal-h2">Pon tu marca donde se decide el campeón</h2>
             <p className="eal-intro">
-              Desde octavos, cada enfrentamiento elimina a alguien. El público sigue cada serie de principio a fin, en el lugar y en redes. Ahí aparece tu marca.
+              Cada ronda deja atletas fuera hasta llegar a los 3 finalistas de cada categoría. El público sigue cada circuito contra el reloj, en el lugar y en redes. Ahí aparece tu marca.
             </p>
 
             <div className="eal-reasons">
@@ -490,8 +499,8 @@ export default function EndurancePage() {
               </article>
               <article>
                 <span className="eal-reason-num eal-display">02</span>
-                <h3>Una llave que sostiene la atención</h3>
-                <p>Octavos, cuartos, semifinal, tercer lugar y final: cinco rondas de enfrentamientos directos, con más tensión en cada una.</p>
+                <h3>Rondas que sostienen la atención</h3>
+                <p>Clasificatoria, segunda ronda y final: menos atletas en cada ronda y más tensión hasta el podio.</p>
               </article>
               <article>
                 <span className="eal-reason-num eal-display">03</span>

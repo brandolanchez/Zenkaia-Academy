@@ -169,7 +169,7 @@
 .eal-path-brand .eal-path-cta { color: var(--eal-orange); }
 
 /* Camino al título */
-.eal-road { list-style: none; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0; margin: 0 0 1.5rem; padding: 0; position: relative; }
+.eal-road { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; margin: 0 0 1.5rem; padding: 0; position: relative; }
 .eal-road::before { content: ''; position: absolute; left: 0; right: 0; top: 1.05rem; height: 2px; background: linear-gradient(90deg, var(--eal-line-strong), var(--eal-orange)); }
 .eal-road li { position: relative; padding: 3rem 1.25rem 0 0; display: flex; flex-direction: column; gap: 0.5rem; }
 .eal-road-num {
@@ -187,6 +187,46 @@
 .eal-road-note::before { content: '↳ '; color: var(--eal-orange); }
 
 /* Categorías */
+/* Circuitos: pestañas por categoría y una tabla por ronda */
+.eal-sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+.eal-format { margin: 0 0 3.5rem; }
+.eal-format-title { font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 0.75rem; }
+.eal-format-intro { color: #c3c7ca; max-width: 680px; line-height: 1.6; margin-bottom: 2rem !important; }
+.eal-tabs { display: inline-flex; border: 1px solid var(--eal-line-strong); margin-bottom: 2rem; }
+.eal-tab {
+    font-family: var(--eal-sans); font-size: 0.85rem; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;
+    padding: 0.85rem 1.5rem; min-height: 44px; background: transparent; color: var(--eal-muted); border: 0; cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+.eal-tab + .eal-tab { border-left: 1px solid var(--eal-line-strong); }
+.eal-tab:hover { color: var(--eal-text); }
+.eal-tab[aria-selected="true"] { background: var(--eal-orange); color: #140a05; }
+.eal-rounds { display: grid; gap: 2.5rem; }
+.eal-rounds[hidden] { display: none; }
+.eal-round-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.5rem 1rem; margin-bottom: 0.9rem; }
+.eal-round-head h4 { font-size: 2rem; margin: 0; line-height: 1; }
+.eal-round:last-child .eal-round-head h4 { color: var(--eal-orange); }
+.eal-round-count { font-size: 0.7rem; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; padding: 0.3rem 0.6rem; border: 1px solid var(--eal-line-strong); }
+.eal-round-note { color: var(--eal-muted); font-size: 0.95rem; }
+.eal-table-wrap { border: 1px solid var(--eal-line-strong); background: var(--eal-bg-2); }
+.eal-table { width: 100%; border-collapse: collapse; font-size: 1rem; }
+.eal-table th { text-align: left; font-size: 0.68rem; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; color: var(--eal-muted); padding: 0.8rem 1rem; border-bottom: 1px solid var(--eal-line-strong); }
+.eal-table td { padding: 0.85rem 1rem; border-top: 1px solid var(--eal-line); line-height: 1.4; vertical-align: top; }
+.eal-table tbody tr:first-child td { border-top: 0; }
+.eal-table th:first-child, .eal-table-num { width: 3.5rem; }
+.eal-table-num { font-weight: 800; color: var(--eal-orange); font-variant-numeric: tabular-nums; }
+.eal-table th:last-child:not(:nth-child(2)), .eal-table-load, .eal-table-empty { width: 6rem; white-space: nowrap; }
+.eal-table-load { font-weight: 800; color: var(--eal-orange); }
+.eal-table-empty { color: var(--eal-muted); }
+@media (max-width: 640px) {
+    .eal-tabs { display: flex; }
+    .eal-tab { flex: 1; padding: 0.85rem 0.75rem; }
+    .eal-table { font-size: 0.95rem; }
+    .eal-table th, .eal-table td { padding: 0.75rem 0.6rem; }
+    .eal-table th:first-child, .eal-table-num { width: 2.5rem; }
+    .eal-table th:last-child:not(:nth-child(2)), .eal-table-load, .eal-table-empty { width: 4.25rem; }
+}
+
 .eal-cats { display: grid; grid-template-columns: 1.2fr 1fr; gap: 1.25rem; }
 .eal-cat { padding: 2.5rem; border: 1px solid var(--eal-line-strong); background: var(--eal-bg-2); display: flex; flex-direction: column; gap: 1rem; }
 .eal-cat-elite { background: linear-gradient(140deg, rgba(226, 90, 42, 0.22), var(--eal-bg-2) 65%); border-color: rgba(226, 90, 42, 0.5); }
