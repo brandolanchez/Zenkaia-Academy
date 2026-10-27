@@ -50,7 +50,7 @@ export default function ExoneracionPage() {
 
       <h2>8. Menores de edad</h2>
       <p>
-        Si el atleta es menor de 18 años, su representante legal debe autorizar la inscripción y firmar este documento en el chequeo. Sin esa firma, el atleta no puede competir.
+        La edad mínima para competir es de 15 años. Si el atleta es menor de 18, su representante legal se presenta con él el día del evento, entrega la <a href="/docs/endurance-autorizacion-representante-2026.pdf" target="_blank" rel="noopener">autorización del representante</a> llena y firmada, y firma este documento en el chequeo. Sin representante presente o sin autorización, el atleta no puede competir.
       </p>
     </LegalPage>
   );

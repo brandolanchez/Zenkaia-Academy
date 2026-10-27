@@ -17,8 +17,8 @@ const EVENT = {
   // Cuando haya fecha confirmada, pon aquí la fecha y hora (hora de Venezuela) y aparece
   // la cuenta regresiva en el hero. Ejemplo: '2026-12-12T08:00:00-04:00'
   dateISO: null as string | null,
-  // Enlace al reglamento completo (PDF en /public o Google Drive). Vacío = "próximamente".
-  reglamentoUrl: '',
+  // Enlace al reglamento completo. Vacío = "próximamente".
+  reglamentoUrl: '/reglamento',
   // Dossier de patrocinio en /public/docs
   dossierUrl: '/docs/endurance-dossier-patrocinio-2026.pdf',
   venue: 'Maracaibo, Zulia',
@@ -138,6 +138,10 @@ const FAQ = [
     a: 'Por tiempo. En Élite, los 10 mejores tiempos de la clasificatoria pasan a la segunda ronda, y los 3 mejores de esa ronda, a la final. En Alfa Junior, los 3 mejores tiempos de la clasificatoria van directo a la final. En la final, el más rápido gana.',
   },
   {
+    q: '¿Puedo competir si soy menor de edad?',
+    a: 'Sí, desde los 15 años. El día del evento te presentas con tu representante legal y entregas la autorización firmada, que descargas en el reglamento. Sin representante presente o sin autorización, no puedes competir.',
+  },
+  {
     q: '¿Cuándo queda confirmada mi inscripción?',
     a: 'Cuando envías el comprobante de pago por WhatsApp y te respondemos confirmando tu cupo. Pagar sin enviar el comprobante no reserva el cupo.',
   },
@@ -161,7 +165,7 @@ const FAQ = [
   },
   {
     q: '¿Qué tengo que llevar?',
-    a: 'La franela de tu club. El magnesio está permitido. Si quieres usar cualquier otro implemento, avísanos al menos 15 días antes para que el jurado lo apruebe.',
+    a: 'La franela de tu club. El magnesio y el lastre de los bloques con peso los pone la organización. Si quieres usar cualquier otro implemento, avísanos al menos 15 días antes para que el jurado lo apruebe.',
   },
   {
     q: '¿Hay atención médica durante la competencia?',
@@ -296,7 +300,7 @@ export default function EndurancePage() {
 
             <div id="circuitos">
               <h3 className="eal-display eal-format-title">Los circuitos</h3>
-              <p className="eal-format-intro">Los bloques se hacen en el orden de la tabla, de arriba hacia abajo. Cuando un bloque lleva lastre, el peso aparece en su columna.</p>
+              <p className="eal-format-intro">Los bloques se hacen en el orden de la tabla, de arriba hacia abajo. Cuando un bloque lleva lastre, el peso aparece en su columna; el lastre lo pone la organización.</p>
               <CompetitionFormat />
             </div>
 
@@ -397,7 +401,7 @@ export default function EndurancePage() {
             </ol>
             <div className="eal-docs">
               {EVENT.reglamentoUrl ? (
-                <a href={EVENT.reglamentoUrl} target="_blank" rel="noopener noreferrer" className="eal-doc-link">Reglamento completo (PDF) →</a>
+                <a href={EVENT.reglamentoUrl} className="eal-doc-link">Reglamento completo →</a>
               ) : (
                 <span className="eal-doc-link is-soon" aria-disabled="true">Reglamento completo · próximamente</span>
               )}
@@ -593,7 +597,7 @@ export default function EndurancePage() {
           <a href="/privacidad">Política de privacidad</a>
           <a href="/exoneracion">Exoneración de responsabilidad</a>
           <a href={EVENT.dossierUrl} target="_blank" rel="noopener">Dossier de patrocinio</a>
-          {EVENT.reglamentoUrl ? <a href={EVENT.reglamentoUrl} target="_blank" rel="noopener noreferrer">Reglamento</a> : <span>Reglamento · próximamente</span>}
+          {EVENT.reglamentoUrl ? <a href={EVENT.reglamentoUrl}>Reglamento</a> : <span>Reglamento · próximamente</span>}
         </div>
       </footer>
 
