@@ -8,7 +8,7 @@ import { useRef, useState } from 'react';
 // `load` es el lastre del bloque; déjalo vacío si no lleva peso.
 // ─────────────────────────────────────────────────────────────
 type Block = { work: string; load?: string };
-type Round = { name: string; athletes?: string; note: string; blocks: Block[] };
+type Round = { name: string; athletes?: string; note?: string; blocks: Block[] };
 type Category = { id: string; name: string; rounds: Round[] };
 
 const CATEGORIES: Category[] = [
@@ -18,7 +18,7 @@ const CATEGORIES: Category[] = [
     rounds: [
       {
         name: 'Clasificatoria',
-        note: 'Pasan los 10 mejores tiempos.',
+        athletes: 'Todos los inscritos',
         blocks: [
           { work: '10 pull ups + 1 muscle up + 20 bar dips + 2 muscle ups' },
           { work: '30 push ups' },
@@ -32,7 +32,6 @@ const CATEGORIES: Category[] = [
       {
         name: 'Segunda ronda',
         athletes: '10 atletas',
-        note: 'Pasan los 3 mejores tiempos.',
         blocks: [
           { work: '50 push ups + 25 pull ups + 20 squats' },
           { work: '40 push ups + 20 pull ups + 20 squats' },
@@ -70,7 +69,7 @@ const CATEGORIES: Category[] = [
     rounds: [
       {
         name: 'Clasificatoria',
-        note: 'Pasan los 3 mejores tiempos.',
+        athletes: 'Todos los inscritos',
         blocks: [
           { work: '25 push ups + 20 pull ups + 20 squats' },
           { work: '20 push ups + 15 pull ups + 20 squats' },
@@ -109,7 +108,7 @@ function RoundTable({ round }: { round: Round }) {
       <div className="eal-round-head">
         <h4 className="eal-display">{round.name}</h4>
         {round.athletes && <span className="eal-round-count">{round.athletes}</span>}
-        <span className="eal-round-note">{round.note}</span>
+        {round.note && <span className="eal-round-note">{round.note}</span>}
       </div>
       <div className="eal-table-wrap">
         <table className="eal-table">
