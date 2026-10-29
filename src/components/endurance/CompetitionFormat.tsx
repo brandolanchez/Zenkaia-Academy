@@ -71,6 +71,17 @@ const CATEGORIES: Category[] = [
         name: 'Clasificatoria',
         athletes: 'Todos los inscritos',
         blocks: [
+          { work: '20 push ups + 30 s de chin over the bar' },
+          { work: '30 squats + 30 s de head below the bar' },
+          { work: '10 burpees + 30 s de chin over the bar' },
+          { work: '20 dips + 30 s de head below the bar' },
+          { work: '10 chin ups + 30 s de chin over the bar' },
+        ],
+      },
+      {
+        name: 'Segunda ronda',
+        athletes: '10 atletas',
+        blocks: [
           { work: '25 push ups + 20 pull ups + 20 squats' },
           { work: '20 push ups + 15 pull ups + 20 squats' },
           { work: '20 dips + 10 chin ups + 20 squats' },

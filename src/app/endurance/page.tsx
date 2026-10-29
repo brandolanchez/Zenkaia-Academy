@@ -90,7 +90,7 @@ const DAY = [
   { t: 'Chequeo médico', d: 'Antes de competir pasas una revisión rápida. El equipo de primeros auxilios está en el lugar todo el evento.' },
   { t: 'Calentamiento', d: 'Tiempo para preparar el cuerpo y conocer la zona de competencia.' },
   { t: 'Clasificatoria', d: 'Élite y Alfa Junior hacen su circuito contra el reloj. Avanzan los mejores tiempos.' },
-  { t: 'Segunda ronda y finales', d: 'Los 10 mejores de Élite corren la segunda ronda. Después, los 3 mejores de cada categoría van a la final.' },
+  { t: 'Segunda ronda y finales', d: 'Los 10 mejores tiempos de cada categoría corren la segunda ronda. Después, los 3 mejores van a la final.' },
   { t: 'Premiación', d: 'Podio, premio en metálico, medallas y trofeos.' },
 ];
 
@@ -109,7 +109,7 @@ const WA_DUDA = waLink('Hola, tengo una duda sobre Endurance at the Limit.');
 
 const ROAD = [
   { stage: 'Clasificatoria', detail: 'Todos los inscritos de tu categoría hacen el mismo circuito. Avanzan los mejores tiempos.' },
-  { stage: 'Segunda ronda', detail: 'Solo Élite: los 10 mejores tiempos de la clasificatoria. Pasan 3 a la final.' },
+  { stage: 'Segunda ronda', detail: '10 atletas por categoría: los mejores tiempos de la clasificatoria. Pasan 3 a la final.' },
   { stage: 'Final', detail: '3 atletas por categoría. El orden de llegada define el podio.' },
 ];
 
@@ -135,7 +135,7 @@ const FAQ = [
   },
   {
     q: '¿Cómo se pasa de una ronda a otra?',
-    a: 'Por tiempo. En Élite, los 10 mejores tiempos de la clasificatoria pasan a la segunda ronda, y los 3 mejores de esa ronda, a la final. En Alfa Junior, los 3 mejores tiempos de la clasificatoria van directo a la final. En la final, el más rápido gana.',
+    a: 'Por tiempo, igual en las dos categorías. Los 10 mejores tiempos de la clasificatoria pasan a la segunda ronda, y los 3 mejores de esa ronda, a la final. En la final, el más rápido gana.',
   },
   {
     q: '¿Puedo competir si soy menor de edad?',
@@ -296,7 +296,7 @@ export default function EndurancePage() {
                 </li>
               ))}
             </ol>
-            <p className="eal-road-note">Élite compite en tres rondas: clasificatoria, segunda ronda y final. Alfa Junior, en dos: clasificatoria y final.</p>
+            <p className="eal-road-note">Las dos categorías compiten en tres rondas, cada una con sus propios circuitos.</p>
 
             <div id="circuitos">
               <h3 className="eal-display eal-format-title">Los circuitos</h3>

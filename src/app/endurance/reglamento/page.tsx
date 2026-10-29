@@ -13,7 +13,7 @@ export default function ReglamentoPage() {
   return (
     <LegalPage eyebrow="Atletas" title="Reglamento general" updated="octubre de 2026">
       <p>
-        Este reglamento aplica a todos los atletas inscritos en Endurance at the Limit 2026, 3.ª edición, en las dos categorías. Al inscribirte lo aceptas, junto con la <a href="/exoneracion">exoneración de responsabilidad</a>. Los criterios de ejecución siguen los usados en las competencias de resistencia avaladas por la Federación Española de Street Workout y Calistenia (FESWC).
+        Este reglamento aplica a todos los atletas inscritos en Endurance at the Limit 2026, 3.ª edición, en las dos categorías. Al inscribirte lo aceptas, junto con la <a href="/exoneracion">exoneración de responsabilidad</a>.
       </p>
 
       <h2>1. Categorías</h2>
@@ -47,8 +47,10 @@ export default function ReglamentoPage() {
       <ul>
         <li>Cada ronda es un circuito de bloques con repeticiones fijas y un orden que no se puede cambiar. Los circuitos de cada ronda están publicados en la sección <a href="/#circuitos">Formato</a>.</li>
         <li>Todas las rondas son por tiempo: avanza, y en la final gana, quien completa el circuito en menos tiempo con todas sus repeticiones válidas.</li>
-        <li><strong>Élite:</strong> en la clasificatoria compiten todos los inscritos y los 10 mejores tiempos pasan a la segunda ronda. De ahí, los 3 mejores pasan a la final.</li>
-        <li><strong>Alfa Junior:</strong> en la clasificatoria compiten todos los inscritos y los 3 mejores tiempos pasan directo a la final.</li>
+        <li>Las dos categorías compiten en tres rondas, cada una con sus propios circuitos.</li>
+        <li><strong>Clasificatoria:</strong> compiten todos los inscritos. Los 10 mejores tiempos pasan a la segunda ronda.</li>
+        <li><strong>Segunda ronda:</strong> compiten 10 atletas. Los 3 mejores tiempos pasan a la final.</li>
+        <li><strong>Final:</strong> compiten 3 atletas.</li>
         <li>El orden de llegada en la final define el podio.</li>
       </ul>
 
@@ -107,10 +109,11 @@ export default function ReglamentoPage() {
         <li>Doblar las rodillas o tomar impulso del balanceo anula la repetición.</li>
       </ul>
 
-      <h3>Chin over the bar</h3>
+      <h3>Chin over the bar y head below the bar</h3>
       <ul>
-        <li>Sostienes la barbilla por encima de la barra el tiempo indicado en el circuito.</li>
-        <li>Si la barbilla baja de la barra, el conteo se pausa y sigue cuando vuelves a subirla.</li>
+        <li><strong>Chin over the bar:</strong> colgado con los brazos flexionados, sostienes la barbilla por encima de la barra el tiempo indicado en el circuito.</li>
+        <li><strong>Head below the bar:</strong> colgado con los brazos flexionados, sostienes la cabeza justo por debajo de la barra, sin tocarla, el tiempo indicado.</li>
+        <li>Los pies no tocan el suelo. Si pierdes la posición, el conteo se pausa y sigue cuando vuelves a ella.</li>
       </ul>
 
       <h2>8. Repeticiones nulas y descalificación</h2>
