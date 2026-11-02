@@ -31,6 +31,8 @@ export const metadata: Metadata = {
     url: 'https://zenkai.fortisworkout.org/',
   },
   twitter: { card: 'summary_large_image' },
+  // Verificación de Google Search Console (aplica a zenkai. y endurance., que comparten este layout)
+  verification: { google: 'nVHkXEcD-Bb4iNqg7x8dbO9FZmFS_EL3XQnL4TjHHIc' },
 };
 
 import Script from 'next/script';
