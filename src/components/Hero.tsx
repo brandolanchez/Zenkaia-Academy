@@ -8,12 +8,12 @@ export default function Hero() {
         <div className="hero-overlay"></div>
         <div className="kanji-bg">全開</div>
         <div className="hero-content fade-in-up">
-          <span className="pre-title">Entrenamiento Funcional Real y Calistenia</span>
-          <h1 className="main-title">
+          <h1 className="pre-title">Entrenamiento funcional y calistenia online</h1>
+          <p className="main-title">
             Estás perdiendo el tiempo si sigues entrenando como <span className="highlight">todo el mundo.</span>
-          </h1>
+          </p>
           <p className="subtitle">
-            Zenkai es una academia con coaches reales: revisan tu técnica, te corrigen y ajustan tu plan según tu progreso.
+            Zenkai es una academia de Maracaibo con coaches reales: revisan tu técnica, te corrigen y ajustan tu plan según tu progreso, estés donde estés.
           </p>
           <div className="hero-actions">
             <Link href="/register" className="btn btn-primary btn-large">

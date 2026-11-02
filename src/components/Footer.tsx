@@ -22,7 +22,7 @@ export default function Footer() {
               </span>
             </div>
             <p className="footer-tagline">
-              Entrenamiento funcional real con mentoría humana. No somos una app, somos el empujón que necesitas.
+              Entrenamiento funcional y calistenia online, con coaches de Maracaibo y mentoría humana. No somos una app, somos el empujón que necesitas.
             </p>
           </div>
 
@@ -50,6 +50,11 @@ export default function Footer() {
               <li>
                 <a href="https://calendly.com/edixovillalobos1" target="_blank" rel="noopener noreferrer">
                   Agendar videollamada
+                </a>
+              </li>
+              <li>
+                <a href="https://fortisworkout.org/" target="_blank" rel="noopener">
+                  Fortis Workout · Calistenia en Maracaibo
                 </a>
               </li>
             </ul>

@@ -17,8 +17,20 @@ const outfit = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Zenkai Academy | Entrenamiento Funcional y Calistenia",
-  description: "Calistenia y entrenamiento funcional con coaches reales. Rutinas en video, plan nutricional y corrección de técnica en vivo. Planes desde $47/mes, sin contratos.",
+  metadataBase: new URL('https://zenkai.fortisworkout.org'),
+  title: 'Entrenamiento funcional y calistenia online | Zenkai Academy',
+  description:
+    'Entrenamiento funcional y calistenia online con coaches de Maracaibo que corrigen tu técnica. Rutinas en video y plan nutricional. Desde $47/mes, sin contratos.',
+  openGraph: {
+    type: 'website',
+    locale: 'es_VE',
+    siteName: 'Zenkai Academy',
+    title: 'Entrenamiento funcional y calistenia online | Zenkai Academy',
+    description:
+      'Coaches reales que corrigen tu técnica. Rutinas en video, plan nutricional y sesiones en vivo. Desde $47/mes, sin contratos.',
+    url: 'https://zenkai.fortisworkout.org/',
+  },
+  twitter: { card: 'summary_large_image' },
 };
 
 import Script from 'next/script';

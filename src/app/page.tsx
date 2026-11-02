@@ -10,10 +10,56 @@ import Footer from '@/components/Footer';
 import Link from 'next/link';
 import ScrollAnimations from '@/components/ScrollAnimations';
 import MobileStickyCta from '@/components/MobileStickyCta';
+import { faqs } from '@/components/faqData';
+import type { Metadata } from 'next';
+
+const SITE = 'https://zenkai.fortisworkout.org';
+
+export const metadata: Metadata = {
+  alternates: { canonical: `${SITE}/` },
+};
+
+// Datos estructurados: quién es Zenkai, qué vende y sus preguntas frecuentes.
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Organization',
+      '@id': `${SITE}/#org`,
+      name: 'Zenkai Academy',
+      url: `${SITE}/`,
+      logo: `${SITE}/icon.png`,
+      description: 'Academia de entrenamiento funcional y calistenia online con coaches de Maracaibo, Venezuela.',
+      areaServed: 'VE',
+      parentOrganization: { '@type': 'SportsClub', name: 'Fortis Workout', url: 'https://fortisworkout.org/' },
+      contactPoint: { '@type': 'ContactPoint', contactType: 'customer service', telephone: '+58-412-786-2283', availableLanguage: 'es' },
+    },
+    {
+      '@type': 'Service',
+      name: 'Entrenamiento funcional y calistenia online',
+      serviceType: 'Coaching de entrenamiento funcional y calistenia online',
+      provider: { '@id': `${SITE}/#org` },
+      areaServed: 'VE',
+      offers: [
+        { '@type': 'Offer', name: 'Plan Standard', price: '47', priceCurrency: 'USD', url: `${SITE}/#planes` },
+        { '@type': 'Offer', name: 'Plan Élite', price: '97', priceCurrency: 'USD', url: `${SITE}/#planes` },
+      ],
+    },
+    {
+      '@type': 'FAQPage',
+      mainEntity: faqs.map((f) => ({
+        '@type': 'Question',
+        name: f.question,
+        acceptedAnswer: { '@type': 'Answer', text: f.answer },
+      })),
+    },
+  ],
+};
 
 export default function Home() {
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <Navbar />
       <ScrollAnimations />
       

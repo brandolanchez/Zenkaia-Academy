@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import LegalPage from '@/components/endurance/LegalPage';
 
 export const metadata: Metadata = {
+  alternates: { canonical: 'https://endurance.fortisworkout.org/reglamento' },
   title: 'Reglamento general | Endurance at the Limit',
   description:
     'Reglamento de Endurance at the Limit 2026: categorías, inscripción, formato por tiempo, ejecución válida de cada ejercicio, jueceo, reclamos y premios.',

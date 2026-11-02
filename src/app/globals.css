@@ -302,8 +302,19 @@ h1, h2, h3 {
 
 .main-title {
     font-size: 5rem;
+    margin-top: 0;
     margin-bottom: 1.5rem;
     max-width: 900px;
+    font-weight: 900;
+    line-height: 1.1;
+    text-transform: uppercase;
+}
+
+/* El H1 de la portada es la línea pequeña en rojo: lleva la palabra clave sin cambiar el diseño */
+h1.pre-title {
+    font-weight: 800;
+    line-height: 1.4;
+    margin-top: 0;
 }
 
 .highlight {

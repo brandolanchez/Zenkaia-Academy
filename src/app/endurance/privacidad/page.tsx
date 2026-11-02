@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import LegalPage from '@/components/endurance/LegalPage';
 
 export const metadata: Metadata = {
+  alternates: { canonical: 'https://endurance.fortisworkout.org/privacidad' },
   title: 'Política de privacidad | Endurance at the Limit',
   description: 'Qué datos recogemos en endurance.fortisworkout.org, para qué los usamos y cómo pedir que los borremos.',
 };

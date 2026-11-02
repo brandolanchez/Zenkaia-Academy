@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import LegalPage from '@/components/endurance/LegalPage';
 
 export const metadata: Metadata = {
+  alternates: { canonical: 'https://endurance.fortisworkout.org/exoneracion' },
   title: 'Exoneración de responsabilidad | Endurance at the Limit',
   description: 'Declaración de aptitud física y aceptación de riesgos para los atletas de Endurance at the Limit.',
 };

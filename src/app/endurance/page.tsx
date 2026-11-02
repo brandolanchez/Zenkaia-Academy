@@ -1,4 +1,10 @@
+import type { Metadata } from 'next';
 import PaymentQrs from '@/components/endurance/PaymentQrs';
+
+// La página también responde en zenkai.fortisworkout.org/endurance: la canónica le dice a Google cuál es la oficial.
+export const metadata: Metadata = {
+  alternates: { canonical: 'https://endurance.fortisworkout.org/' },
+};
 import SponsorForm from '@/components/endurance/SponsorForm';
 import PastEditions from '@/components/endurance/PastEditions';
 import StickyCta from '@/components/endurance/StickyCta';

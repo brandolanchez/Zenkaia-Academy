@@ -16,7 +16,7 @@ export default function Solution() {
               <strong>Mentoría implacable:</strong> Contacto directo con atletas y coaches que han estado donde tú estás.
             </li>
             <li>
-              <strong>Cero excusas geográficas:</strong> Entrena en tu casa, en un parque o en tu gimnasio de toda la vida.
+              <strong>Cero excusas geográficas:</strong> Nacimos en Maracaibo, en la comunidad de <a href="https://fortisworkout.org/" target="_blank" rel="noopener">Fortis Workout</a>, y te entrenamos donde estés: en tu casa, en un parque o en tu gimnasio de toda la vida.
             </li>
             <li>
               <strong>Una comunidad que te empuja:</strong> Entrenas junto a gente con tus mismas metas, que rinde cuentas y no te deja aflojar.

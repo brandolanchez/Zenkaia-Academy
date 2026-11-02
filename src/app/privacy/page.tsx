@@ -1,5 +1,13 @@
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Política de privacidad | Zenkai Academy',
+  description: 'Cómo Zenkai Academy recopila, usa y protege los datos personales de sus alumnos y visitantes.',
+  alternates: { canonical: 'https://zenkai.fortisworkout.org/privacy' },
+  openGraph: { title: 'Política de privacidad | Zenkai Academy', url: 'https://zenkai.fortisworkout.org/privacy' },
+};
 
 export default function PrivacyPage() {
   return (

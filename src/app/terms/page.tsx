@@ -1,5 +1,13 @@
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Términos y condiciones | Zenkai Academy',
+  description: 'Condiciones de uso de Zenkai Academy: planes, pagos, cancelación y uso de la plataforma.',
+  alternates: { canonical: 'https://zenkai.fortisworkout.org/terms' },
+  openGraph: { title: 'Términos y condiciones | Zenkai Academy', url: 'https://zenkai.fortisworkout.org/terms' },
+};
 
 export default function TermsPage() {
   return (
