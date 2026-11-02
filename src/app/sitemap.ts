@@ -21,6 +21,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   if (host.startsWith('zenkai.')) {
     return [
       { url: `${ZENKAI}/`, lastModified: now, changeFrequency: 'weekly', priority: 1 },
+      { url: `${ZENKAI}/entrenamiento-funcional-maracaibo`, lastModified: now, changeFrequency: 'monthly', priority: 0.9 },
       { url: `${ZENKAI}/terms`, lastModified: now, changeFrequency: 'yearly', priority: 0.2 },
       { url: `${ZENKAI}/privacy`, lastModified: now, changeFrequency: 'yearly', priority: 0.2 },
     ];

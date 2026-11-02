@@ -6,7 +6,7 @@ export const faqs: { question: string; answer: string }[] = [
   },
   {
     question: '¿Puedo entrenar con Zenkai si no vivo en Maracaibo?',
-    answer: 'Sí. Zenkai nació en Maracaibo, en la comunidad de Fortis Workout, pero todo el seguimiento es online: rutinas en la plataforma, corrección de técnica en video y sesiones por Google Meet. Puedes entrenar desde cualquier ciudad.',
+    answer: 'Sí. Zenkai nació en Maracaibo, en la comunidad de Fortis Workout, y si vives aquí puedes entrenar en persona con tu coach. Si no, sigues el mismo plan en línea: rutinas en la plataforma, corrección de técnica en video y sesiones por Google Meet, desde cualquier ciudad.',
   },
 
   {

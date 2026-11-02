@@ -30,9 +30,10 @@ export default function Footer() {
           <div className="footer-col">
             <h4 className="footer-col-title">Navegación</h4>
             <ul className="footer-links">
-              <li><a href="#planes">Planes</a></li>
-              <li><a href="#testimonios">Testimonios</a></li>
-              <li><a href="#faq">Preguntas Frecuentes</a></li>
+              <li><a href="/#planes">Planes</a></li>
+              <li><a href="/#testimonios">Testimonios</a></li>
+              <li><a href="/#faq">Preguntas Frecuentes</a></li>
+              <li><Link href="/entrenamiento-funcional-maracaibo">Entrenamiento funcional en Maracaibo</Link></li>
               <li><Link href="/register">Únete Ahora</Link></li>
               <li><Link href="/login">Iniciar Sesión</Link></li>
             </ul>
